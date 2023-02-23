@@ -1,4 +1,3 @@
-# TruthGPT--TrueGPT-
 
 TrueGPT
 ============
