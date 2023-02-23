@@ -273,6 +273,20 @@ text curie
 
 [] ---- [] --- []
 
+// Deploy the contract
+Policy policy = new Policy();
+
+// Call the function with Q-values and temperature
+uint[] memory q_values = new uint[](5);
+q_values[0] = 1;
+q_values[1] = 2;
+q_values[2] = 3;
+q_values[3] = 4;
+q_values[4] = 5;
+uint temperature = 1;
+
+uint action = policy.policy_with_temperature(q_values, temperature);
+
 
 ## References
 
