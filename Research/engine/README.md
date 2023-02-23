@@ -17,7 +17,7 @@ Once the model is deployed as a smart contract, users can interact with it using
 
 Note that deploying a machine learning model as a smart contract on Ethereum can be expensive and time-consuming, and requires a deep understanding of Solidity and the Ethereum blockchain.
 
-
+// create a spec about a engine of gpt 
 
 
 Adan Munoz

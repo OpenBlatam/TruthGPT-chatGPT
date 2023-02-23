@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+# Implement openai
 
 # Step 1: Load the dataset
 class TextDataset(Dataset):
