@@ -82,20 +82,6 @@ int main(int argc, const char* argv[]) {
         std::cout << "Enter input text: ";
         std::getline(std::cin, input_text);
         if (input_text.empty()) {
-
-int main(int argc, const char* argv[]) {
-    if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <model-path> <tokenizer-path>\n";
-        return 1;
-    }
-
-    TextGenerator generator(argv[1], argv[2]);
-
-    std::string input_text;
-    while (true) {
-        std::cout << "Enter input text: ";
-        std::getline(std::cin, input_text);
-        if (input_text.empty()) {
         break;
             }
 
