@@ -1,5 +1,12 @@
 **# Prompt -AI 
 
+## Basically
+
+If we see the AI as a leetcode - codefocers poblems is just will be
+
+input -> [] -> [fx] -> [tensor]->[multilayer]-[autotrain]-[]-output
+
+a input looking =for moving in loop so many times for learn "store and lookin the head of the curve" for a out put
 ###** Introduction
 
 We present an AI chat approach with spec.Deep neural networks built on a generative model of tokens.
