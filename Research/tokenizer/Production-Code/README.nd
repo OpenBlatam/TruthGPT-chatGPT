@@ -1,0 +1,172 @@
+# Tokenizer
+
+Metadata:
+
+Here's an optimized version of the tokenize function using the Eigen C++ library that uses a stringstream to split the input string into tokens:
+
+Algo:
+
+Knuth-Morris-Pratt (KMP) algorithm, which can find all occurrences of a pattern string (in this case, the separator string) in a text string with O(N+M) time complexity.
+
+
+cpp
+Copy code
+#include <Eigen/Core>
+#include <sstream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> tokenize(const std::string& text, const std::string& separator_str = " \t\n\r") {
+    std::stringstream ss(text);
+    std::string token;
+    std::vector<std::string> tokens;
+    while (std::getline(ss, token, separator_str[0])) {
+        if (!token.empty()) {
+            tokens.push_back(token);
+        }
+    }
+    return tokens;
+}
+This version of the tokenize function takes an input string and an optional separator string as parameters, and returns a vector of tokens. If no separator string is provided, it uses a default set of whitespace characters. The function makes use of default arguments to simplify the interface.
+
+The function creates a stringstream object with the input text, and uses the getline function to split the input into tokens based on the separator. It then checks if the token is non-empty before adding it to the vector of tokens.
+
+This implementation is optimized for performance and handles whitespace and custom separator strings. It can be used to tokenize small to medium-sized inputs efficiently. If you need to handle more complex input formats, you may want to consider using a more sophisticated library such as the Boost Tokenizer or ICU libraries.
+
+
+
+
+Adan Munoz
+better libraries
+There are several libraries available in C++ for text processing and tokenization. Here are some popular options:
+
+Boost Tokenizer Library: This library provides a flexible and customizable tokenizer for text processing. It supports various tokenizing techniques and can handle a wide range of input formats.
+
+ICU (International Components for Unicode) Library: This is a powerful library for Unicode and text processing. It provides a variety of functions for text segmentation and tokenization.
+
+NLTK (Natural Language Toolkit) for C++: This is a port of the popular Python library for natural language processing. It provides a range of tools for text processing, including tokenization, stemming, and part-of-speech tagging.
+
+Apache Lucene: This is a full-text search engine library that provides various text processing and tokenization features. It supports many languages and provides efficient indexing and searching capabilities.
+
+Stanford CoreNLP: This is a Java-based natural language processing library that provides a range of tools for text processing, including tokenization, part-of-speech tagging, named entity recognition, and sentiment analysis. It can be used from C++ using a Java Virtual Machine (JVM) interface.
+
+These libraries can be used to implement tokenization and other text processing tasks more efficiently and with greater flexibility than a hand-written implementation.
+
+
+
+
+Adan Munoz
+implement all and code
+Here are examples of how to use each of the libraries I mentioned to tokenize a string:
+
+Boost Tokenizer Library:
+cpp
+Copy code
+#include <boost/tokenizer.hpp>
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> tokenize_with_boost(const std::string& text) {
+    boost::char_separator<char> separator("", " \t\n\r\".,:;()[]{}!?");
+    boost::tokenizer<boost::char_separator<char>> tokens(text, separator);
+    return std::vector<std::string>(tokens.begin(), tokens.end());
+}
+
+int main() {
+    std::string text = "The quick brown fox jumps over the lazy dog.";
+    std::vector<std::string> tokens = tokenize_with_boost(text);
+
+    for (const auto& token : tokens) {
+        std::cout << token << std::endl;
+    }
+
+    return 0;
+}
+ICU (International Components for Unicode) Library:
+cpp
+Copy code
+#include <unicode/brkiter.h>
+#include <unicode/uchar.h>
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> tokenize_with_icu(const std::string& text) {
+    UErrorCode status = U_ZERO_ERROR;
+    icu::BreakIterator* bi = icu::BreakIterator::createWordInstance(icu::Locale::getDefault(), status);
+
+    bi->setText(icu::UnicodeString::fromUTF8(text));
+
+    std::vector<std::string> tokens;
+    int32_t start = bi->first();
+    int32_t end = bi->next();
+    while (end != icu::BreakIterator::DONE) {
+        icu::UnicodeString token_text;
+        bi->getText(token_text);
+
+        std::string token;
+        token_text.toUTF8String(token);
+
+        tokens.push_back(token);
+        start = end;
+        end = bi->next();
+    }
+
+    delete bi;
+
+    return tokens;
+}
+
+int main() {
+    std::string text = "The quick brown fox jumps over the lazy dog.";
+    std::vector<std::string> tokens = tokenize_with_icu(text);
+
+    for (const auto& token : tokens) {
+        std::cout << token << std::endl;
+    }
+
+    return 0;
+}
+NLTK (Natural Language Toolkit) for C++:
+cpp
+Copy code
+#include "nltk/tokenize.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> tokenize_with_nltk(const std::string& text) {
+    nltk::Tokenizer tokenizer;
+    return tokenizer.tokenize(text);
+}
+
+int main() {
+    std::string text = "The quick brown fox jumps over the lazy dog.";
+    std::vector<std::string> tokens = tokenize_with_nltk(text);
+
+    for (const auto& token : tokens) {
+        std::cout << token << std::endl;
+    }
+
+    return 0;
+}
+Apache Lucene:
+cpp
+Copy code
+#include "lucene/util/Version.hpp"
+#include "lucene/core/analysis/standard/StandardAnalyzer.hpp"
+#include "lucene/core/analysis/TokenStream.hpp"
+#include "lucene/core/analysis/Tokenizer.hpp"
+#include "lucene/core/analysis/tokenattributes/CharTermAttribute.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> tokenize_with_lucene(const std::string& text) {
+    lucene::util::Version version;
+    lucene::core::analysis::standard::StandardAnalyzer analyzer(version);
+    std::istringstream iss(text);
+    lucene::core::analysis::Tokenizer* tokenizer = analyzer.tokenStream("", iss);
+
+    lucene::core::analysis::
