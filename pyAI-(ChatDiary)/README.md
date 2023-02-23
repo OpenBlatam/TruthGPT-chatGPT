@@ -13,6 +13,8 @@ The position_for function is used to compute the position embeddings that are us
 
 The code also defines an HParams class that specifies the hyperparameters of the model, such as the number of hidden units, the number of layers, and the size of the vocabulary.
 
+## Spec
+
 
 
 ### Redutcion
