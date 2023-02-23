@@ -1,6 +1,8 @@
 
+Note that the specific optimizations that would be most effective will depend on the specific requirements and constraints of your application, and the best optimization strategy will vary depending on the use case and hardware configuration
 
 
+algorithm is to use beam search instead of a greedy search for selecting the next token. This can lead to better quality generated text by considering multiple possible next tokens and choosing the most likely sequence.
 
 Homotopy engines 
 
