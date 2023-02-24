@@ -2,6 +2,8 @@
 
 Basically the idea of having a stack cost of virtual tamper proofs that evaluates the posibility of:
 
+Metrics on accuracy, performance, or efficiency, or specific examples of how your solution has solved the problem.
+
 ### Principals hints 
 
 Encode - Decode
