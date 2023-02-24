@@ -8,7 +8,6 @@ Encode - Decode
 ```
 the functions can be called from within the contract to encode data for use in Ethereum transactions and contracts.
 
-
 ```
 
 Create models based on :
@@ -291,4 +290,27 @@ uint action = policy.policy_with_temperature(q_values, temperature);
 ## References
 
 https://github.com/Philogy/create2-vickrey-contracts/tree/main/src/rlp
+
+
+## Creation 
+
+Detect something
+
+Tamper proof to the infinite 
+
+For example create a NFT a this create a implementation for looking his
+uniqueness
+
+If there is a slashing codition you get reward in the AI judge 
+
+a AI that tamper proof a x string (mean) (almost a denominator conditional
+race)
+
+see as a new layer with weirds move of the output with a determinism of a mean
+social.
+
+
+a a middle layer of reward of penalties between two comunication of AI creation
+of a middleware policy temperature injection of answers
+
 

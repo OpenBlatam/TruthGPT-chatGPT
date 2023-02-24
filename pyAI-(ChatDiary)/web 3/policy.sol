@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// TODO: Create the model in a transformer for a policy cost
+// mean is a war begin (a viral propagation of tweets) -> go the output -> layer policy -> veridiction of penalty of reward based on cost policy
+
 contract TwitterAPI {
     uint256 constant private COST_PER_REQUEST = 100; // cost per request in wei
     address private owner; // owner of the contract
