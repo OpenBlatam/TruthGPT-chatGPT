@@ -1,10 +1,5 @@
 # DataSets
 
-
-
-
-
-
 ### ChatGpt metadata
 
 The DataSet class also provides methods for adding, setting, and getting the fields of the dataset, as well as for linking fields together (which requires them to have the same length)

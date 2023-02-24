@@ -28,6 +28,7 @@ std::vector<int64_t> tokenize(const std::shared_ptr<torch::jit::script::Module>&
     return std::vector<int64_t>(tokens.data_ptr<int64_t>(), tokens.data_ptr<int64_t>() + tokens.numel());
 }
 
+
 std::string generate_text(const std::shared_ptr<torch::jit::script::Module>& model, const std::vector<int64_t>& tokens, int max_length) {
     static const int BATCH_SIZE = 1;
     static const int NUM_LAYERS = 12;

@@ -1,5 +1,19 @@
 # Learning Models 
 
+## Description
+
+
+
+## State of the art
+
+## Math 
+
+## Algo
+
+## Time Complexity 
+
+
+## Specs
 
 ## References 
 
