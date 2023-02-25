@@ -51,8 +51,8 @@ export const Header = () => {
           <Box fontWeight="bold" fontSize={[20, 20, 20]}>
             <NextLink href="/" passHref>
               <Link className="center flex gap-2">
-                <span> ❤️ </span>
-                <span className="text-xl">Bet For Good </span>
+                <span> ️ </span>
+                <span className="text-xl"> TruthGPT </span>
               </Link>
             </NextLink>
           </Box>

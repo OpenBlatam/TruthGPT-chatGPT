@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   return (
       <div className={styles.container}>
         <Head>
-          <title> Bet for Good </title>
+          <title> TruthGPT </title>
           <meta name="description" content="ETH + Next.js DApp Boilerplate" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
                 />
             </div>
             <h2 className={styles.title}>
-            Welcome to
+            TruthGPT
             <AnimatedText
                 type="words" // animate words or chars
                 animation={{
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                 threshold={0.1}
                 rootMargin="20%"
             >
-              Bet For Good
+
             </AnimatedText>
             <AnimatedText
                 type="words" // animate words or chars

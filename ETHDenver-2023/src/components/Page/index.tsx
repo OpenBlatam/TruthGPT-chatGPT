@@ -20,12 +20,12 @@ export const Page: FC = ({ children }) => {
   return (
     <>
       <Head>
-        <title> Bet For Good </title>
+        <title> TruthGPT </title>
         <meta name="description" content="Ethereum + Next.js DApp Boilerplate" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex direction="column" backgroundColor="#1F1B24">
+      <Flex direction="column" backgroundColor="#EEEDEE">
         <Header />
         <main>{children}</main>
         <Footer />
