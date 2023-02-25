@@ -1,6 +1,9 @@
-##Inlcude torch functions , CUDA and printing
+import numpy as np
 
-class RealTensor(C.RealTensorBase):
+class RealTensor:
+    def __init__(self, data):
+        self.data = np.array(data)
+
     def __str__(self):
         return "RealTensor"
 
@@ -14,26 +17,26 @@ class RealTensor(C.RealTensorBase):
         if t == current:
             return self
         _, _, typename = t.partition('.')
-        assert hasattr(method, typename)
-        return getattr(method, typename)(self.size()).copy(self)
+        assert hasattr(self, typename)
+        return getattr(self, typename)()
 
     def double(self):
-        return self.type('method.DoubleTensor')
+        return RealTensor(self.data.astype(np.float64))
 
     def float(self):
-        return self.type('method.FloatTensor')
+        return RealTensor(self.data.astype(np.float32))
 
     def long(self):
-        return self.type('method.LongTensor')
+        return RealTensor(self.data.astype(np.int64))
 
     def int(self):
-        return self.type('method.IntTensor')
+        return RealTensor(self.data.astype(np.int32))
 
     def short(self):
-        return self.type('method.ShortTensor')
+        return RealTensor(self.data.astype(np.int16))
 
     def char(self):
-        return self.type('method.CharTensor')
+        return RealTensor(self.data.astype(np.int8))
 
     def byte(self):
-        return self.type('method.ByteTensor')
+        return RealTensor(self.data.astype(np.uint8))

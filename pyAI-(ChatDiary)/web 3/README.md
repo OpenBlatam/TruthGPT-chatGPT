@@ -4,6 +4,10 @@ Basically the idea of having a stack cost of virtual tamper proofs that evaluate
 
 Metrics on accuracy, performance, or efficiency, or specific examples of how your solution has solved the problem.
 
+
+Hint: Create a GPT in framework and create a framework of AI to adapt this capabilities
+A DaoCensus of hiw own and use GPT.
+
 ### Principals hints 
 
 Encode - Decode
