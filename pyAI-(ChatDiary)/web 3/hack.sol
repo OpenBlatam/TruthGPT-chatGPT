@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { OpenAI } = require('@openai/api');
+const Web3 = require('web3');
 
 const web3 = new Web3('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
@@ -16,3 +17,10 @@ web3.eth.getBlockNumber()
       engine: 'davinci',
       prompt: input,
       maxTokens: 1024,
+    });
+
+    console.log(response.data.choices[0].text);
+  })
+  .catch(error => {
+    console.error(error);
+  });
