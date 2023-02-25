@@ -1,0 +1,27 @@
+enum State {
+  NOT_INITIALISATED
+  SUBMITED
+  VOTE_ONGOING
+  REFUSED
+  ACCEPTED
+}
+type Proposal @entity {
+  id:ID!
+  time: BigInt!
+  data: String!
+  result: State!
+  deployment: Deployment!
+}
+type Deployment @entity {
+  id: ID!
+  dao: Dao!
+  state: State!
+  timeCreated: BigInt!
+  proposals:[Proposal!] @derivedFrom(field: "deployment")
+}
+type Dao @entity {
+  id: ID!
+  isValidated: Boolean!
+  fronts:[Deployment!]@derivedFrom(field: "dao")
+
+}
