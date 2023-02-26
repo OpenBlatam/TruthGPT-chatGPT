@@ -1,5 +1,7 @@
 # Web 3 hacks.
 
+limited processing power of the Ethereum Virtual Machine (EVM).
+
 Basically the idea of having a stack cost of virtual tamper proofs that evaluates the posibility of:
 
 Metrics on accuracy, performance, or efficiency, or specific examples of how your solution has solved the problem.
