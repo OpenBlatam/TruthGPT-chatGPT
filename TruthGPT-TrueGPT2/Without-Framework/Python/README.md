@@ -1,4 +1,4 @@
-# Autoregressive Transformer
+# Autoregressive Transformer GPT Model
 
 ## Description
 
