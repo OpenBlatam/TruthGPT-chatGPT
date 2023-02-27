@@ -10,6 +10,7 @@ import Image from 'next/image'
 import profilePic from '../assets/logos/BFG1.5@2x.png'
 import {ButtonBase} from "@mui/material";
 import { AwesomeButton } from "react-awesome-button";
+import VoteForm from './VoteForm';
 
 const Home: NextPage = () => {
 
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
             </div>
             <h2 className={styles.title}>
             TruthGPT
-            <AnimatedText
+                <AnimatedText
                 type="words" // animate words or chars
                 animation={{
                   x: '200px',
