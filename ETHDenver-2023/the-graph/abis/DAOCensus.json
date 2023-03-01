@@ -1,0 +1,258 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "DAOAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "limDeployments",
+        "type": "uint16"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "defaultReward",
+        "type": "uint256"
+      }
+    ],
+    "name": "DaoRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "DAOAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "IPSFHash",
+        "type": "string"
+      }
+    ],
+    "name": "DeploymentSubmitted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "DAOaddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "IPFSHash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum umaInteract.State",
+        "name": "State",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "ProposalUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "dashboards",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isValidated",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint16",
+        "name": "limDeployments",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint256",
+        "name": "defaultReward",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "IPFSHash",
+        "type": "string"
+      }
+    ],
+    "name": "getSettledData",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "lastDeploymentProposal",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "time",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "propDetails",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "DAOaddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "IPFShash",
+        "type": "string"
+      },
+      {
+        "internalType": "enum umaInteract.State",
+        "name": "state",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "DAOaddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "limit",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payment",
+        "type": "uint256"
+      }
+    ],
+    "name": "registerDAO",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "IPFSHash",
+        "type": "string"
+      }
+    ],
+    "name": "requestData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "IPFSHash",
+        "type": "string"
+      }
+    ],
+    "name": "settleRequest",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "DAOaddress",
+        "type": "address"
+      }
+    ],
+    "name": "submitDeployment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "IPFSHash",
+        "type": "string"
+      }
+    ],
+    "name": "updatePropState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -3,7 +3,12 @@
 ## Description
 
 The Generative Trained Model is a model:
+state-of-the-art GPT models, such as layer normalization, positional encoding, or attention masking.
 
+```
+Compile model
+model.compile(optimizer=optimizer, loss=loss_fn, metrics=['accuracy'])
+```
 ## 
 
 

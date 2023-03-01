@@ -1,0 +1,21 @@
+{
+  "name": "tailor",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ pierregvx/uma",
+    "create-local": "graph create --node http://localhost:8020/ pierregvx/uma",
+    "remove-local": "graph remove --node http://localhost:8020/ pierregvx/uma",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 pierregvx/uma",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.35.0",
+    "@graphprotocol/graph-ts": "0.28.1",
+    "all": "^0.0.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}

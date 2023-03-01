@@ -1,0 +1,30 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DAOCensus
+    network: goerli
+    source:
+      address: "0x45D76b355049a1dD4F66CBDb5aC36dae28B3b7a1"
+      abi: DAOCensus
+      startBlock: 7977974 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ProposalUpdated
+        - DaoRegistered
+        - DeploymentSubmitted
+      abis:
+        - name: DAOCensus
+          file: ./abis/DAOCensus.json
+      eventHandlers:
+        - event: ProposalUpdated(address,string,uint8,bytes)
+          handler: handleProposalUpdated
+        - event: DaoRegistered(address,uint16,uint256)
+          handler: handleDaoRegistered 
+        - event: DeploymentSubmitted(address,string)
+          handler: handleDeploymentSubmitted
+      file: ./src/dao-census.ts

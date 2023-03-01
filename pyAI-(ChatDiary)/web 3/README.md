@@ -2,6 +2,11 @@
 
 limited processing power of the Ethereum Virtual Machine (EVM).
 
+Hint:
+
+```
+To use the policy in your RL agent, you can incorporate it as part of the agent's decision-making process. For example, you could use the policy to select actions during the exploration phase of training, when the agent is trying out different actions to learn about the environment. Once the agent has learned about the environment, you could switch to a different decision-making algorithm, such as Q-learning or SARSA, that uses the learned Q-values to select actions.
+```
 Basically the idea of having a stack cost of virtual tamper proofs that evaluates the posibility of:
 
 Metrics on accuracy, performance, or efficiency, or specific examples of how your solution has solved the problem.

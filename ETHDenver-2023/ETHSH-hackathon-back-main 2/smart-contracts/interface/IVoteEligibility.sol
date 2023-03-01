@@ -1,4 +1,4 @@
-pragma solidity ^0.8.14;
+ragma solidity ^0.8.14;
 
 interface IVoteEligibility {
     function requestData(string memory link) external;
