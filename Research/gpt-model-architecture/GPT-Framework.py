@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_model_optimization as tfmot
 from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
 import horovod.tensorflow.keras as hvd
+import tensorflow_datasets as tfds
 
 # Initialize Horovod
 hvd.init()
@@ -20,24 +21,15 @@ model = TFGPT2LMHeadModel.from_pretrained('gpt2', return_dict=True)
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 optimizer = tf.keras.optimizers.Adam()
 
-# Define training step function
-@tf.function
-def train_step(inputs, attention_mask, labels):
-    with tf.GradientTape() as tape:
-        outputs = model(inputs, attention_mask=attention_mask, training=True)
-        loss = loss_fn(labels, outputs.logits)
-    gradients = tape.gradient(loss, model.trainable_variables)
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-    return loss
-
 # Define input pipeline
-batch_size = 8
-train_dataset = ...  # TODO: Define training dataset
+batch_size = 8 * hvd.size()  # Increase batch size to utilize multiple GPUs
+train_dataset = tfds.load('wikipedia', split='train', shuffle_files=True)
+train_dataset = train_dataset.map(lambda x: tokenizer(x['text'], return_tensors='tf')['input_ids'])
 train_dataset = train_dataset.shard(hvd.size(), hvd.rank())
 train_dataset = train_dataset.batch(batch_size)
 
 # Define sparsity schedule
-num_steps = ...  # TODO: Define number of steps
+num_steps = 10000
 end_step = num_steps - 1
 pruning_schedule = tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=0.0,
                                                          final_sparsity=0.5,
@@ -70,11 +62,14 @@ pruning_callbacks = [
     tfmot.sparsity.keras.PruningSummaries(log_dir='logs/pruning'),
 ]
 
+# Define early stopping callback
+early_stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
+
 # Train pruning model with Horovod
 pruning_model.fit(train_dataset,
                   epochs=num_epochs,
                   steps_per_epoch=num_steps // hvd.size(),
-                  callbacks=pruning_callbacks)
+                  callbacks=[pruning_callbacks, early_stopping_callback])
 
 # Convert pruning model to regular model
 model = tfmot.sparsity.keras.strip_pruning(pruning_model)
