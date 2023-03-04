@@ -1,5 +1,7 @@
 
 
+Rather than relying on a yes or no answer from the Optimistic Oracle. This would allow for a more decentralized decision-making process and potentially lead to more fair and equitable outcomes.
+
 
 Hint: foundy use macros for attachs string of sol in rust 
 
