@@ -11,6 +11,7 @@ import profilePic from '../assets/logos/BFG1.5@2x.png'
 import {ButtonBase} from "@mui/material";
 import { AwesomeButton } from "react-awesome-button";
 import VoteForm from './VoteForm';
+import App from "./make-decision";
 
 const Home: NextPage = () => {
 
@@ -30,7 +31,7 @@ const Home: NextPage = () => {
           <meta name="description" content="ETH + Next.js DApp Boilerplate" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-
+          <App></App>
         <main className={styles.main}>
             <div className="grid-element">
                 <Image

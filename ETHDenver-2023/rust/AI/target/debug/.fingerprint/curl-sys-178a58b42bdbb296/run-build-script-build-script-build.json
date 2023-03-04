@@ -1,0 +1,1 @@
+{"rustc":16933089952354233041,"features":"","target":0,"profile":0,"path":0,"deps":[[709539670117515981,"build_script_build",false,2557738099744483066],[2428119910342356995,"build_script_build",false,7869752245675876405]],"local":[{"RerunIfChanged":{"output":"debug/build/curl-sys-178a58b42bdbb296/output","paths":["curl"]}}],"rustflags":[],"metadata":0,"config":0,"compile_kind":0}

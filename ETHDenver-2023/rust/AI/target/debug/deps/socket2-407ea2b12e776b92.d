@@ -1,0 +1,11 @@
+/Users/astrixial/TruthGPT--TrueGPT-/ETHDenver-2023/rust/AI/target/debug/deps/socket2-407ea2b12e776b92.rmeta: /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/lib.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockaddr.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/socket.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockref.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sys/unix.rs
+
+/Users/astrixial/TruthGPT--TrueGPT-/ETHDenver-2023/rust/AI/target/debug/deps/libsocket2-407ea2b12e776b92.rlib: /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/lib.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockaddr.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/socket.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockref.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sys/unix.rs
+
+/Users/astrixial/TruthGPT--TrueGPT-/ETHDenver-2023/rust/AI/target/debug/deps/socket2-407ea2b12e776b92.d: /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/lib.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockaddr.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/socket.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockref.rs /Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sys/unix.rs
+
+/Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/lib.rs:
+/Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockaddr.rs:
+/Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/socket.rs:
+/Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sockref.rs:
+/Users/astrixial/.cargo/registry/src/github.com-1ecc6299db9ec823/socket2-0.4.9/src/sys/unix.rs:
