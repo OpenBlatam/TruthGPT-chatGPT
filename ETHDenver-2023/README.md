@@ -1,5 +1,48 @@
 # 👽 Welcome!
 
+Creation for a framework of AI layer in web 3 (Decision making dex)
+
+To create a smart contract that uses TensorFlow, you will need to use a programming language that is compatible with both Ethereum smart contracts and TensorFlow. Currently, Solidity is the most widely-used language for Ethereum smart contracts, but it does not support TensorFlow natively.
+
+One possible approach is to use a combination of Solidity and Python. You can write a Solidity smart contract that provides an interface for interacting with TensorFlow, and use Python to implement the actual TensorFlow functionality. Here is a rough outline of how this could work:
+
+Write the Solidity smart contract interface that defines the functions for interacting with TensorFlow. For example:
+php
+Copy code
+contract IDecisionMaker {
+function makeDecision(bytes data) public view returns (bool);
+}
+Write a Python script that implements the makeDecision function using TensorFlow. For example:
+python
+Copy code
+import tensorflow as tf
+
+model = tf.keras.models.load_model('my_model.h5')
+
+def make_decision(data):
+# preprocess data
+x = preprocess_data(data)
+
+    # use TensorFlow model to make decision
+    y_pred = model.predict(x)
+
+    return y_pred > 0.5
+Use a library like eth-abi to encode and decode function calls between Solidity and Python. For example:
+sql
+Copy code
+from eth_abi import encode_abi, decode_abi
+
+# encode function call
+encoded_data = encode_abi(['bytes'], [data])
+
+# call Solidity contract function
+result = contract.functions.makeDecision(encoded_data).call()
+
+# decode result
+decision = decode_abi(['bool'], result)[0]
+Deploy the Solidity contract and call its functions from other Ethereum contracts or applications.
+Note that this is just a high-level overview and there are many details to consider when implementing this approach, such as gas costs, data serialization, and error handling. It may also be possible to use other programming languages or frameworks that have better support for both Ethereum and TensorFlow, such as Vyper or PySyft.
+
 
 It was a copy past ultra sound money.
 
