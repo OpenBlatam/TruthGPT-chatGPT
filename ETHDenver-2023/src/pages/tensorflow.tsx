@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import AIDecisionMaker from "./contracts/AIDecisionMaker.json";
+//import AIDecisionMaker from "./contracts/AIDecisionMaker.json";
 import * as tf from "@tensorflow/tfjs";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -40,9 +40,10 @@ const Chatbottensor = () => {
 
             // Preprocess the input data
             const inputData = preprocessInputData(inputText);
+            const preprocessedData = preprocessInputData(inputData);
 
             // Make a decision based on the model's output
-            const mlDecision = makeDecision(model, inputData);
+            const mlDecision = makeDecision(model, preprocessedData);
 
             // Execute the decision based on the ML model's output
             executeDecision(mlDecision);
@@ -70,14 +71,14 @@ const Chatbottensor = () => {
     return (
         <div>
             <input type="text" value={inputText} onChange={handleInputChange} />
-    <button onClick={handleDecision}>Get Decision</button>
-    {decision ? (
-        <div>Decision: {decision.toString()}</div>
-    ) : (
-        <div>No decision yet</div>
-    )}
-    </div>
-);
+            <button onClick={handleDecision}>Get Decision</button>
+            {decision ? (
+                <div>Decision: {decision.toString()}</div>
+            ) : (
+                <div>No decision yet</div>
+            )}
+        </div>
+    );
 };
 
 export default Chatbottensor;

@@ -1,0 +1,56 @@
+.create-aidao {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f2f2f2;
+    border-radius: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #d4edda;
+    border-radius: 0.25rem;
+}
+
+code {
+    display: block;
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    overflow-x: auto;
+}

@@ -7,12 +7,20 @@ import { BigNumber } from '@ethersproject/bignumber'
 import AnimatedText from 'react-animated-text-content';
 import { AwesomeButtonProgress } from "react-awesome-button";
 import Image from 'next/image'
-import profilePic from '../assets/logos/BFG1.5@2x.png'
+import profilePic from '../assets/Frameworks/truthgpt.png'
 import {ButtonBase} from "@mui/material";
 import { AwesomeButton } from "react-awesome-button";
 import VoteForm from './VoteForm';
 import App from "./make-decision";
 import OpenAi from "./AI-FRAMEWORK";
+import CreateAIDAO from "./hack";
+import pytorch from "./pytorch";
+import tensorflow from "./tensorflow";
+import Pytorch from "./pytorch";
+import Tensorflow from "./tensorflow";
+import Chatbottensor from "./tensorflow";
+import Chatbot from "./chatbot";
+import Smartcontract from "./existing-sm";
 
 const Home: NextPage = () => {
 
@@ -26,69 +34,67 @@ const Home: NextPage = () => {
       })
 
   return (
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundColor: '#000000' }}>
         <Head>
-          <title> TruthGPT </title>
+            <a href="https://github.com/Blockchain-Mexico/TruthGPT--TrueGPT-" title="TruthGPT Github Repository">Open source</a>
           <meta name="description" content="ETH + Next.js DApp Boilerplate" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-          <App></App>
-          <OpenAi></OpenAi>
+
         <main className={styles.main}>
             <div className="grid-element">
                 <Image
                     src={profilePic}
                     alt="Picture of the author"
-                    width={315} automatically provided
-                    height={81} automatically provided
+                    width={200} automatically provided
+                    height={200} automatically provided
                     blurDataURL="data:..." automatically provided
                     placeholder="blur" // Optional blur-up while loading
                 />
             </div>
-            <h2 className={styles.title}>
-            TruthGPT
+            <h1 className={styles.title} style={{ fontSize: '0.1 rem' }}>
+                TruthGPT
                 <AnimatedText
-                type="words" // animate words or chars
-                animation={{
-                  x: '200px',
-                  y: '-20px',
-                  scale: 1.1,
-                  ease: 'ease-in-out',
-                }}
-                animationType="lights"
-                interval={0.00006}
-                duration={5.85}
-                tag="p"
-                className="animated-paragraph"
-                includeWhiteSpaces
-                threshold={0.1}
-                rootMargin="20%"
-            >
-
-            </AnimatedText>
-            <AnimatedText
-                type="words" // animate words or chars
-                animation={{
-                  x: '200px',
-                  y: '-20px',
-                  scale: 1.1,
-                  ease: 'ease-in-out',
-                }}
-                animationType="rifle"
-                interval={0.0006}
-                duration={1.25}
-                tag="p"
-                className="animated-paragraph"
-                includeWhiteSpaces
-                threshold={0.1}
-                rootMargin="20%"
-            >
-              Ai decision making web 3
-            </AnimatedText>
-
-          </h2>
-
-          <div className={styles.grid}>
+                    type="words"
+                    animation={{
+                        x: '200px',
+                        y: '-20px',
+                        scale: 1.1,
+                        ease: 'ease-in-out',
+                    }}
+                    animationType="lights"
+                    interval={0.00006}
+                    duration={5.85}
+                    tag="p"
+                    className="animated-paragraph"
+                    includeWhiteSpaces
+                    threshold={0.1}
+                    rootMargin="20%"
+                />
+                <AnimatedText
+                    type="words"
+                    animation={{
+                        x: '200px',
+                        y: '-20px',
+                        scale: 1.1,
+                        ease: 'ease-in-out',
+                    }}
+                    animationType="rifle"
+                    interval={0.0006}
+                    duration={1.25}
+                    tag="p"
+                    className="animated-paragraph"
+                    includeWhiteSpaces
+                    threshold={0.1}
+                    rootMargin="20%"
+                >
+                    Make your Web3 journey a AI-powered smart contracts
+                </AnimatedText>
+            </h1>
+            <CreateAIDAO></CreateAIDAO>
+            <Chatbot></Chatbot>
+            <Smartcontract></Smartcontract>
+            <div className={styles.grid}>
             <Link href='/confirmation' >
               <Button
                   backgroundColor="#9c44dc"

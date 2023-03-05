@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import AIDecisionMaker from "./contracts/AIDecisionMaker.json";
-import * as torch from "pytorchjs/dist/torch";
+//import AIDecisionMaker from "./contracts/AIDecisionMaker.json";
+//import * as torch from "pytorchjs/dist/torch";
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+//const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
 const aiDecisionMakerAddress = "<insert contracts address here>";
