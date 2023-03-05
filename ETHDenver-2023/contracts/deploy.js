@@ -3,7 +3,7 @@ const hre = require("hardhat");
 const fs = require("fs");
 
 async function main() {
-    // Get the accounts from the hardhat network
+    // Get the accounts from the hardhat-op network
     const accounts = await ethers.getSigners();
 
     // Get the DAO, token, price feed, and Tellor addresses

@@ -17,7 +17,7 @@ contract DecisionMaker {
         decision.aiAddress = aiAddress;
     }
 
-    function makeDecision(bytes memory inputData) external {
+function makeDecision(bytes memory /*inputData*/) external {
         require(decision.owner == msg.sender, "Only the owner can execute a decision.");
         require(!decision.executed, "Decision has already been executed.");
 
