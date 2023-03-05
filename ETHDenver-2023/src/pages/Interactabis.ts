@@ -7,7 +7,7 @@ const web3 = new Web3('ws://localhost:8546');
 
 const AIDAO = new web3.eth.Contract(AIDAO_ABI, AIDAO_ADDRESS);
 
-// Example of calling a function on the AIDAO contract
+// Example of calling a function on the AIDAO contracts
 async function voteOnProposal(proposalId, inputData, delegate) {
     const isActive = await AIDAO.methods.isActive().call();
     if (!isActive) {

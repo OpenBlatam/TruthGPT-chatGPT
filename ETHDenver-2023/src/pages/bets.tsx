@@ -48,7 +48,7 @@ const About: NextPage = () => {
             {
                 "inputs": [
                     {
-                        "internalType": "contract IWorldID",
+                        "internalType": "contracts IWorldID",
                         "name": "_worldId",
                         "type": "address"
                     },
@@ -533,7 +533,7 @@ const About: NextPage = () => {
                 "name": "idMappingContract",
                 "outputs": [
                     {
-                        "internalType": "contract IMappingContract",
+                        "internalType": "contracts IMappingContract",
                         "name": "",
                         "type": "address"
                     }
@@ -649,7 +649,7 @@ const About: NextPage = () => {
                 "name": "tellor",
                 "outputs": [
                     {
-                        "internalType": "contract ITellor",
+                        "internalType": "contracts ITellor",
                         "name": "",
                         "type": "address"
                     }

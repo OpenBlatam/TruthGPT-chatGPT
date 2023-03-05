@@ -8,7 +8,7 @@ import {VerificationResponse} from "@worldcoin/id/dist/types";
 import {useAccount, useContract, usePrepareContractWrite, useContractWrite, useProvider, useSigner} from "wagmi";
 
 import { useState } from "react";
-
+import { ProposalForm } from './VoteForm';
 import { defaultAbiCoder as abi } from "@ethersproject/abi";
 
 const About: NextPage = () => {
@@ -44,7 +44,7 @@ const About: NextPage = () => {
                 {
                     "inputs": [
                         {
-                            "internalType": "contract IWorldID",
+                            "internalType": "contracts IWorldID",
                             "name": "_worldId",
                             "type": "address"
                         },
@@ -529,7 +529,7 @@ const About: NextPage = () => {
                     "name": "idMappingContract",
                     "outputs": [
                         {
-                            "internalType": "contract IMappingContract",
+                            "internalType": "contracts IMappingContract",
                             "name": "",
                             "type": "address"
                         }
@@ -645,7 +645,7 @@ const About: NextPage = () => {
                     "name": "tellor",
                     "outputs": [
                         {
-                            "internalType": "contract ITellor",
+                            "internalType": "contracts ITellor",
                             "name": "",
                             "type": "address"
                         }
@@ -725,7 +725,7 @@ const About: NextPage = () => {
         console.log(abi.decode(["uint256[8]"], proof.proof)[0])
         console.log(proof.proof)
 
-        const claimResult = await contract.verifyAndExecute(
+        const claimResult = await contracts.verifyAndExecute(
             address,
             proof.merkle_root,
             proof.nullifier_hash,
@@ -757,6 +757,25 @@ const About: NextPage = () => {
             "goal":goal
         })
     }
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            if (!proposalId) {
+                setMessage('Proposal ID is required');
+                return;
+            }
+            if (inputData === '') {
+                setMessage('Input data is required');
+                return;
+            }
+            const tx = await contract.voteOnProposal(proposalId, inputData);
+            const receipt = await tx.wait();
+            setMessage(`Transaction confirmed: ${receipt.transactionHash}`);
+        } catch (error) {
+            console.error(error);
+            setMessage(`Error: ${error.message}`);
+        }
+    };
 
   return (
     <Flex
@@ -825,8 +844,8 @@ const About: NextPage = () => {
 
               </Stack>
           }
-
       </Flex>
+
     </Flex>
   )
 }

@@ -1,4 +1,4 @@
-// TypeScript that demonstrates how you could use the Policy contract to select actions in an OpenAI environment:
+// TypeScript that demonstrates how you could use the Policy contracts to select actions in an OpenAI environment:
 //
 // typescript
 import * as ethers from 'ethers';
@@ -7,7 +7,7 @@ import * as gym from 'gym-js';
 // Connect to the Ethereum network
 const provider = new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/your-project-id');
 
-// Load the Policy contract
+// Load the Policy contracts
 const policyAddress = '0x1234567890123456789012345678901234567890';
 const policyAbi = [
     {
@@ -29,7 +29,7 @@ for (let episode = 0; episode < 100; episode++) {
     let done = false;
     let totalReward = 0;
     while (!done) {
-        // Use the Policy contract to select an action
+        // Use the Policy contracts to select an action
         const qValues = [0, 0, 0, 0];  // Replace with actual Q-values
         const temperature = 1.0;  // Replace with desired temperature
         const action = await policy.policy_with_temperature(qValues, temperature);

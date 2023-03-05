@@ -12,6 +12,7 @@ import {ButtonBase} from "@mui/material";
 import { AwesomeButton } from "react-awesome-button";
 import VoteForm from './VoteForm';
 import App from "./make-decision";
+import OpenAi from "./AI-FRAMEWORK";
 
 const Home: NextPage = () => {
 
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
           <App></App>
+          <OpenAi></OpenAi>
         <main className={styles.main}>
             <div className="grid-element">
                 <Image
@@ -81,7 +83,7 @@ const Home: NextPage = () => {
                 threshold={0.1}
                 rootMargin="20%"
             >
-              With Safety
+              Ai decision making web 3
             </AnimatedText>
 
           </h2>
@@ -99,7 +101,7 @@ const Home: NextPage = () => {
                     bg: '#E4007C'
                   }}
               >
-                <p>Bet </p>
+                <p> Create AI Smart contract </p>
               </Button>
             </Link>
           </div>
@@ -116,7 +118,7 @@ const Home: NextPage = () => {
                 }}
                 onClick={() => sendTransaction()}
             >
-              <p> Donate </p>
+              <p> Creat AI DAO </p>
             </Button>
           </div>
           <div>
@@ -125,10 +127,10 @@ const Home: NextPage = () => {
                 borderRadius="25px"
                 margin={2.5}
                 _hover={{
-                  bg: '#E4007C'
+                  bg: '#00'
                 }}
                 _active={{
-                  bg: '#E4007C'
+                  bg: '#0000'
                 }}
                 onClick={() => sendTransaction()}
             >

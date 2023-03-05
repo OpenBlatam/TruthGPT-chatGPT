@@ -1,10 +1,13 @@
 {
   "name": "hardhat-project",
   "devDependencies": {
+    "@ceramicnetwork/http-client": "^2.20.0",
     "@chainlink/contracts": "^0.6.1",
     "@nomiclabs/hardhat-ethers": "^2.2.2",
     "@nomiclabs/hardhat-waffle": "^2.0.5",
     "@openzeppelin/contracts": "^4.8.2",
+    "chai": "^4.3.7",
+    "dotenv": "^16.0.3",
     "ethereum-waffle": "^4.0.10",
     "ethers": "^5.7.2",
     "hardhat": "^2.13.0"

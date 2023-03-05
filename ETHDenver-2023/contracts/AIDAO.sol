@@ -12,7 +12,10 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import "@defender/protocol/contracts/defender/IDefender.sol";
 import "@defender/protocol/contracts/defender/DefenderBase.sol";
-import "compose-db/contracts/ComposeDB.sol";
+import "@ceramicnetwork/3id-did-resolver@0.3.0";
+import { DID } from 'dids';
+import { Ed25519Provider } from 'key-did-provider-ed25519';
+import { CeramicClient } from '@ceramicnetwork/http-client';
 import { Policy } from "./Policy.sol"; // import the Policy contract
 
 // Add Aragon DAO interface here
@@ -40,27 +43,34 @@ uint256 public voteThreshold;
 mapping(address => address) public delegates;
 EnumerableSet.AddressSet private defenders;
 Policy private policy; // create an instance of the Policy contract
+// ...
 
 constructor(
-    address _daoAddress,
-    address _tokenAddress,
-    address _priceFeedAddress,
-    address _tellorAddress,
-    uint256 _voteThreshold,
-    address _defender,
-    address _composeDB
+  address _daoAddress,
+  address _tokenAddress,
+  address _priceFeedAddress,
+  address _tellorAddress,
+  uint256 _voteThreshold,
+  address _defender,
+  string memory _ceramicUrl
 )
-    ProofOfStake(_tokenAddress)
-    RISC-V()
-    DefenderBase(_defender)
-    ComposeDB(_composeDB)
+  ProofOfStake(_tokenAddress)
+  RISC-V()
+  DefenderBase(_defender)
 {
-    dao = IVoting(_daoAddress);
-    token = ERC20(_tokenAddress);
-    priceFeed = AggregatorV3Interface(_priceFeedAddress);
-    tellor = TellorPlayground(_tellorAddress);
-    voteThreshold = _voteThreshold;
-    policy = new Policy(); // initialize the Policy contract instance
+  dao = IVoting(_daoAddress);
+  token = ERC20(_tokenAddress);
+  priceFeed = AggregatorV3Interface(_priceFeedAddress);
+  tellor = TellorPlayground(_tellorAddress);
+  voteThreshold = _voteThreshold;
+  policy = new Policy(); // initialize the Policy contract instance
+
+  // Create a new Ceramic client
+  CeramicClient ceramic = new CeramicClient(_ceramicUrl);
+
+  // Create a DID and provider for the client
+  Ed25519Provider provider = new Ed25519Provider();
+  DID did = new DID({ provider, resolver: { ...ThreeIdResolver.getResolver(ceramic) } });
 }
 
 function voteOnProposal(uint256 _proposalId, bytes calldata _inputData, address _delegate) external {
@@ -72,13 +82,9 @@ function voteOnProposal(uint256 _proposalId, bytes calldata _inputData, address 
     (,int256 price,,,) = priceFeed.latestRoundData();
     require(price > 0, "Price feed returned non-positive value");
     uint256 ethUsdPrice = uint256(price);
+    // Get the latest ETH/USD price from the Tellor oracle
+     uint256 tellorPrice = tellor.readTellorValue(1);
 
-   // Get the latest ETH/USD price from the Tellor oracle
-   uint
-
-
-
-Adan Munoz
 function voteOnProposal(uint256 _proposalId, bytes calldata _inputData, address _delegate) external {
 
     require(dao.isActive(address(this)), "Contract is not a member of the DAO");
