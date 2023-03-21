@@ -2,11 +2,11 @@
 
 ## Basically
 
-If we see the AI as a leetcode - codefocers poblems is just will be
+If we see the AI as a leetcode - codeforces problems is just will be
 
 input -> [] -> [fx] -> [tensor]->[multilayer]-[autotrain]-[]-output
 
-A input looking =for moving in loop so many times for learn "store and looking the head of the curve" for that output
+An input looking =for moving in loop so many times for learn "store and looking the head of the curve" for that output
 
 ### Introduction
 
