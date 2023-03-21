@@ -17,12 +17,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-
-
-
-
-
-ython code on a virtual machine in the cloud using AWS EC2:
+Python code on a virtual machine in the cloud using AWS EC2:
 
 Sign in to the AWS Management Console and go to the EC2 Dashboard.
 

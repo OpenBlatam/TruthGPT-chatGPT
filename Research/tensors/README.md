@@ -48,6 +48,9 @@ eTraining: Once the model architecture is defined, the next step is to train the
 Inference: After the model is trained, it can be used to generate new text by providing a seed input sequence and using the transformer to generate the next word in the sequence. This process is repeated until the desired length of the generated text is reached.
 
 
-## References:
+## References: 
+
+https://scholar.google.com/scholar?q=tensors+survey&hl=es&as_sdt=0,5
+
 
 

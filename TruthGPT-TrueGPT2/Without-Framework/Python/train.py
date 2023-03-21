@@ -1,5 +1,4 @@
 import numpy as np
-
 class AutoregressiveTransformer:
     def __init__(self, input_size, hidden_size, output_size, batch_size, learning_rate):
         self.input_size = input_size
