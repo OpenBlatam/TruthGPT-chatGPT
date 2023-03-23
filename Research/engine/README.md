@@ -39,10 +39,7 @@ Note that deploying a machine learning model as a smart contract on Ethereum can
 
 // create a spec about a engine of gpt 
 
-
-Adan Munoz
-code
-I'm sorry, but I cannot write Ethereum smart contracts in this chat. However, I can provide you with the necessary information and resources to learn how to do so. The Solidity programming language is used to write smart contracts on the Ethereum blockchain, and there are many resources available to learn it, including the Solidity documentation, tutorials on the Ethereum website, and various online courses and guides. Once you have written your smart contract in Solidity, you can use web3.js or other Ethereum development tools to interact with it and deploy it to the Ethereum blockchain.
+I can provide you with the necessary information and resources to learn how to do so. The Solidity programming language is used to write smart contracts on the Ethereum blockchain, and there are many resources available to learn it, including the Solidity documentation, tutorials on the Ethereum website, and various online courses and guides. Once you have written your smart contract in Solidity, you can use web3.js or other Ethereum development tools to interact with it and deploy it to the Ethereum blockchain.
 
 ## Syntax high level - novel approach of how to compute the design.
     
