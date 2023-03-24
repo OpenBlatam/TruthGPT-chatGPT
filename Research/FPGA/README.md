@@ -134,9 +134,32 @@ end
 
 endmodule
 ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨leak troll mode the DOJO is tricky rat trap 
+this module on hiw own languague on his hardware design goal 
+
+optimize 
+Use nonblocking assignments for synchronous logic, and blocking assignments for combinational logic.
+
+Use parameterization to reduce code duplication and make the code more flexible.
+
+Use generate blocks to reduce code duplication.
+
+Use task and function declarations to make the code more modular and easier to read.
+
+Avoid using "if" statements and use "case" statements instead, as "case" statements are usually faster and more efficient.
+
+Use "always @(posedge clk)" instead of "always @(*)" to improve simulation speed.
+
+Use "assign" statements to reduce the amount of code required to describe a combinational logic block.
+
+Optimize critical paths by reducing the number of gates, using pipelining, or other techniques.
+
+Use vendor-specific optimization tools, if available, to optimize the design for a particular FPGA or ASIC.
+
+Profile the design and identify bottlenecks, then optimize those areas.
 
 ![Screenshot 2023-03-23 at 20.24.51.png](..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fqf%2F4_fp429x6sz5vjlnzmpyz9hw0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_bJqWoK%2FScreenshot%202023-03-23%20at%2020.24.51.png)
 ## References 
+
 
 
 ### Code
