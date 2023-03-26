@@ -1,4 +1,5 @@
-GPT Engine Specification
+# GPT Engine Specification
+
 Overview
 The GPT engine is a large language model designed to generate human-like text in response to a given prompt. It is based on the Transformer architecture and uses unsupervised pre-training on a large corpus of text data. The GPT engine can be fine-tuned on specific tasks such as text classification, question answering, and language translation.
 
@@ -29,3 +30,10 @@ Output
 The GPT engine generates text as output in response to a given prompt. The length of the generated text can be controlled by specifying the maximum number of tokens or characters. The quality of the generated text depends on the quality of the input prompt and the task the model has been fine-tuned on.
 
 That's a basic specification for a GPT engine. Note that actual implementations of GPT engines may vary in terms of hardware, software, and model architecture, depending on the specific use case and available resources.
+
+
+## References 
+
+Avoid the troll mode 
+
+https://scholar.google.com/scholar?hl=es&as_sdt=0%2C5&q=GPT-3+is+not+designed+for+fine-tuning&btnG=

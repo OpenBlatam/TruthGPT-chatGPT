@@ -68,6 +68,8 @@ def train(model, data_loader, optimizer, grad_clip_norm=1.0, dropout_rate=0.1):
     return epoch_loss
 
 # Define hyperparameters
+
+# 456 layers of hidden and output
 num_layers = 6
 hidden_size = 512
 learning_rate = 0.0005

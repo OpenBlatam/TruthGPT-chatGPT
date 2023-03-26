@@ -1,6 +1,7 @@
 # Introduction
 
 https://doi.org/10.1145/3373087.3375887
+
 FPGAs provide significant advantages in throughput, latency,
 and energy efficiency for implementing low-latency, computeintensive applications when compared to general-purpose CPUs
 and GPUs
@@ -158,6 +159,15 @@ Use vendor-specific optimization tools, if available, to optimize the design for
 Profile the design and identify bottlenecks, then optimize those areas.
 
 ![Screenshot 2023-03-23 at 20.24.51.png](..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fqf%2F4_fp429x6sz5vjlnzmpyz9hw0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_bJqWoK%2FScreenshot%202023-03-23%20at%2020.24.51.png)
+
+## Copy pasta 
+
+Finetuning methodology To use the decoder-only architecture during finetuning, inputs and targets are
+concatenated but loss is only computed in the target section of the sequence. The concatenated sequences
+are truncated to 2048 tokens, the training context used during pretraining, with 512 tokens reserved for the
+target. Only summarization tasks required input truncation.
+
+
 ## References 
 
 
