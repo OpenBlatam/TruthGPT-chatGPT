@@ -33,7 +33,19 @@ Recreate a DOJO design for runs predicatives gates of fpga injections.
 
 ## Cost for implement the design
 
+https://scholar.google.com/scholar?hl=es&as_sdt=0%2C5&q=board+of+fpga+2d+design+rationale&btnG=
+
 $30 MILLION = 40 dollars for CNCs implementations
+
+## Providers 
+
+Xilinx Vivado, Intel Quartus Prime, or Lattice Diamond
+
+Owns CNCs methods
+
+
+## Synthethize the Hardware-Software-Web-Xmls-frontends.
+
 
 
 ### References
