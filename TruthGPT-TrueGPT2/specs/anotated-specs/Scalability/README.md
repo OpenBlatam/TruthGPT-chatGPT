@@ -3,8 +3,7 @@
 We research and crete the spec of scalability
 
 
-Fine tuning 
-
+Fine tuning is a 
 
 
 ### References:

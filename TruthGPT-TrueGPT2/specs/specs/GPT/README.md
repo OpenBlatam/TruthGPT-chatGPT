@@ -13,6 +13,6 @@ Includes
 | Encoder Decoder           |      |
 | Generative Neural Network |      |
 | Autoregresive             |      |
-|                           |      |
-
+| MultiHead Attention       |      |
+| Fine Tuning 
 

@@ -1,3 +1,9 @@
+
+class FINENode:
+    def __init__(self, HDLNode):
+        self.name = name
+        self.node = node
+
 class HDLNode:
     def __init__(self):
         pass
