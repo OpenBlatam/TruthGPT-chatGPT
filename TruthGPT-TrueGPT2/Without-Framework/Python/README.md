@@ -109,3 +109,14 @@ css
 Copy code
 
 You can then commit the README file to your repository and push the changes to GitHub. The README file will be
+
+
+
+## Most real out put the llama model(leaked) (beacuse has the cpugpu computational power to run it)
+
+with python
+https://github.com/ggerganov/llama.cpp#instruction-mode-with-alpaca
+
+local:
+https://github.com/cocktailpeanut/dalai
+
