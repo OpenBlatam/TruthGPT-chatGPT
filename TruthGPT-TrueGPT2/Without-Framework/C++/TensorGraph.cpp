@@ -1,3 +1,8 @@
+#include <iostream>
+#include <vector>
+
+// Define the tensor class (assumed to be defined elsewhere)
+
 // Define the Graph
 class Graph {
 public:

@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+#include <cmath> // for mathematical functions
+
 void AutoregressiveTransformer::train(const std::vector<std::vector<double>>& X, const std::vector<std::vector<double>>& Y, int epochs) {
     int num_batches = (int)X.size() / batch_size;
 

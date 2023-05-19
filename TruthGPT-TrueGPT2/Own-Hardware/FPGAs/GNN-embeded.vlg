@@ -1,0 +1,20 @@
+// Top-level design
+
+module top (
+    input wire clk,
+    input wire reset,
+    output wire [N-1:0] count_out
+);
+
+parameter N = 4;
+
+// Instantiate the counter module
+counter_nbit #(
+    .N(N)
+) counter_inst (
+    .clk(clk),
+    .reset(reset),
+    .count(count_out)
+);
+
+endmodule
