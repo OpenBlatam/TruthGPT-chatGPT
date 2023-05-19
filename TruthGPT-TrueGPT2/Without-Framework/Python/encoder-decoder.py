@@ -1,3 +1,5 @@
+import torch
+import torch.nn as nn
 class EncoderDecoder(nn.Module):
     """
     A standard Encoder-Decoder architecture. Base for this and many
