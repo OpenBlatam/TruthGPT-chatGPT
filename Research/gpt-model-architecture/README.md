@@ -1,5 +1,5 @@
 # GPT Model
-
+![](https://miro.medium.com/v2/resize:fit:1356/0*sAWvrBRO6CyqrwKL)
 ## Description
 
 The Generative Trained Model is a model:
@@ -59,5 +59,12 @@ learning_rate = 0.1
 
 ## References:
 
+### Code:
+
+https://github.com/cyk1337/Transformer-in-PyTorch/blob/master/transformer_xl/Transformer_xl.py
+
+### Literature:
+
+https://towardsdatascience.com/examining-the-transformer-architecture-part-1-the-openai-gpt-2-controversy-feceda4363bb
 
 
