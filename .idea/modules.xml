@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TruthGPT-chatGPT.iml" filepath="$PROJECT_DIR$/.idea/TruthGPT-chatGPT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TruthGPT-chatGPT2.iml" filepath="$PROJECT_DIR$/.idea/TruthGPT-chatGPT2.iml" />
     </modules>
   </component>
 </project>

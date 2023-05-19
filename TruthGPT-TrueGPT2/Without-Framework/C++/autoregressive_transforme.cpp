@@ -1,4 +1,4 @@
-#include "autoregressive_transformer.h"
+#include "autoregressive-transformer.h"
 #include <Eigen/Dense>
 #include <unordered_map>
 

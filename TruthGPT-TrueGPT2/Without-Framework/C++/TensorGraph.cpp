@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tddensor.cpp>
 
 // Define the tensor class (assumed to be defined elsewhere)
 
