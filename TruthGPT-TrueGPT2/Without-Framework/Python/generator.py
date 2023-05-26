@@ -1,15 +1,13 @@
 import random
+import transformers
 
 class NPLGenerator:
   def __init__(self, n):
     self.n = n
-    self.alphabet = "abcdefghijklmnopqrstuvwxyz"
+    self.model = transformers.GPT3LMHeadModel.from_pretrained("gpt3")
 
   def generate(self):
-    npl = ""
-    for i in range(self.n):
-      npl += random.choice(self.alphabet)
-    return npl
+    return ''.join(random.choices(self.model.vocab, k=self.n))
 
 for i in range(10):
   print(NPLGenerator(10).generate())
