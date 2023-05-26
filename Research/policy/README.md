@@ -10,3 +10,8 @@ A bad poliicy is q  and temperature values in reverse order (non - optimal)
 
 The goal of reinforcement learning is to find the higher
 expected return by optimizing the policy
+
+
+# Video lectures
+
+https://www.youtube.com/watch?v=E-_ecpD5PkE
