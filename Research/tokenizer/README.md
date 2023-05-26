@@ -96,3 +96,7 @@ Note that the encoded text is now in the form of RLP-encoded bytes. To decode th
 
 https://github.com/huggingface/tokenizers
 
+
+## Videos about use frameworks of transformers
+
+https://www.youtube.com/@SebastienBubeck/videos
