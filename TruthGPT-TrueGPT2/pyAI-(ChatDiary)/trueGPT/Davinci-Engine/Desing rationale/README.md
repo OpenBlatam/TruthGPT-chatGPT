@@ -1,7 +1,7 @@
 # Desing Rationale
 
 
-### Principles 
+### Principles
 
 Scalabilty:
 
@@ -12,7 +12,7 @@ Matching efficient
 will depend on the specific requirements and constraints of your application.
 
 
-# Analog 
+# Analog
 
 Numpy arrays a q tables are fast. -> recreate in VHDL hardware desing.
 
@@ -34,7 +34,7 @@ Decoding: The encoded data would be passed through a decoder, which would use cu
 
 Custom engine: The entire system would be powered by a custom engine, which would coordinate the different hardware components and perform optimizations such as pipelining and parallel processing to maximize performance
 
-## Hardware design 
+## Hardware design
 
 Hardware description language: The hardware design needs to be implemented using hardware description languages such as VHDL or Verilog. This involves writing code that describes the functionality and behavior of the hardware.
 
@@ -367,6 +367,7 @@ Decentralizing the HDL compiler could involve breaking it down into smaller, mor
 Using a custom engine can give you more control over the tokenization process, and can be especially useful for languages or domains that require specialized tokenization rules or algorithms
 
 Boyer-Moore algorithm
+More algos ?
 
 
 ## Tokenizer
@@ -401,4 +402,9 @@ https://sci-hub.ru/https://ieeexplore.ieee.org/abstract/document/8693206
 ### Description
 
 The encoder and decoder are implemented as classes with their own forward methods that perform the necessary computations. The encoder takes an input tensor and returns the final hidden state of the RNN cell. The decoder takes a hidden state and generates a sequence of outputs, one token at a time.
+
+
+There is analog of the cell in OSS with hardware in AI ?
+
+
 
