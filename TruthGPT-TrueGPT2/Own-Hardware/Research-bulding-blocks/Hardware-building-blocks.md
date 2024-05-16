@@ -12,7 +12,7 @@ Logic
 
 ## Stuctural Literals 
 
-Recreate a DOJO design for runs predicatives gates of fpga injections.
+Recreate a DOJO design for runs predicative gates of fpga injections.
 
 
 ## RISC Design 
@@ -27,7 +27,7 @@ Recreate a DOJO design for runs predicatives gates of fpga injections.
 
 ## Goal 
 
-362TFLOPS
+362 TFLOPS
 
 100 TFLOPS is 3000 GPUs in average potential outputs.
 

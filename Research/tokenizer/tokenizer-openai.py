@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "YOUR_API_KEY"
+openai.api_key = "sk-proj-w2cneIgr3XmsgiPs5P5ET3BlbkFJZJ3q9njclxn8PIXiIv2G"
 
 def tokenize(text):
     prompt = f"import re\n\ndef tokenize(text):\n    # Replace all non-alphanumeric characters with a space\n    text = re.sub(r'\W+', ' ', text)\n\n    # Convert to lowercase and split on whitespace\n    tokens = text.lower().split()\n\n    return tokens\n\ntokenize(\"{text}\")"
