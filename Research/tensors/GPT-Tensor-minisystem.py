@@ -53,4 +53,15 @@ class FeedForwardLayer:
 
 class EncoderLayer:
     def __init__(self, n_heads, d_model, d_ff):
-        self.multihead_attn = MultiHeadAttention(n_heads
+        self.multihead_attn = MultiHeadAttention(n_heads)
+# Initialize MultiHeadAttention instance
+mha = MultiHeadAttention(n_heads=8, d_model=512)
+
+# Create some mock data
+q = np.random.rand(1, 60, 512)
+k = np.random.rand(1, 60, 512)
+v = np.random.rand(1, 60, 512)
+
+# Call instance with mock data
+output = mha(q, k, v)
+print(output.shape)
