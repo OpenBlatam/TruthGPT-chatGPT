@@ -9,5 +9,5 @@ Creation of engines and fast encoder decoder for the GPT models
 ![](/Users/astrixial/Desktop/Screenshot 2023-05-26 at 9.04.55.png)
 
 ## References:
-
+https://dl.acm.org/doi/full/10.1145/3530811
 https://www.mdpi.com/2413-4155/5/4/46
