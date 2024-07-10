@@ -1,5 +1,9 @@
 TruthGPT
 ============
+Web3:
+updating all with a reentrancy bug any x blob:
+
+https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.18+commit.87f61d96.js
 
 There are several guides for ML developers and users. These guides can
 be rendered in a number of formats, like Models and Transformers. Please read
