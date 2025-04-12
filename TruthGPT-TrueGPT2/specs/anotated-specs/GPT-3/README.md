@@ -1,8 +1,9 @@
 # GPT
+
 Generative Pre-trained Transformer
 
 
-## References 
+## References
 
 
 ### Code
@@ -10,7 +11,7 @@ Generative Pre-trained Transformer
 https://github.com/karpathy/minGPT
 
 
-### Academics 
+### Academics
 
 https://scholar.google.com/scholar?hl=es&as_sdt=0%2C5&q=Generative+Pre-trained+Transformer&btnG=
 

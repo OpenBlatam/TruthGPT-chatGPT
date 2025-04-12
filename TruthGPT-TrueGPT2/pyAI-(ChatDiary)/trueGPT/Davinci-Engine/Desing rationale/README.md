@@ -369,6 +369,9 @@ Using a custom engine can give you more control over the tokenization process, a
 Boyer-Moore algorithm
 More algos ?
 
+## Kernels
+
+Tensorflow, pytorh and so long use kernels for compile the specific AI activity.
 
 ## Tokenizer
 
