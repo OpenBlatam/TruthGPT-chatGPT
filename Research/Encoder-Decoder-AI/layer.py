@@ -13,6 +13,7 @@ class EncoderLayer(nn.Module):
         ffn_output = self.ffn(out1)
         out2 = out1 + ffn_output  # Add & Norm
         return out2
+
 class DecoderLayer(nn.Module):
     def __init__(self, d_model, num_heads):
         super(DecoderLayer, self).__init__()

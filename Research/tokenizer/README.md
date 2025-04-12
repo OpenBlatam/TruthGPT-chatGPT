@@ -1,10 +1,22 @@
-# Tokenizer 
+# Tokenizer
 
 ## Description
 
 A tokenizer is a program that takes a string of text and breaks it up into individual tokens. These tokens can be words, phrases, or even individual characters.
 
-Minimal spec 
+Billion to Trillions of paramater
+
+The open source is in llama 4 = that is 10 x less that closed products
+and the result seems more legit.
+
+
+GPT3 = 170 B
+
+ 1500GB of VRAM, enough for about 3T parameters models.
+
+
+
+Minimal spec
 
 ```python
 import re
@@ -20,9 +32,9 @@ def tokenize(text):
 
 ```
 
-Type of obect 
+Type of obect
 
-BPE 
+BPE
 
 
 Descentralized

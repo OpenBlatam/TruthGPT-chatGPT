@@ -1,3 +1,5 @@
+# Better librarie# Better librariess
+
 def fine_tuned_model(base_model_output):
     x = Dense(128, activation='relu')(base_model_output)  # Add a dense layer with 128 units and ReLU activation
     x = BatchNormalization()(x)  # Apply batch normalization
