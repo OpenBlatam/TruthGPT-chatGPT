@@ -19,7 +19,17 @@ Includes
 | MultiHead Attention       |      |
 | Fine Tuning
 
+## Code
 
+### Spec
+https://github.com/ExpediaGroup/spec-transformer/tree/main
+
+### Engine
+https://github.com/NVIDIA/TransformerEngine
+https://github.com/NVIDIA/TensorRT-LLM
+
+## Container for rent GPU (Performance)
+https://github.com/NVIDIA/nvidia-container-toolkit
 
 ## References
 
