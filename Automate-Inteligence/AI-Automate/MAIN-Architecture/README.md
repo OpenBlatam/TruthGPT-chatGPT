@@ -9,14 +9,14 @@ Components:
 
 Django libraries for framewoork web stuff
 RPA
-LLMS 
+LLMS
 Agents
 
-Combine is a frankiesten of different computations that recreate the excel architectures auto execute to remedy 
+Combine is a frankiesten of different computations that recreate the excel architectures auto execute to remedy
 Principals external components:
 
 
-Redemy 
+Redemy
 WDNA
 Gestors
 Another networks
@@ -34,7 +34,7 @@ There is some graphics and stuff that is only n + 1 and n - 1 postions for run a
 example:
 
 
-Give the kpi some dates for a specific INC , more n + 1 queries that could run for specific projects 
+Give the kpi some dates for a specific INC , more n + 1 queries that could run for specific projects
 
 
 Creating such an application involves creating a frontend interface where users can enter commands, using AI model to process these commands, and finally, executing them. For the frontend part, you can create a web interface using technologies like HTML, CSS, and JavaScript. For the backend, you can use Flask or Django to create an API.
@@ -82,3 +82,18 @@ Output: This is where the results of user commands are printed for the user to s
 Issue:
 he actual implementation will largely depend on how your datasets and plotting functions are set up.
 This may involve complex Natural Language Processing and Machine Learning tasks.
+
+
+## Code
+
+Shell commands Ai director:
+
+https://github.com/TheR1D/shell_gpt/blob/main/sgpt/llm_functions/init_functions.py
+
+https://github.com/tbckr/sgpt?tab=readme-ov-file
+
+
+LangChain multichains
+
+https://github.com/mrseanryan/gpt-command/blob/master/core.py
+
