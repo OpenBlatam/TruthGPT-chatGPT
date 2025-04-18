@@ -1,0 +1,67 @@
+Option Explicit
+
+Const STR_FILE_PATH As String = "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+Const STR_CSV_PATH As String = "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\avail csv.csv"
+
+Sub MainProcedure()
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    Application.EnableEvents = False
+
+    With Workbooks.Open(STR_FILE_PATH)
+        Call ProcessWorksheet(.Worksheets(1))
+        .SaveAs Filename:=STR_CSV_PATH, FileFormat:=xlCSV
+        .Close SaveChanges:=False
+    End With
+
+    Application.EnableEvents = True
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+End Sub
+
+Sub ProcessWorksheet(ByRef ws As Worksheet)
+    Call DeleteRowsBasedOnCriteria(ws)
+    Call ReplaceTextInWorksheet(ws)
+    Call AddHeadersToWorksheet(ws)
+End Sub
+
+Private Sub DeleteRowsBasedOnCriteria(ByRef ws As Worksheet)
+    Dim rngToDelete As Range
+    Dim lastRow As Long: lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+
+    For i = lastRow To 1 Step -1
+        If IsRowInvalid(ws.Cells(i, "A"), ws.Cells(i, "B")) Then
+            Set rngToDelete = IIf(rngToDelete Is Nothing, ws.Rows(i), Union(rngToDelete, ws.Rows(i)))
+        End If
+    Next i
+
+    If Not rngToDelete Is Nothing Then rngToDelete.Delete
+End Sub
+
+Private Function IsRowInvalid(ByRef cellA As Range, ByRef cellB As Range) As Boolean
+    IsRowInvalid = IsTextInvalid(cellA.Value) Or IsNumberInvalid(cellB.Value)
+End Function
+
+Private Function IsTextInvalid(strValue As String) As Boolean
+    IsTextInvalid = Len(strValue) = 0 Or _
+    InStr(strValue, "unavail huawei 3G_24hrs GROUP BY NODEB") > 0 Or _
+    InStr(strValue, "Unavailtime 3G Nokia_24 Hrs GROUP BY NODEB") > 0 Or _
+    InStr(strValue, "unavail ericsson 3G_24hrs GROUP BY NODEB") > 0 Or _
+    InStr(strValue, "DATE") > 0
+End Function
+
+Private Function IsNumberInvalid(varValue As Variant) As Boolean
+    IsNumberInvalid = IsNumeric(varValue) And varValue > 70
+End Function
+
+Private Sub ReplaceTextInWorksheet(ByRef ws As Worksheet)
+    With ws.Range("A1:E" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+        .Replace What:=":*:", Replacement:=":00:", LookAt:=xlPart
+        .Replace What:="_*", Replacement:="", LookAt:=xlPart
+    End With
+End Sub
+
+Private Sub AddHeadersToWorksheet(ByRef ws As Worksheet)
+    ws.Rows(1).Insert Shift:=xlDown
+    ws.Range("A1:E1").Value = Array("DATE", "TIME", "RNC", "NODEB", "SUM(VS_NODEB_UNAVAILTIME)")
+End Sub

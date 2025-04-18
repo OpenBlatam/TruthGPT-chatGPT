@@ -1,0 +1,87 @@
+Option Explicit
+
+Sub CreatePivotTableAndLineChart()
+    'Open Workbook
+    Dim wb As Workbook
+    Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+
+    ' Define Worksheet and source data range
+    Dim ws As Worksheet
+    Set ws = wb.ActiveSheet
+    Dim rng As Range
+    Set rng = ws.Range("A4:Z" & ws.Cells(ws.Rows.Count, "Z").End(xlUp).Row)
+
+    ' Define PivotCache based on the data range
+    Dim pc As PivotCache
+    Set pc = ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=rng)
+
+    ' Check if PivotCache is not Nothing
+    If Not pc Is Nothing Then
+        ' Create a new PivotTable from PivotCache
+        Dim pt As PivotTable
+        Set pt = pc.CreatePivotTable(TableDestination:=ws.Cells(1, "AA"), TableName:="KPIs-Sitios")
+
+        ' Check if PivotTable is not Nothing
+        If Not pt Is Nothing Then
+            ' Add fields and customize the PivotTable
+            With pt
+                ' Check if field exists in PivotTable
+                If pt.PivotFields("DATE").Count > 0 Then
+                    .PivotFields("DATE").Orientation = xlRowField
+                End If
+                .PivotFields("NodeBEB").Orientation = xlRowField
+                .PivotFields("Noc Cluster").Orientation = xlPageField
+                .AddDataField .PivotFields("KPI value"), "Sum of KPI Value", xlSum
+                .RowAxisLayout xlTabularRow
+                .ColumnGrand = False
+                .RowGrand = False
+            End With
+
+            ' Create a line chart based on the PivotTable
+            Dim chartObject As chartObject
+            Set chartObject = ws.ChartObjects.Add(Top:=50, Width:=375, Left:=200, Height:=225)
+
+            With chartObject.Chart
+                ' Use the PivotTable as the source for the line chart
+                .SetSourceData Source:=pt.TableRange1
+                .ChartType = xlLineMarkers
+                ' Add title to the chart
+                .HasTitle = True
+                .ChartTitle.Text = "Date Time vs NodeBEB"
+            End With
+
+            ' Copy PivotTable data to a new Range for the next chart creation
+            Dim rngCopy As Range
+            Dim lastRow As Long
+            lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+            Set rngCopy = ws.Range("AB2:AC" & lastRow)
+            pt.TableRange2.Copy Destination:=rngCopy
+
+            ' Create a Thermometer chart
+            Set chartObject = ws.ChartObjects.Add(Top:=500, Width:=200, Left:=200, Height:=225)
+
+            With chartObject.Chart
+                ' Use the copied data as the source for the chart
+                .SetSourceData Source:=rngCopy
+                .ChartType = xlColumnClustered
+                ' Format the Series to make it look like a Thermometer
+                .SeriesCollection(1).Select
+                With .SeriesCollection(1)
+                    .Interior.Color = RGB(255, 0, 0) ' Set bar color to Red
+                    .Border.Color = RGB(255, 0, 0) ' Set border color to Red
+                End With
+                ' Format the Chart Area
+                With .ChartArea.Format.Fill
+                    .Visible = msoTrue
+                    .ForeColor.RGB = RGB(255, 255, 255) ' Set chart area color to White
+                    .Transparency = 0
+                    .Solid
+                End With
+            End With
+        End If
+    End If
+End Sub
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+    Call CreatePivotTableAndLineChart
+End Sub

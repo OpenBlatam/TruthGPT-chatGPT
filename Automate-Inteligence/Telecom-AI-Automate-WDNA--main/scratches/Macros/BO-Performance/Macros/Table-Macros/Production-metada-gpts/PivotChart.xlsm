@@ -1,0 +1,52 @@
+Option Explicit
+
+Sub CreatePivotChart()
+    ' Variable declarations
+    Dim wb As Workbook
+    Dim ws, wsNew As Worksheet
+    Dim pivotCache As PivotCache
+    Dim pt As PivotTable
+    Dim cht As Chart
+    Dim dataRng As Range
+    Dim pivotValue As String
+
+    ' Open Workbook & set Worksheet
+    Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+    Set ws = wb.ActiveSheet
+
+    ' Define data range & pivotValue
+    Set dataRng = ws.Range("A1:J" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+    pivotValue = ws.Range("J1").Value
+
+    ' Create new Worksheet for PivotTable and PivotChart
+    Set wsNew = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+    wsNew.Name = "PivotSheet"
+
+    ' Create Pivot Cache & PivotTable from source data
+    Set pivotCache = wb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=dataRng)
+    Set pt = pivotCache.CreatePivotTable(TableDestination:=wsNew.Cells(1, 1), TableName:="PivotTable1")
+
+    ' Set up the PivotTable fields
+    With pt
+        .PivotFields("DATE").Orientation = xlRowField
+        .PivotFields("TIME").Orientation = xlRowField
+        .PivotFields("ENODEB").Orientation = xlColumnField
+        .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+        .PivotFields(pivotValue).Orientation = xlDataField
+    End With
+
+    ' Create Pivot Chart using PivotTable data
+    Set cht = ChartObjects.Add(50, 50, 375, 225).Chart
+    cht.SetSourceData pt.TableRange1
+    cht.ChartType = xlLine
+    cht.HasTitle = True
+    cht.ChartTitle.Text = "Line Chart for " & pivotValue
+    cht.Axes(xlCategory, xlPrimary).HasTitle = True
+    cht.Axes(xlCategory, xlPrimary).AxisTitle.Text = "Date and Time"
+    cht.Axes(xlValue, xlPrimary).HasTitle = True
+    cht.Axes(xlValue, xlPrimary).AxisTitle.Text = pivotValue
+End Sub
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+    CreatePivotChart ' Call subroutine
+End Sub

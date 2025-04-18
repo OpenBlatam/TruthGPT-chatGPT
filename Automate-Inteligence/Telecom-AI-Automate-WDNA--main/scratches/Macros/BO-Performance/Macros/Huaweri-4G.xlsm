@@ -1,0 +1,166 @@
+Option Explicit
+
+Sub MainForEachWorksheet()
+
+    Dim csvWorkbook As Workbook
+    Dim ws As Worksheet
+
+    'Open Workbook and save as CSV
+    Workbooks.Open fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\4.xlsx"
+    ActiveWorkbook.SaveAs fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\Huawei-4G.csv", FileFormat:=xlCSV, _
+    CreateBackup:=False
+    ActiveWindow.Close
+    Set csvWorkbook = Workbooks.Open(fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\Huawei-4G.csv")
+
+    Call SplitDataBasedOnC2Value(csvWorkbook)
+
+    For Each ws In csvWorkbook.Worksheets
+        ' Skip worksheet if it's "1"
+        If ws.Name <> "1" Then
+            Call ProcessWorksheet(ws)
+        End If
+    Next ws
+
+End Sub
+Sub SplitDataBasedOnC2Value(wb As Workbook)
+
+    Dim OriginalWs As Worksheet
+    Dim NewWs As Worksheet
+    Dim cell As Range
+    Dim UniqueValues As Collection
+    Dim val As Variant
+    Dim LastRow As Long
+    Dim LastColumn As Long
+    Dim WsExists As Boolean
+    Dim i As Long
+
+    Set OriginalWs = wb.Sheets("Huawei-4G") ' Now it's set to the "datos" sheet of your .csv workbook
+
+    LastRow = OriginalWs.Cells(OriginalWs.Rows.Count, "C").End(xlUp).Row
+    LastColumn = OriginalWs.Cells(1, OriginalWs.Columns.Count).End(xlToLeft).Column
+
+    'Get unique C2 values
+    Set UniqueValues = New Collection
+
+    On Error Resume Next
+    For Each cell In OriginalWs.Range("C2:C" & LastRow)
+        UniqueValues.Add cell.Value, CStr(cell.Value)
+    Next cell
+    On Error GoTo 0
+    'For each unique value, check if worksheet exists and create new if not
+    For Each val In UniqueValues
+        WsExists = False
+        For i = 1 To Sheets.Count
+            If Sheets(i).Name = CStr(val) Then
+                WsExists = True
+                Exit For
+            End If
+        Next i
+        'If worksheet does not exist, create new and copy corresponding rows
+        If Not WsExists Then
+            Set NewWs = Sheets.Add(After:=Sheets(Sheets.Count))
+            Dim sheetName As String
+            sheetName = "Sheet_" & CStr(val)   ' Sheet name prefix added
+            sheetName = Replace(sheetName, "\", "_")
+            sheetName = Replace(sheetName, "/", "_")
+            sheetName = Replace(sheetName, "?", "_")
+            sheetName = Replace(sheetName, "*", "_")
+            sheetName = Replace(sheetName, "[", "_")
+            sheetName = Replace(sheetName, "]", "_")
+            sheetName = Replace(sheetName, ":", "_")
+            If Len(sheetName) > 31 Then
+                sheetName = Left(sheetName, 31)
+            End If
+            NewWs.Name = sheetName
+            OriginalWs.Rows(1).Copy Destination:=NewWs.Rows(1)
+            OriginalWs.Range("C2:C" & LastRow).AutoFilter Field:=1, Criteria1:=val
+            OriginalWs.Range("E2:IP" & LastRow).SpecialCells(xlCellTypeVisible).Copy Destination:=NewWs.Cells(2, "E")
+            OriginalWs.AutoFilterMode = False
+        End If
+    Next val
+
+End Sub
+
+Sub ProcessWorksheet(ws As Worksheet)
+
+    Dim statisticalThreshold As String
+    Dim umbral As String
+    Dim upper As Double
+    Dim lower As Double
+    Dim mean As Double
+    Dim cell As Range
+
+    'Erase columns A and B
+    ws.Columns("A:B").ClearContents
+
+    statisticalThreshold = ws.Cells(3, 1).Value
+    umbral = ws.Cells(4, 1).Value
+    upper = CDbl(ws.Cells(8, 1).Value)
+    lower = CDbl(ws.Cells(9, 1).Value)
+
+    If statisticalThreshold = "moving_average" Or statisticalThreshold = "exponential_moving_average" Then
+        If umbral = "upper" Then
+            lower = 0
+        ElseIf umbral = "lower" Then
+            upper = 100
+        End If
+        mean = 50 ' This is a placeholder. Insert your own method for calculating the mean here.
+    ElseIf statisticalThreshold = "fixed" Then
+        If umbral = "upper" Then
+            lower = 0
+        ElseIf umbral = "lower" Then
+            upper = 100
+        End If
+        mean = (upper + lower) / 2
+    End If
+
+    ws.Cells(2, 1).Value = "Mean"
+    ws.Cells(2, 2).Value = mean
+
+    ws.Cells(3, 1).Value = "Lower"
+    ws.Cells(3, 2).Value = lower
+
+    ws.Cells(4, 1).Value = "Upper"
+    ws.Cells(4, 2).Value = upper
+
+    ' Colour cells in red based on KPI
+    For Each cell In ws.Range("E1:" & ws.Cells(1, ws.Columns.Count).End(xlToLeft).Address)
+        If cell.Value < mean Then
+            cell.Interior.Color = RGB(255, 0, 0)
+        End If
+    Next cell
+    ' Mark cells in red based on KPI and '0' value in Upper
+    For Each cell In ws.Range("A5:Z5")
+        If cell.Value = 0 Then
+            cell.Interior.ColorIndex = 3 ' 3 is for 'red' in the ColorIndex
+        End If
+    ' if the column is Q and upper is more than 1, make it blue.
+        If cell.Column = 17 And upper > 1 Then ' 17 is the column number for 'Q'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+    ' if upper is more than 0.03 and the column is M, make it blue.
+        If cell.Column = 13 And upper > 0.03 Then ' 13 is the column number for 'M'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+    Next cell
+
+
+    Dim KPI_Threshold As Double
+    KPI_Threshold = 50 ' Replace 50 with the actual value for your KPI Threshold
+    For Each cell In ws.Range("BI1")
+        If cell.Value >= KPI_Threshold Then
+            cell.Interior.ColorIndex = 4 ' 4 is for 'green' in the ColorIndex
+        End If
+    Next cell
+
+End Sub
+
+Sub RunProgram()
+
+    Call MainForEachWorksheet
+
+End Sub
+
+Sub HuawEI4G()
+  Call RunProgram
+End Sub

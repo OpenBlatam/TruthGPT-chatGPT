@@ -1,0 +1,44 @@
+Option Explicit
+
+' Main subroutine to create a pivot chart
+Sub CreateAndDisplayPivotChart()
+    Dim dataRng As Range
+    Dim pt As PivotTable
+    
+    ' Set the data range from the csv file
+    Set dataRng = SetDataRangeFromCSV("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+    
+    ' Create a pivot table and return the pivot table object
+    Set pt = CreatePivotTable(dataRng)
+
+    ' Set up the pivot fields
+    SetUpPivotFields pt
+End Sub
+
+' Function to set the data range from the csv file
+Function SetDataRangeFromCSV(filepath As String) As Range
+    With Workbooks.Open(filepath).ActiveSheet
+        Set SetDataRangeFromCSV = .Range("A1:J" & .Cells(.Rows.Count, "A").End(xlUp).Row)
+    End With
+End Function
+
+' Function to create a pivot table
+Function CreatePivotTable(dataRng As Range) As PivotTable
+    With Sheets.Add(After:=Sheets(Sheets.Count))
+        .Name = "PivotSheet"
+        Set CreatePivotTable = .PivotTableWizard(SourceType:=xlDatabase, SourceData:=dataRng, TableDestination:=.Cells(1, 1), TableName:="PivotTable1")
+    End With
+End Function
+
+' Subroutine to set up the pivot fields
+Sub SetUpPivotFields(pt As PivotTable)
+    With pt
+        .PivotFields("DATE").Orientation = xlColumnField
+        .PivotFields("TIME").Orientation = xlColumnField
+        .PivotFields("ENODEB").Orientation = xlRowField
+        .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+        .AddDataField .PivotFields("J1"), "Sum of J1", xlSum
+        .ColumnGrand = False
+        .RowGrand = False
+    End With
+End Sub

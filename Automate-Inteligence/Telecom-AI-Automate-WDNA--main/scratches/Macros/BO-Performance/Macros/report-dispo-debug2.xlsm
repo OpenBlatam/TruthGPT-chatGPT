@@ -1,0 +1,83 @@
+Option Explicit
+
+Sub dispo()
+
+    Dim filePath As String: filePath = "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+    Dim csvPath As String: csvPath = Replace(filePath, ".xlsx", ".csv")
+
+    ' Open original workbook and save as CSV
+    With Workbooks.Open(filePath)
+        ' Clean up the worksheet and save as CSV
+        ProcessWorksheet .Worksheets(1)
+        .SaveAs Filename:=csvPath, FileFormat:=xlCSV
+        .Close SaveChanges:=False
+    End With
+
+End Sub
+
+Sub ProcessWorksheet(ws As Worksheet)
+    ' Perform row deletion and replacements
+    DeleteRows ws
+    ReplaceTexts ws.Range("A1:E" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+    InsertHeaders ws
+End Sub
+
+' Check and delete rows according to conditions
+Sub DeleteRows(ws As Worksheet)
+
+    Application.Calculation = xlCalculationManual
+    Application.ScreenUpdating = False
+
+    Dim rng As Range
+    Dim i As Long
+    Dim lastRow As Long: lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+
+    For i = lastRow To 1 Step -1
+        If IsInvalidRow(ws.Cells(i, "A"), ws.Cells(i, "B")) Then
+            If rng Is Nothing Then
+                Set rng = ws.Rows(i)
+            Else
+                Set rng = Union(rng, ws.Rows(i))
+            End If
+        End If
+    Next i
+
+    If Not rng Is Nothing Then rng.Delete
+
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+End Sub
+
+' Checks if row is invalid based on values in first two columns
+Function IsInvalidRow(cellA As Range, cellB As Range) As Boolean
+    IsInvalidRow = IsInvalidText(cellA.Value) Or IsInvalidNumber(cellB.Value)
+End Function
+
+' Check if a string is not valid
+Function IsInvalidText(val As String) As Boolean
+    Dim checkText As Variant
+    For Each checkText In Array("unavail huawei 3G_24hrs GROUP BY NODEB", "Unavailtime 3G Nokia_24 Hrs GROUP BY NODEB", "unavail ericsson 3G_24hrs GROUP BY NODEB", "DATE")
+        If InStr(1, val, checkText) > 0 Or val = "" Then
+            IsInvalidText = True
+            Exit Function
+        End If
+    Next checkText
+    IsInvalidText = False
+End Function
+
+' Check if a number is invalid
+Function IsInvalidNumber(val As Variant) As Boolean
+    IsInvalidNumber = IsNumeric(val) And val > 70
+End Function
+
+' Performs text replacements
+Sub ReplaceTexts(rng As Range)
+    rng.Replace What:=":*:", Replacement:=":00:", LookAt:=xlPart
+    rng.Replace What:="_*", Replacement:="", LookAt:=xlPart
+End Sub
+
+' Insert headers
+Sub InsertHeaders(ws As Worksheet)
+    ws.Rows(1).Insert Shift:=xlDown
+    ws.Range("A1:E1") = Array("DATE", "TIME", "RNC", "NODEB", "SUM(VS_NODEB_UNAVAILTIME)")
+End Sub

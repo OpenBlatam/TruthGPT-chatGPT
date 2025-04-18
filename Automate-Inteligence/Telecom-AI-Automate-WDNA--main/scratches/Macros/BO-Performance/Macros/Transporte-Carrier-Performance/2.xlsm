@@ -1,0 +1,41 @@
+
+Sub OpenFilesAndExtractData()
+
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim i As Integer
+    Dim fileNames As Variant
+    Dim identificadorProveedor As String
+    Dim siteNumber As String
+
+    ' List of file names to open
+    fileNames = Array("File1.xlsx", "File2.xlsx", "File3.xlsx", "File4.xlsx", "File5.xlsx", "File6.xlsx")
+
+    ' Loop through each file name
+    For i = LBound(fileNames) To UBound(fileNames)
+        ' Open the workbook
+        Set wb = Workbooks.Open(fileNames(i))
+
+        ' Loop through each worksheet in the workbook
+        For Each ws In wb.Worksheets
+            ' Check if cell C2 has changed
+            If ws.Range("C2").Value <> ws.Range("C1").Value Then
+                ' Extract the "Identificador Proveedor"
+                identificadorProveedor = ws.Range("A1").Value
+                ' Print the "Identificador Proveedor" to the Immediate window (Ctrl + G to view)
+                Debug.Print identificadorProveedor
+            End If
+
+            ' Check if cell K2 has changed
+            If ws.Range("K2").Value <> ws.Range("C1").Value Then
+                ' Extract the site number
+                siteNumber = ws.Range("B1").Value
+                ' Print the site number to the Immediate window (Ctrl + G to view)
+                Debug.Print siteNumber
+            End If
+        Next ws
+
+        ' Close the workbook without saving changes
+        wb.Close SaveChanges:=False
+    Next i
+End Sub

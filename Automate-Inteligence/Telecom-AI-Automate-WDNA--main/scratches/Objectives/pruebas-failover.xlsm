@@ -1,0 +1,64 @@
+Option Explicit
+
+Sub OpenArchive()
+
+    Dim filePath As String: filePath = "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+    Dim csvPath As String: csvPath = Replace(filePath, ".xlsx", ".csv")
+
+    ' Open original workbook and save as CSV
+    With Workbooks.Open(filePath)
+        ' Clean up the worksheet and save as CSV
+        ProcessWorksheet .Worksheets(1)
+        .SaveAs Filename:=csvPath, FileFormat:=xlCSV
+        .Close SaveChanges:=False
+    End With
+
+End Sub
+
+Sub SendTeamsNotification()
+    Dim TeamsWebhook As String
+    Dim TeamsMessage As String
+    Dim oRequest As Object
+
+    TeamsWebhook = "https://outlook.office.com/webhook/..." ' Paste your Webhook URL here
+
+    ' Set your message here. '\n' is used for line breaks
+    TeamsMessage = "{""@type"": ""MessageCard"",""text"": ""An Excel file has updated. See the attachment.""}"
+
+    ' Create the object and send the teams message
+    Set oRequest = CreateObject("WinHTTP.WinHTTPRequest.5.1")
+    oRequest.Open "POST", TeamsWebhook, False
+    oRequest.setRequestHeader "Content-Type", "application/json"
+    oRequest.Send TeamsMessage
+
+    ' Clean up
+    Set oRequest = Nothing
+End Sub
+
+Sub SendWorkbookInEmail()
+
+    Dim OutlookApp As Object
+    Dim OutlookMail As Object
+    Dim ArchivePath As String
+
+    ArchivePath = ThisWorkbook.FullName ' Get the workbook path and name
+
+    Set OutlookApp = CreateObject("Outlook.Application")
+    Set OutlookMail = OutlookApp.CreateItem(0)
+
+    On Error Resume Next
+    With OutlookMail
+        .To = "example@example.com" ' Set the recipient
+        .CC = ""
+        .BCC = ""
+        .Subject = "The Excel File is Attached" ' Set the subject
+        .Body = "The attached Excel file is provided for your reference." ' Set the body content
+        .Attachments.Add ArchivePath ' Add the workbook as an attachment
+        .Display ' Display the message, change '.Display' to '.Send' to send the mail without displaying it
+    End With
+    On Error GoTo 0
+
+    Set OutlookMail = Nothing
+    Set OutlookApp = Nothing
+
+End Sub

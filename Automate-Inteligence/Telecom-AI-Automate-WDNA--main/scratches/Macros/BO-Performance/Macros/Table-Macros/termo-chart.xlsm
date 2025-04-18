@@ -1,0 +1,52 @@
+Option Explicit
+
+Sub CreatePivotChart()
+
+  'Open Workbook
+  Dim wb As Workbook
+  Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+
+  ' Define Worksheet and source data range
+  Dim ws As Worksheet
+  Set ws = wb.ActiveSheet
+
+  ' Create Pivot Cache from Source Data
+  Dim dataRng As Range
+  Set dataRng = ws.Range("A1:J" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+  Dim pivotCache As pivotCache
+  Set pivotCache = wb.PivotCaches.Create(xlDatabase, dataRng)
+
+  ' Define new Worksheet for PivotTable and PivotChart
+  Dim wsNew As Worksheet
+  Set wsNew = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+  wsNew.Name = "PivotSheet"
+
+  ' Create Pivot Table
+  Dim pt As PivotTable
+  Set pt = pivotCache.CreatePivotTable(wsNew.Cells(1, 1), "PivotTable1")
+
+  ' Define PivotTable structure
+  With pt
+    ' Set the Rows fields and set them to not show subtotals
+    .PivotFields("ENODEB").Orientation = xlRowField
+    .PivotFields("ENODEB").Subtotals = Array(False, False, False, False, False, False, False, False, False, False, False, False)
+
+    ' Set the Column field
+    .PivotFields("DATE").Orientation = xlColumnField
+    .PivotFields("TIME").Orientation = xlColumnField
+
+    ' Set the Filters field
+    .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+
+    ' Set the Values field from J1
+    .AddDataField .PivotFields(ws.Range("J1").Value), "Sum of " & ws.Range("J1").Value, xlSum
+  End With
+
+  'If you want to turn off column grand totals:
+  pt.ColumnGrand = False
+  pt.RowGrand = False
+End Sub
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+  Call CreatePivotChart
+End Sub

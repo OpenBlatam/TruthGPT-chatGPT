@@ -1,0 +1,269 @@
+Option Explicit
+
+Sub MainForEachWorksheet()
+
+    Dim csvWorkbook As Workbook
+    Dim ws As Worksheet
+    Dim kpi_ws As Worksheet
+    Dim kpi_row As Integer
+
+    'Open Workbook and save as CSV
+    Workbooks.Open fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\1.xlsx"
+    ActiveWorkbook.SaveAs fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\Ericsson-3G.csv", FileFormat:=xlCSV, _
+    CreateBackup:=False
+    ActiveWindow.Close
+    Set csvWorkbook = Workbooks.Open(fileName:="C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\rutina\Ericsson-3G.csv.")
+
+    ' Call SplitDataBasedOnC2Value function, this also set variable kpi_ws
+    Call SplitDataBasedOnC2Value(csvWorkbook, kpi_ws)
+
+    ' Check if KPIs-NocClusters worksheet correctly set in previous step
+    If kpi_ws Is Nothing Then
+        MsgBox "Could not find or create 'KPIs-NocClusters' worksheet."
+        Exit Sub
+    End If
+
+    ' Set starting row for KPI
+    kpi_row = 2
+
+    For Each ws In csvWorkbook.Worksheets
+        ' Skip worksheet if it's "1"
+        If ws.Name <> "1" Then
+            ' Process worksheet if not "1"
+            Call ProcessWorksheet(ws, kpi_ws, kpi_row)
+        End If
+    Next ws
+    For Each ws In csvWorkbook.Worksheets
+        ' Skip worksheet if it's "1"
+        If ws.Name <> "1" Then
+            ' Process worksheet if its name starts with "Datos_". This will only process the newly created sheets.
+            If Left(ws.Name, 6) = "Datos_" Then
+                Call ProcessWorksheet(ws, kpi_ws, kpi_row)
+            End If
+        End If
+    Next ws
+End Sub
+
+Sub SplitDataBasedOnC2Value(wb As Workbook, ByRef kpi_ws As Worksheet)
+
+    Dim OriginalWs As Worksheet
+    Dim NewWs As Worksheet
+    Dim cell As Range
+    Dim UniqueValues As Collection
+    Dim val As Variant
+    Dim LastRow As Long
+    Dim LastColumn As Long
+    Dim WsExists As Boolean
+    Dim i As Long
+
+    Set OriginalWs = wb.Sheets("Ericsson-3G") ' Now it's set to the "datos" sheet of your .csv workbook
+
+    LastRow = OriginalWs.Cells(OriginalWs.Rows.Count, "C").End(xlUp).Row
+    LastColumn = OriginalWs.Cells(1, OriginalWs.Columns.Count).End(xlToLeft).Column
+
+    ' Get unique C2 values
+    Set UniqueValues = New Collection
+
+    On Error Resume Next
+    For Each cell In OriginalWs.Range("C2:C" & LastRow)
+        UniqueValues.Add cell.Value, CStr(cell.Value)
+    Next cell
+    On Error GoTo 0
+    ' Check if KPIs-NocClusters worksheet exists in "Ericsson-3G.csv", create if not
+    On Error Resume Next
+    Set kpi_ws = wb.Sheets("KPIs-NocClusters") ' modify here
+    If kpi_ws Is Nothing Then
+    Set kpi_ws = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count)) ' modify here
+    kpi_ws.Name = "KPIs-NocClusters"
+    End If
+    On Error GoTo 0
+    ' For each unique value, check if worksheet exists and create new if not
+    For Each val In UniqueValues
+        WsExists = False
+        For i = 1 To Sheets.Count
+            If Sheets(i).Name = CStr(val) Then
+                WsExists = True
+                Exit For
+            End If
+        Next i
+        ' If worksheet does not exist, create new and copy corresponding rows
+        If Not WsExists Then
+            Set NewWs = Sheets.Add(After:=Sheets(Sheets.Count))
+            Dim sheetName As String
+            sheetName = "Datos_" & CStr(val)
+
+            sheetName = Replace(sheetName, "\", "_")
+            sheetName = Replace(sheetName, "/", "_")
+            sheetName = Replace(sheetName, "?", "_")
+            sheetName = Replace(sheetName, "*", "_")
+            sheetName = Replace(sheetName, "[", "_")
+            sheetName = Replace(sheetName, "]", "_")
+            sheetName = Replace(sheetName, ":", "_")
+            If Len(sheetName) > 31 Then
+                sheetName = Left(sheetName, 28) ' Truncate to ensure space for timestamp suffix
+            End If
+            On Error Resume Next
+                NewWs.Name = sheetName
+            If Err.Number <> 0 Then
+                ' If error occurred, add timestamp suffix to the name
+                Err.Clear
+                NewWs.Name = sheetName & Format(Now, "_hhnnss")
+            End If
+            On Error GoTo 0
+            OriginalWs.Rows(1).Copy Destination:=NewWs.Rows(1)
+            OriginalWs.Range("C2:C" & LastRow).AutoFilter Field:=1, Criteria1:=val
+            OriginalWs.Range("E2:IP" & LastRow).SpecialCells(xlCellTypeVisible).Copy Destination:=NewWs.Cells(2, "E")
+            OriginalWs.AutoFilterMode = False
+
+        End If
+        ' check if the new worksheet name matches "KPIs-NocClusters" and if so, assign it to kpi_ws
+        If sheetName = "KPIs-NocClusters" Then
+              Set kpi_ws = NewWs
+        End If
+    Next val
+
+    ' For the case when no worksheet was named "KPIs-NocClusters"
+    If kpi_ws Is Nothing Then
+        Set kpi_ws = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+        kpi_ws.Name = "KPIs-NocClusters"
+    End If
+
+End Sub
+Sub ProcessWorksheet(ws As Worksheet, ByRef kpi_ws As Worksheet, ByRef kpi_row As Integer)
+
+    Dim statisticalThreshold As String
+    Dim umbral As String
+    Dim upper As Double
+    Dim lower As Double
+    Dim mean As Double
+    Dim cell As Range
+    Dim c As Range
+    Dim mycell As Range
+    Dim mycell2 As Range
+
+    ' loop over each cell in the row
+    For Each c In ws.Rows(5).Cells ' Change '5' with the row you want to check
+        ' if the cell color is blue
+        If c.Interior.Color = RGB(0, 0, 255) Then ' Change RGB code if you have a different color
+            ' copy NOC-CLUSTER, 'C2' value and the value of the blue cell to the KPIs-NocClusters worksheet
+            kpi_ws.Cells(kpi_row, 1).Value = ws.Name ' worksheet name as NOC-CLUSTER
+            kpi_ws.Cells(kpi_row, 2).Value = ws.Cells(2, "C").Value ' 'C2' holds the relevant value
+            kpi_ws.Cells(kpi_row, 3).Value = c.Value
+            kpi_row = kpi_row + 1
+        End If
+    Next c
+
+
+    'Erase columns A and B
+    ws.Columns("A:B").ClearContents
+
+    statisticalThreshold = ws.Cells(3, 1).Value
+    umbral = ws.Cells(4, 1).Value
+    upper = CDbl(ws.Cells(8, 1).Value)
+    lower = CDbl(ws.Cells(9, 1).Value)
+
+    If statisticalThreshold = "moving_average" Or statisticalThreshold = "exponential_moving_average" Then
+        If umbral = "upper" Then
+            lower = 0
+        ElseIf umbral = "lower" Then
+            upper = 100
+        End If
+        mean = 50 ' This is a placeholder. Insert your own method for calculating the mean here.
+    ElseIf statisticalThreshold = "fixed" Then
+        If umbral = "upper" Then
+            lower = 0
+        ElseIf umbral = "lower" Then
+            upper = 100
+        End If
+        mean = (upper + lower) / 2
+    End If
+
+    ws.Cells(2, 1).Value = "Mean"
+    ws.Cells(2, 2).Value = mean
+
+    ws.Cells(3, 1).Value = "Lower"
+    ws.Cells(3, 2).Value = lower
+
+    ws.Cells(4, 1).Value = "Upper"
+    ws.Cells(4, 2).Value = upper
+
+    upper = CDbl(ws.Cells(4, "M").Value)  ' Assuming upper value is in cell M4
+    ' Define a new variable
+    For Each mycell In ws.Range("V:V") ' Update the range to the column where % PS_FAILURE_RRC values are in your sheet
+    If mycell.Value > 10 Then
+        mycell.Interior.Color = RGB(0, 0, 255) ' Blue
+    End If
+    Next mycell
+    ' Define a new variable
+    For Each mycell2 In ws.Range("Z:Z") ' Update the range to the column where % PS_FAILURE_RRC values are in your sheet
+    If mycell2.Value > 15 Then
+        mycell2.Interior.Color = RGB(0, 0, 255) ' Blue
+    End If
+    Next mycell2
+    ' Colour cells in red based on KPI
+    For Each cell In ws.Range("E1:" & ws.Cells(1, ws.Columns.Count).End(xlToLeft).Address)
+        If cell.Value < mean Then
+            cell.Interior.Color = RGB(255, 0, 0)
+        End If
+    Next cell
+    ' Mark cells in red based on KPI and '0' value in Upper
+    For Each cell In ws.Range("A5:Z5")
+        If cell.Value = 0 Then
+            cell.Interior.ColorIndex = 4 ' 3 is for 'green' in the ColorIndex
+        End If
+    ' if the column is Q and upper is more than 1, make it blue.
+        If cell.Column = 17 And upper > 1 Then ' 17 is the column number for 'Q'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+    ' if upper is more than 0.03 and the column is M, make it blue.
+        If cell.Column = 13 And upper > 0.03 Then ' 13 is the column number for 'M'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+
+    ' if upper is more than 3 and the column is AB, make it blue.
+        If cell.Column = 28 And upper > 3 Then ' 28 is the column number for 'AB'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+    ' if upper is less than 0 and column is V, make it blue.
+        If cell.Column = 22 And upper < 0 Then ' 22 is the column number for 'V'
+            cell.Interior.Color = RGB(0, 0, 255) ' RGB code for Blue
+        End If
+    Next cell
+
+
+    Dim KPI_Threshold As Double
+    KPI_Threshold = 50 ' Replace 50 with the actual value for your KPI Threshold
+    For Each cell In ws.Range("BI1")
+        If cell.Value >= KPI_Threshold Then
+            cell.Interior.ColorIndex = 4 ' 4 is for 'green' in the ColorIndex
+        End If
+    ' if the cell is marked blue, copy its value and its corresponding C2 value into "KPIs-NocClusters"
+        kpi_ws.Cells(kpi_row, 1).Value = ws.Cells(cell.Row, "C").Value
+        kpi_ws.Cells(kpi_row, 2).Value = cell.Value
+        kpi_row = kpi_row + 1
+
+    Next cell
+    ' For Each cell in BI1, if the cell has blue fill, copy its value and its corresponding C2 value into "KPIs-NocClusters"
+    For Each cell In ws.Range("BI1")
+        If cell.Interior.Color = RGB(0, 0, 255) Then
+            kpi_ws.Cells(kpi_row, 1).Value = ws.Cells(2, "C").Value
+            kpi_ws.Cells(kpi_row, 2).Value = cell.Value
+            kpi_row = kpi_row + 1
+        End If
+    Next cell
+
+     ' Loop over each cell in the row to find the blue colored cell
+    For Each cell In ws.UsedRange
+        ' If the cell color is blue, copy NOC-CLUSTER, 'C2' value and the value of the blue cell to the KPIs-NocClusters worksheet
+        If cell.Interior.Color = RGB(0, 0, 255) Then
+            kpi_ws.Cells(kpi_row, 1).Value = ws.Cells(2, "C").Value
+            kpi_ws.Cells(kpi_row, 2).Value = cell.Value
+            kpi_row = kpi_row + 1
+        End If
+    Next cell
+End Sub
+
+Sub RunProgram()
+    Call MainForEachWorksheet
+End Sub
+

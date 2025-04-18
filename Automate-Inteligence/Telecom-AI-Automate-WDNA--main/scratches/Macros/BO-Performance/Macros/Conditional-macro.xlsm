@@ -1,0 +1,26 @@
+Sub ChangeConditionalFormatting()
+
+    ' Definir la hoja de trabajo
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+
+    ' Suponiendo que la Tabla Dinámica esté en el rango "A1:B10"
+    Dim rng As Range
+    Set rng = ws.Range("A1:B10")
+
+    ' Borrar el formato condicional existente
+    rng.FormatConditions.Delete
+
+    ' Añadir nuevo formato condicional
+    Dim condFormat As FormatCondition
+
+    ' Cambiar el número alto aquí (por ejemplo, 100)
+    Set condFormat = rng.FormatConditions.Add(Type:=xlCellValue, Operator:=xlGreater, Formula1:="100")
+
+    ' Definir el formato de las celdas que cumplen la condición
+    With condFormat
+        .Interior.Color = RGB(255, 0, 0) ' Cambia el color de fondo a rojo
+        .Font.Color = RGB(255, 255, 255) ' Cambia el color de la fuente a blanco
+    End With
+
+End Sub

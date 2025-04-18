@@ -1,0 +1,87 @@
+Private Const RGB_BLUE As Long = RGB(0, 0, 255)
+Private Const KPI_THRESHOLD As Double = 50
+
+Sub ProcessWorksheet(ByRef ws As Worksheet, ByRef kpi_ws As Worksheet, ByRef kpi_row As Integer)
+    ' Copy contents from blue cells to the KPI worksheet
+    kpi_row = CopyBlueToKPI(ws.Rows(5).Cells, ws, kpi_ws, RGB_BLUE, kpi_row)
+
+    ' Clear A:B columns and update the values in cells
+    ClearAndCompute(ws)
+
+    ' Change the color based on values
+    UpdateCellColors(ws)
+
+    ' Update KPI values
+    ComputeKPI(ws, kpi_ws)
+End Sub
+
+Private Function CopyBlueToKPI(cells As Range, ws As Worksheet, kpi_ws As Worksheet, color As Long, kpi_row As Integer) As Integer
+    Dim cell As Range
+    For Each cell In cells
+        If cell.Interior.Color = color Then
+            kpi_ws.Cells(kpi_row, 1).Value = ws.Name
+            kpi_ws.Cells(kpi_row, 2).Value = ws.Cells(2, "C").Value
+            kpi_ws.Cells(kpi_row, 3).Value = cell.Value
+            kpi_row = kpi_row + 1
+        End If
+    Next cell
+    CopyBlueToKPI = kpi_row
+End Function
+
+Public Sub ClearAndCompute(ws As Worksheet)
+    ws.Columns("A:B").ClearContents
+
+    Dim umbral As String = ws.Cells(4, 1).Value
+    Dim upper As Double = ws.Cells(8, 1).Value
+    Dim lower As Double = ws.Cells(9, 1).Value
+    Dim statisticalThreshold As String = ws.Cells(3, 1).Value
+
+    ws.Cells(2, 1).Value = "Mean"
+    ws.Cells(2, 2).Value = CalculateNewMean(umbral, upper, lower, statisticalThreshold)
+    ws.Cells(3, 1).Value = "Lower"
+    ws.Cells(3, 2).Value = lower
+    ws.Cells(4, 1).Value = "Upper"
+    ws.Cells(4, 2).Value = upper
+End Sub
+
+Private Function CalculateNewMean(umbral As String, upper As Double, lower As Double, statisticalThreshold As String) As Double
+    If statisticalThreshold = "moving_average" OrElse statisticalThreshold = "exponential_moving_average" Then
+        If umbral = "upper" Then lower = 0
+    Else
+        If umbral = "lower" OrElse umbral = "upper" Then upper = 100
+    End If
+    CalculateNewMean = (upper + lower) / 2
+End Function
+
+Public Sub UpdateCellColors(ws As Worksheet)
+    For Each cell In ws.Range("E1:" & ws.Cells(1, ws.Columns.Count).End(xlToLeft).Address)
+        If cell.Value < ws.Cells(2, 2).Value Then cell.Interior.Color = RGB(255, 0, 0)
+    Next cell
+    For Each cell In ws.Range("A5:Z5")
+        If cell.Value = 0 Then
+            cell.Interior.ColorIndex = 4
+        ElseIf ShouldTurnBlue(cell, ws.Cells(4, 2).Value) Then
+            cell.Interior.Color = RGB_BLUE
+        End If
+    Next cell
+End Sub
+
+Public Function ShouldTurnBlue(cell As Range, upper As Double) As Boolean
+    Select Case cell.Column
+        Case 10: ShouldTurnBlue = upper > 200
+        Case 13: ShouldTurnBlue = upper > 0.03
+        Case 17: ShouldTurnBlue = upper > 1
+        Case 28: ShouldTurnBlue = upper > 0.5
+        Case Else: ShouldTurnBlue = False
+    End Select
+End Function
+
+Private Sub ComputeKPI(ws As Worksheet, kpi_ws As Worksheet)
+    With ws.Range("BI1")
+        If .Value >= KPI_THRESHOLD Then .Interior.ColorIndex = 4
+        If .Interior.Color = RGB_BLUE Then
+            kpi_ws.Cells(2, 1).Value = ws.Cells(2, "C").Value
+            kpi_ws.Cells(2, 2).Value = .Value
+        End If
+    End With
+End Sub

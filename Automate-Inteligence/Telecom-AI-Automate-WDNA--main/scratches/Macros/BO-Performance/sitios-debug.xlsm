@@ -1,0 +1,146 @@
+Option Explicit
+
+Sub TermoChart()
+  'Open Workbook
+  Dim wb As Workbook
+  Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+
+  ' Define Worksheet and source data range
+  Dim ws As Worksheet
+  Set ws = wb.ActiveSheet
+
+  ' Create Pivot Cache from Source Data
+  Dim dataRng As Range
+  Set dataRng = ws.Range("A1:J" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+  Dim pivotCache As pivotCache
+  Set pivotCache = wb.PivotCaches.Create(xlDatabase, dataRng)
+
+  ' Define new Worksheet for PivotTable and PivotChart
+  Dim wsNew As Worksheet
+  Set wsNew = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+  wsNew.Name = "PivotSheet"
+
+  ' Create Pivot Table
+  Dim pt As PivotTable
+  Set pt = pivotCache.CreatePivotTable(wsNew.Cells(1, 1), "PivotTable1")
+
+  ' Define PivotTable structure
+  With pt
+    ' Set the Rows fields and set them to not show subtotals
+    .PivotFields("ENODEB").Orientation = xlRowField
+    .PivotFields("ENODEB").Subtotals = Array(False, False, False, False, False, False, False, False, False, False, False, False)
+
+    ' Set the Column field
+    .PivotFields("DATE").Orientation = xlColumnField
+    .PivotFields("TIME").Orientation = xlColumnField
+
+    ' Set the Filters field
+    .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+
+    ' Set the Values field from J1
+    .AddDataField .PivotFields(ws.Range("J1").Value), "Sum of " & ws.Range("J1").Value, xlSum
+
+    ' Change the order
+    .PivotFields("ENODEB").AutoSort xlDescending, "Sum of " & ws.Range("J1").Value
+  End With
+
+  ' If you want to turn off column grand totals:
+  pt.ColumnGrand = False
+  pt.RowGrand = False
+
+  ' Apply conditional formatting to all cells of Values field
+  Dim rng As Range
+  Set rng = wsNew.Range(pt.TableRange1.Address)
+  rng.FormatConditions.AddColorScale ColorScaleType:=3
+  rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(1).Type = xlConditionValueLowestValue
+  With rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(1).FormatColor
+    .color = 8109667  ' Green
+    .TintAndShade = 0
+  End With
+  rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(2).Type = xlConditionValuePercentile
+  With rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(2).FormatColor
+     .color = 8711167  ' Yellow
+    .TintAndShade = 0
+     .color = 8711167
+  End With
+  rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(3).Type = xlConditionValueHighestValue
+  With rng.FormatConditions(rng.FormatConditions.Count).ColorScaleCriteria(3).FormatColor
+    .color = 7039480  ' Red
+    .TintAndShade = 0
+  End With
+
+End Sub
+Sub CreatePivotChart()
+
+    'Open Workbook
+    Dim wb As Workbook
+    Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+
+    ' Define Worksheet and source data range
+    Dim ws As Worksheet
+    Set ws = wb.ActiveSheet
+
+    ' Grab the value to pivot on from J1
+    Dim pivotValue As String
+    pivotValue = ws.Range("J1").Value
+    Dim pf As PivotField
+    Dim dataRng As Range
+    Dim ptRng As Range
+    Dim pt As PivotTable
+
+    ' Define data range
+    Set dataRng = ws.Range("A1:J" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+
+    ' Define new Worksheet for PivotTable and PivotChart
+    Dim wsNew As Worksheet
+    Set wsNew = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+    wsNew.Name = "PivotSheet"
+
+    ' Define the range where PivotTable will be created in the new sheet
+    Set ptRng = wsNew.Cells(1, "A")
+
+    ' Create Pivot Cache from Source Data
+   Dim pivotCache As pivotCache
+    Set pivotCache = wb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=dataRng.Address(True, True, xlR1C1, True))
+
+    ' Create the PivotTable in the new worksheet
+    Set pt = pivotCache.CreatePivotTable(TableDestination:=ptRng, TableName:="PivotTable1")
+
+    With pt
+        ' Set the Rows fields
+        .PivotFields("DATE").Orientation = xlRowField
+        .PivotFields("TIME").Orientation = xlRowField
+
+        ' Set the Column field
+        .PivotFields("ENODEB").Orientation = xlColumnField
+
+        ' Set the Filters field
+        .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+
+        ' Set the Values field from J1
+        .PivotFields(pivotValue).Orientation = xlDataField
+    End With
+
+' Create line chart using PivotTable data
+Dim cht As chartObject
+Set cht = wsNew.ChartObjects.Add(Left:=wsNew.Cells(6, "B").Left, Top:=wsNew.Cells(6, "B").Top, Width:=400, Height:=300)
+
+With cht.Chart
+    ' Set chart source data and type
+    .SetSourceData Source:=pt.TableRange1
+    .ChartType = xlLine
+
+    ' Formatting
+    .HasTitle = True
+    .ChartTitle.Text = "Line Chart for " & pivotValue
+    .Axes(xlCategory, xlPrimary).HasTitle = True
+    .Axes(xlCategory, xlPrimary).AxisTitle.Text = "Date and Time"
+    .Axes(xlValue, xlPrimary).HasTitle = True
+    .Axes(xlValue, xlPrimary).AxisTitle.Text = pivotValue
+    End With
+End Sub
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+    Call CreatePivotChart
+    Call TermoChart
+End Sub

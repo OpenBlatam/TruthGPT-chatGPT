@@ -1,0 +1,51 @@
+Public Const COLUMN_A As Integer = 17
+Public Const COLUMN_B As Integer = 13
+Public Const COLUMN_C As Integer = 28
+Public Const COLUMN_D As Integer = 22
+
+Sub AdjustValuesInWorksheets(csvWorkbook As Workbook)
+    Application.EnableEvents = False
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    On Error GoTo ErrorHandler
+
+    Dim ws As Worksheet
+    For Each ws In csvWorkbook.Worksheets
+        AdjustValuesInWorksheet ws
+    Next
+
+ProcessExit:
+    Application.Calculation = xlCalculationAutomatic
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "An error occurred: " & Err.Description
+    Resume ProcessExit
+End Sub
+
+Sub AdjustValuesInWorksheet(ByVal ws As Worksheet)
+    Dim startCell As Range: Set startCell = ws.Cells(1, 1)
+    Dim endCell As Range: Set endCell = ws.Cells(ws.Cells(Rows.Count, 1).End(xlUp).Row, ws.Cells(1, Columns.Count).End(xlToLeft).Column)
+    Dim cellValues As Variant: cellValues = ws.Range(startCell, endCell).Values
+
+    Dim rowNum As Long
+    For rowNum = LBound(cellValues, 1) To UBound(cellValues, 1)
+        AdjustCellValuesForRow cellValues, rowNum
+    Next
+
+    ws.Range(startCell, endCell).Value = cellValues
+End Sub
+
+Sub AdjustCellValuesForRow(ByRef cellValues As Variant, ByVal rowNum As Long)
+    Dim colNum As Long
+    For colNum = LBound(cellValues, 2) To UBound(cellValues, 2)
+        Select Case colNum
+            Case COLUMN_A: If cellValues(rowNum, colNum) > 1 Then cellValues(rowNum, colNum) = "Adjusted_Value"
+            Case COLUMN_B: If cellValues(rowNum, colNum) > 0.03 Then cellValues(rowNum, colNum) = "Adjusted_Value"
+            Case COLUMN_C: If cellValues(rowNum, colNum) > 3 Then cellValues(rowNum, colNum) = "Adjusted_Value"
+            Case COLUMN_D: If cellValues(rowNum, colNum) < 0 Then cellValues(rowNum, colNum) = "Adjusted_Value"
+        End Select
+    Next
+End Sub

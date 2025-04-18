@@ -1,0 +1,48 @@
+Option Explicit
+
+Sub OpenArchive()
+
+    Dim filePath As String: filePath = "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+    Dim csvPath As String: csvPath = Replace(filePath, ".xlsx", ".csv")
+
+    ' Open original workbook and save as CSV
+    With Workbooks.Open(filePath)
+        ' Clean up the worksheet and save as CSV
+        ProcessWorksheet .Worksheets(1)
+        .SaveAs Filename:=csvPath, FileFormat:=xlCSV
+        .Close SaveChanges:=False
+    End With
+
+End Sub
+
+
+Sub CalculateTime()
+
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(1) 'Replace 1 with the index or name of your sheet
+
+    Dim lastRow As Integer
+    lastRow = ws.Range("A" & ws.Rows.Count).End(xlUp).Row
+
+    Dim startTime As Date
+    Dim endTime As Date
+
+    Dim totalHours As Double
+    totalHours = 0
+
+    Dim i As Integer
+    For i = 2 To lastRow 'Assuming row 1 has headers, otherwise, use "1 To lastRow"
+        startTime = ws.Range("A" & i).Value
+        endTime = ws.Range("A" & i + 1).Value
+
+        Dim diff As Double
+        diff = endTime - startTime
+        totalHours = totalHours + diff
+    Next i
+
+    totalHours = totalHours * 24 ' convert it into hours
+
+    ' Display total hours
+    MsgBox "Total Hours: " & totalHours
+
+End Sub

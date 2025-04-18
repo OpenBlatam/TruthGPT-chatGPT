@@ -1,0 +1,75 @@
+Option Explicit
+
+Const FILE_PATH As String = "C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv"
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+    On Error GoTo ErrorHandler
+    ProcessData
+    Exit Sub
+ErrorHandler:
+    MsgBox "An error occurred: " & Err.Description, vbCritical
+End Sub
+
+Sub ProcessData()
+    With Workbooks.Open(FILE_PATH).ActiveSheet
+        Dim pt As PivotTable
+        Set pt = CreatePivotTable(.Range("A4:Z" & .Cells(.Rows.Count, "Z").End(xlUp).Row))
+
+        If Not pt Is Nothing Then
+            CreateCharts pt
+        End If
+    End With
+End Sub
+
+Function CreatePivotTable(rng As Range) As PivotTable
+    With rng.Parent.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=rng).CreatePivotTable(TableDestination:=rng.Parent.Cells(1, "AA"), TableName:="KPIs-Sitios")
+        .PivotFields("DATE").Orientation = xlRowField
+        .PivotFields("NodeBEB").Orientation = xlRowField
+        .PivotFields("Noc Cluster").Orientation = xlPageField
+        .AddDataField .PivotFields("KPI value"), "Sum of KPI Value", xlSum
+        .RowAxisLayout xlTabularRow
+        .ColumnGrand = False
+        .RowGrand = False
+    End With
+    Set CreatePivotTable = rng.Parent.PivotTables("KPIs-Sitios")
+End Function
+
+Sub CreateCharts(pt As PivotTable)
+    CreateLineChart pt
+    CreateThermometerChart pt
+End Sub
+
+Sub CreateLineChart(pt As PivotTable)
+    With pt.Parent.ChartObjects.Add(Top:=50, Width:=375, Left:=200, Height:=225).Chart
+        .SetSourceData pt.TableRange1
+        .ChartType = xlLineMarkers
+        .ChartTitle.Text = "Date Time vs NodeBEB"
+    End With
+End Sub
+
+Sub CreateThermometerChart(pt As PivotTable)
+    pt.TableRange2.Copy Destination:=pt.Parent.Range("AB2:AC" & pt.Parent.Cells(pt.Parent.Rows.Count, "A").End(xlUp).Row)
+
+    With pt.Parent.ChartObjects.Add(Top:=500, Width:=200, Left:=200, Height:=225).Chart
+        .SetSourceData Source:=pt.Parent.Range("AB2:AC" & pt.Parent.Cells(pt.Parent.Rows.Count, "A").End(xlUp).Row)
+        .ChartType = xlColumnClustered
+        SetColors .SeriesCollection(1), RGB(255, 0, 0)
+        SetFill .ChartArea.Format.Fill, RGB(255, 255, 255)
+    End With
+End Sub
+
+Sub SetColors(series As Series, color As Long)
+    With series
+        .Interior.Color = color
+        .Border.Color = color
+    End With
+End Sub
+
+Sub SetFill(fill As FillFormat, color As Long)
+    With fill
+        .Visible = msoTrue
+        .ForeColor.RGB = color
+        .Transparency = 0
+        .Solid
+    End With
+End Sub

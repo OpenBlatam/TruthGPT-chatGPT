@@ -1,0 +1,79 @@
+Private Const RGB_BLUE As Long = RGB(0, 0, 255)
+Private Const KPI_THRESHOLD As Double = 50
+
+Sub ProcessWorksheet(ByVal currentSheet As Worksheet, ByRef kpiSheet As Worksheet, ByVal kpiRow As Integer)
+    With currentSheet
+        kpiRow = ExtractBlueCells(.Rows(5).Cells, .Name, kpiSheet, kpiRow)
+        UpdateStatistics(.Cells)
+        FormatCells(.Range("E1:" & .Cells(1, .Columns.Count).End(xlToLeft).Address), .Range("A5:Z5"))
+        CheckKpi(kpiSheet, .Range("BI1"))
+    End With
+End Sub
+
+Function ExtractBlueCells(cells As Range, wsName As String, ByRef kpi_ws As Worksheet, kpi_row As Integer) As Integer
+    Dim cell As Range
+    For Each cell In cells
+        If cell.Interior.Color = RGB_BLUE Then
+            SetValuesInKpiSheet(kpi_ws, kpi_row, wsName, cells(2, "C").Value, cell.Value)
+            kpi_row = kpi_row + 1
+        End If
+    Next cell
+    ExtractBlueCells = kpi_row
+End Function
+
+Sub SetValuesInKpiSheet(ByRef kpi_ws As Worksheet, ByVal kpi_row As Integer, ByVal wsName As String, ByVal cValue As Variant, ByVal cellValue As Variant)
+    With kpi_ws
+        .Cells(kpi_row, 1).Value = wsName
+        .Cells(kpi_row, 2).Value = cValue
+        .Cells(kpi_row, 3).Value = cellValue
+    End With
+End Sub
+
+Sub UpdateStatistics(ByRef cells As Range)
+    ClearColumnAndUpdateHandle(cells, 2, "Mean", (cells(8, 1).Value + cells(9, 1).Value) / 2)
+    ClearColumnAndUpdateHandle(cells, 3, "Lower", cells(9, 1).Value)
+    ClearColumnAndUpdateHandle(cells, 4, "Upper", cells(8, 1).Value)
+End Sub
+
+Sub ClearColumnAndUpdateHandle(ByVal cells As Range, ByVal rowValue As Long, ByVal label As String, ByVal cellValue As Double)
+    cells(rowValue, 1).EntireColumn.ClearContents
+    cells(rowValue, 1).Value = label
+    cells(rowValue, 2).Value = cellValue
+End Sub
+
+Sub FormatCells(ByRef range1 As Range, ByVal range2 As Range)
+    ConditionalFormattingHandling range1, range2
+End Sub
+
+Sub ConditionalFormattingHandling(ByVal range1 As Range, ByVal range2 As Range)
+    Dim cell As Range
+    For Each cell In range1
+        If cell.Value < cell.parent.Cells(2, 2).Value Then cell.Interior.Color = RGB(255, 0, 0)
+    Next cell
+
+    For Each cell In range2
+        If cell.Value2 = 0 Then cell.Interior.ColorIndex = 4
+        ElseIf MeetsCondition(cell.Column, cell.parent.Cells(4, 2).Value) Then cell.Interior.Color = RGB_BLUE
+        End If
+    Next cell
+End Sub
+
+Function MeetsCondition(ByVal colNum As Integer, ByVal upperBound As Double) As Boolean
+    Select Case colNum
+        Case 10: MeetsCondition = upperBound > 200
+        Case 13: MeetsCondition = upperBound > 0.03
+        Case 17: MeetsCondition = upperBound > 1
+        Case 28: MeetsCondition = upperBound > 0.5
+        Case Else: MeetsCondition = False
+    End Select
+End Function
+
+Sub CheckKpi(ByRef kpiSheet As Worksheet, ByVal kpiCell As Range)
+    If kpiCell.Value >= KPI_THRESHOLD Then kpiCell.Interior.ColorIndex = 4
+    If kpiCell.Interior.Color = RGB_BLUE Then
+        With kpiSheet
+            .Cells(2, 1).Value = kpiCell.parent.Cells(2, "C").Value
+            .Cells(2, 2).Value = kpiCell.Value
+        End With
+    End If
+End Sub

@@ -1,0 +1,20 @@
+Sub ColorCellBlueIfUpperMoreThan15()
+
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim upper As Variant
+
+    For Each ws In ThisWorkbook.Worksheets
+        If ws.Name <> "1" Then 'Skip the worksheet if its name is "1"
+            For Each cell In ws.Range("A5:Z5")
+                ' Check if current cell is in column 'V' or column 22
+                If cell.Column = 22 Then
+                    upper = ws.Cells(cell.Row, "M").Value 'Assuming that upper is in column M.
+                    If IsNumeric(upper) And upper > 15 Then 'Check if upper is more than 15.
+                        cell.Interior.Color = RGB(0, 0, 255) 'Color the cell blue
+                    End If
+                End If
+            Next cell
+        End If
+    Next ws
+End Sub

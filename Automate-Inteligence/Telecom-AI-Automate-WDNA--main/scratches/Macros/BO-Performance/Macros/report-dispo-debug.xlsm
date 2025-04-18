@@ -1,0 +1,73 @@
+Option Explicit
+
+Sub dispo()
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    Application.Calculation = xlCalculationManual
+
+    Dim filePath As String
+    Dim targetWorkbook As Workbook
+    Dim sheet As Worksheet
+
+    ' Define the paths for the files
+    filePath = "C:\PathToFile\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+
+    ' Open the workbook
+    Set targetWorkbook = Workbooks.Open(filePath)
+    ' Save workbook as CSV
+    targetWorkbook.SaveAs fileName:=Replace(filePath, ".xlsx", ".csv"), FileFormat:=xlCSV
+    ' Close the workbook
+    targetWorkbook.Close SaveChanges:=False
+
+    ' Open the CSV file
+    Set targetWorkbook = Workbooks.Open(Replace(filePath, ".xlsx", ".csv"))
+    ' Set current worksheet
+    Set sheet = targetWorkbook.Worksheets(1)
+
+    With sheet
+        ' Delete specified rows
+        Dim i As Long
+        For i = .Cells(.Rows.Count, 1).End(xlUp).Row To 1 Step -1
+            If InStr(1, .Cells(i, 1).Value, "unavail huawei 3G_24hrs GROUP BY NODEB") > 0 Or _
+            InStr(1, .Cells(i, 1).Value, "Unavailtime 3G Nokia_24 Hrs GROUP BY NODEB") > 0 Or _
+            InStr(1, .Cells(i, 1).Value, "unavail ericsson 3G_24hrs GROUP BY NODEB") > 0 Or _
+            Left(.Cells(i, 1).Value, 4) = "DATE" Or _
+            .Cells(i, 1).Value = "" Then
+                .Rows(i).Delete
+            End If
+        Next i
+
+        ' Adjust headers and data
+        .Range("A1:E1").Value = Array("DATE", "TIME", "RNC", "NODEB", "SUM(VS_NODEB_UNAVAILTIME)")
+        .Columns("B").Replace What:=":*:", Replacement:=":00:", LookAt:=xlPart, SearchOrder:=xlByRows
+        .Columns("D").Replace What:="_*", Replacement:="", LookAt:=xlPart, SearchOrder:=xlByRows
+    End With
+
+    ' Save and close the workbook
+    targetWorkbook.Close SaveChanges:=True
+
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    Application.Calculation = xlCalculationAutomatic
+
+End Sub
+
+''''''''''''''''''''''''''''''''''
+' Optimization can improve execution time by reducing unnecessary operations and improving code clarity.
+' Pass sheet references instead of copying and pasting.
+Sub UpdateData(ByRef fromSheet As Worksheet, ByRef toSheet As Worksheet)
+    Dim fromRange As Range, toRange As Range
+
+    ' Define ranges
+    Set fromRange = fromSheet.Range("A1:E10")
+    Set toRange = toSheet.Range("A1:E10")
+
+    ' Copy data from fromRange to toRange
+    toRange.Value = fromRange.Value
+
+    ' Clear memory
+    Set fromRange = Nothing
+    Set toRange = Nothing
+    Set fromSheet = Nothing
+    Set toSheet = Nothing
+End Sub

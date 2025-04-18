@@ -1,0 +1,97 @@
+Option Explicit
+
+Sub CreatePivotChart()
+
+    'Open Workbook
+    Dim wb As Workbook
+    Set wb = Workbooks.Open("C:\Users\AW474Y\OneDrive - AT&T Mexico\Escritorio\rutina\d.csv")
+
+    ' Define Worksheet and source data range
+    Dim ws As Worksheet
+    Set ws = wb.ActiveSheet
+
+    ' Grab the values to pivot on from J1 and K1
+    Dim pivotValue As String
+    pivotValue = ws.Range("J1").Value
+    Dim secondPivotValue As String
+    secondPivotValue = ws.Range("K1").Value
+
+    Dim pc As chartObject
+    Dim pf As PivotField
+    Dim dataRng As Range
+    Dim ptRng As Range
+    Dim ptRng2 As Range
+    Dim pt As PivotTable
+    Dim pt2 As PivotTable
+
+    ' Define data range
+    Set dataRng = ws.Range("A1:J" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+
+    ' Define new Worksheet for PivotTable and PivotChart
+    Dim wsNew As Worksheet
+    Set wsNew = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+    wsNew.Name = "PivotSheet"
+
+    ' Define the range where PivotTable will be created in the new sheet
+    Set ptRng = wsNew.Cells(1, "A")
+
+    Dim pivotCache As pivotCache
+    Set pivotCache = wb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:=dataRng.Address(True, True, xlR1C1, True))
+
+    ' Create the PivotTable in the new worksheet
+    Set pt = pivotCache.CreatePivotTable(TableDestination:=ptRng, TableName:="PivotTable1")
+
+    With pt
+        ' Set the Rows fields
+        .PivotFields("DATE").Orientation = xlRowField
+        .PivotFields("TIME").Orientation = xlRowField
+
+        ' Set the Column field
+        .PivotFields("ENODEB").Orientation = xlColumnField
+
+        ' Set the Filters field
+        .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+
+        ' Set the Values field from J1
+    .PivotFields(pivotValue).Orientation = xlDataField
+    .PivotFields(pivotValue).Function = xlCount
+    End With
+
+    ' Create a second Worksheet for the given value in K1
+    Dim wsNew2 As Worksheet
+    Set wsNew2 = wb.Sheets.Add(After:=wb.Sheets(wb.Sheets.Count))
+    wsNew2.Name = "PivotSheet2"
+
+    ' Define the range where second PivotTable will be created in the new sheet
+    Set ptRng2 = wsNew2.Cells(1, "A")
+
+    ' Create the second PivotTable in the new worksheet
+    Set pt2 = pivotCache.CreatePivotTable(TableDestination:=ptRng2, TableName:="PivotTable2")
+
+    With pt2
+        ' Set the Rows fields
+        .PivotFields("DATE").Orientation = xlRowField
+        .PivotFields("TIME").Orientation = xlRowField
+
+        ' Set the Column field
+        .PivotFields("ENODEB").Orientation = xlColumnField
+
+        ' Set the Filters field
+        .PivotFields("NOC_CLUSTER").Orientation = xlPageField
+
+        ' Set the Values field from K1
+        .PivotFields(secondPivotValue).Orientation = xlDataField
+        .PivotFields(secondPivotValue).Function = xlSum
+    End With
+
+    ' Create the PivotChart
+    Set pc = wsNew2.ChartObjects.Add(Left:=wsNew2.Cells(1, "A").Left, Width:=375, Top:=50, Height:=225)
+    pc.Chart.SetSourceData Source:=pt2.TableRange1
+    pc.Chart.HasTitle = True
+    pc.Chart.ChartTitle.Text = "PivotChart2"
+
+End Sub
+
+Sub RectanguloEsquinasRedondeadas13_Click()
+    Call CreatePivotChart
+End Sub

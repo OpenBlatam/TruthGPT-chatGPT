@@ -1,0 +1,242 @@
+Sub dispo()
+'
+' Macro dispo
+'
+
+'
+'Abrir archivo de WDNA y cambiar a csv
+'
+
+    Workbooks.Open Filename:= _
+        "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\INDISPONIBILIDAD_HUAWEI_ERICSSON.xlsx"
+    ActiveWorkbook.SaveAs Filename:= _
+        "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\avail csv.csv", FileFormat:=xlCSV, CreateBackup:=False
+    ActiveWindow.Close
+    Workbooks.Open Filename:= _
+        "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\avail csv.csv"
+
+
+'
+'Eliminar filas vacias y la que contenga la palabra "DATE"
+'
+
+    Dim i As Long
+    For i = Cells(Rows.Count, 1).End(xlUp).Row To 1 Step -1
+        If InStr(1, Cells(i, 1).Value, "unavail huawei 3G_24hrs GROUP BY NODEB") > 0 Or _
+           InStr(1, Cells(i, 1).Value, "unavail ericsson 3G_24hrs GROUP BY NODEB") > 0 Or _
+           InStr(1, Cells(i, 1).Value, "Unavailtime 3G Nokia_24 Hrs GROUP BY NODEB") > 0 Or _
+           Left(Cells(i, 1).Value, 4) = "DATE" Then
+            Rows(i).Delete
+        End If
+        If IsEmpty(Cells(i, 1)) Then
+            Rows(i).Delete
+        End If
+    Next i
+
+'
+'Insertar encabezado
+'
+
+    Rows("1:1").Insert Shift:=xlDown
+    Range("A1").Value = "DATE"
+    Range("B1").Value = "TIME"
+    Range("C1").Value = "RNC"
+    Range("D1").Value = "NODEB"
+    Range("E1").Value = "SUM(VS_NODEB_UNAVAILTIME)"
+
+
+'
+'Sustituir :*: _*
+'
+
+    Dim column As Range
+    Dim columnsToProcess As Variant
+
+    Columns("B:B").Select
+    Selection.Replace What:=":*:", Replacement:=":00:", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+    Columns("D:D").Select
+    Selection.Replace What:="_*", Replacement:="", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+
+'
+'Crear tabla dinamica
+'
+
+    Sheets.Add
+    ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
+        "avail csv!R1C1:R1048573C5", Version:=xlPivotTableVersion15).CreatePivotTable _
+        TableDestination:="Hoja1!R3C1", TableName:="Tabla dinámica2", _
+        DefaultVersion:=xlPivotTableVersion15
+    Sheets("Hoja1").Select
+    Cells(3, 1).Select
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("DATE")
+        .Orientation = xlRowField
+        .Position = 1
+    End With
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("TIME")
+        .Orientation = xlRowField
+        .Position = 2
+    End With
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("RNC")
+        .Orientation = xlRowField
+        .Position = 3
+    End With
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("NODEB")
+        .Orientation = xlRowField
+        .Position = 4
+    End With
+    ActiveSheet.PivotTables("Tabla dinámica2").AddDataField ActiveSheet.PivotTables _
+        ("Tabla dinámica2").PivotFields("SUM(VS_NODEB_UNAVAILTIME)"), _
+        "Suma de SUM(VS_NODEB_UNAVAILTIME)", xlSum
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("DATE").Subtotals = _
+        Array(False, False, False, False, False, False, False, False, False, False, False, False)
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("TIME").Subtotals = _
+        Array(False, False, False, False, False, False, False, False, False, False, False, False)
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("RNC").Subtotals = Array _
+        (False, False, False, False, False, False, False, False, False, False, False, False)
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields("NODEB").Subtotals = _
+        Array(False, False, False, False, False, False, False, False, False, False, False, False)
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields( _
+        "SUM(VS_NODEB_UNAVAILTIME)").Subtotals = Array(False, False, False, False, False, _
+        False, False, False, False, False, False, False)
+    With ActiveSheet.PivotTables("Tabla dinámica2")
+        .ColumnGrand = False
+        .RowGrand = False
+    End With
+    '''''''''''''''
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields( _
+        "SUM(VS_NODEB_UNAVAILTIME)")
+        .Orientation = xlPageField
+        .Position = 1
+    End With
+    ActiveSheet.PivotTables("Tabla dinámica2").PivotFields( _
+        "SUM(VS_NODEB_UNAVAILTIME)").CurrentPage = "(All)"
+    With ActiveSheet.PivotTables("Tabla dinámica2").PivotFields( _
+        "SUM(VS_NODEB_UNAVAILTIME)")
+        .PivotItems("0").Visible = False
+        .PivotItems("(blank)").Visible = False
+    End With
+    '''''''''''''''''
+    ActiveSheet.PivotTables("Tabla dinámica2").RowAxisLayout xlTabularRow
+    ActiveSheet.PivotTables("Tabla dinámica2").RepeatAllLabels xlRepeatLabels
+    Cells.Select
+    Selection.Copy
+    Sheets.Add After:=ActiveSheet
+    ActiveSheet.Paste
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+
+
+'
+'Cambiar valores
+'
+    Columns("E:E").Select
+    Dim replaceValues As Variant
+    Dim cell As Range
+
+    replaceValues = Array(900, 1800, 2700, 3599, 3601, 899, 1799, 2699, 901, 1801, 2699, 2701)
+
+    For Each cell In Range("E:E")
+        If IsError(Application.Match(cell.Value, replaceValues, 0)) Then
+        ' Valor no encontrado en el array, no se realiza ningún cambio
+        Else
+            cell.Value = 3600
+        End If
+    Next cell
+
+
+'
+'cambiar el formato de fecha y hora
+'
+    Range("A3").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+
+
+    Sheets("avail csv").Select
+    Range("A2:B2").Select
+    Sheets("avail csv").Select
+    Selection.Copy
+    Sheets("Hoja2").Select
+    Columns("A:B").Select
+    Range("A2").Activate
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+        SkipBlanks:=False, Transpose:=False
+    Application.CutCopyMode = False
+
+    Range("A4").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+
+    Application.Wait (Now + TimeValue("0:00:03"))
+
+    Workbooks.Open Filename:= _
+    "C:\Users\aw474y\OneDrive - AT&T Mexico\Escritorio\dispo\2024 3G Daily Avail Check_V0213_V2.xlsx"
+
+    Range("A2").Select
+    If IsEmpty(Range("A2").Value) Then
+        ActiveSheet.Paste
+    Else
+        Selection.End(xlDown).Select
+        ActiveCell.Offset(1, 0).Select
+        ActiveSheet.Paste
+    End If
+
+    Columns("A:E").Select
+    ActiveSheet.Range("$A$1:$E$99999").RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5) _
+        , Header:=xlYes
+    Range("A7").Select
+
+    ''''''''''''''''
+
+    Sheets("TAB").Select
+    ActiveSheet.PivotTables("Tabla dinámica3").PivotCache.Refresh
+    Cells.Select
+    Selection.Copy
+    Sheets("Hoja1").Select
+    Cells.Select
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    Sheets("TAB").Select
+    Selection.Copy
+    Sheets("Hoja1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("A5").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Add2 Key:=Range("A6:A5000" _
+        ), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Add2 Key:=Range("B6:B5000" _
+        ), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Add2 Key:=Range("C6:C5000" _
+        ), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
+    With ActiveWorkbook.Worksheets("Hoja1").Sort
+        .SetRange Range("A5:XFC5000")
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+
+    Range("D5").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+
+''''''''''''''''
+
+    Sheets("UMTS").Select
+    Range("G7").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+
+
+End Sub
