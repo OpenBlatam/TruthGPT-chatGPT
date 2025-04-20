@@ -385,7 +385,7 @@ In the last line you can see two conditions being asserted:
 2. `state.slot <= data.slot + SLOTS_PER_EPOCH` which verifies that the attestation doesn't
    arrive too late.
 
-This is how the consensus layer tests deal with edge cases, by asserting the conditions required for the
+This is how the layer tests deal with edge cases, by asserting the conditions required for the
 values to be legitimate. In the case of these particular conditions, they are tested
 [here](https://github.com/ethereum/consensus-specs/blob/926e5a3d722df973b9a12f12c015783de35cafa9/tests/core/pyspec/eth2spec/test/phase0/block_processing/test_process_attestation.py#L87-L104).
 One test checks what happens if the attestation is too early, and another if it is too late.
@@ -431,5 +431,3 @@ in a format [documented here](https://github.com/ethereum/consensus-specs/tree/d
 All the consensus layer clients implement test-runners that consume the test vectors in this standard format.
 
 ---
-
-Original version by [Ori Pomerantz](mailto:qbzzt1@gmail.com)

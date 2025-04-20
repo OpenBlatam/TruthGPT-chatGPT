@@ -1,6 +1,6 @@
-# Consensus test generators
+# Test generators
 
-This directory contains all the generators for tests, consumed by consensus-layer client implementations.
+This directory contains all the generators for tests, consumed by layer client implementations.
 
 Any issues with the generators and/or generated tests should be filed in the repository that hosts the generator outputs,
  here: [ethereum/consensus-spec-tests](https://github.com/ethereum/consensus-spec-tests).
