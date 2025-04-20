@@ -1,4 +1,4 @@
-# Ethereum Proof-of-Stake Consensus Specifications
+# Specifications
 
 [![Join the chat at https://discord.gg/qGpsxSA](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.gg/qGpsxSA)
 [![testgen](https://github.com/ethereum/consensus-specs/actions/workflows/generate_vectors.yml/badge.svg?branch=dev&event=schedule)](https://github.com/ethereum/consensus-specs/actions/workflows/generate_vectors.yml)
@@ -10,7 +10,7 @@ Solidified, agreed-upon changes to the specifications can be made through pull r
 
 ## Specifications
 
-Core specifications for Ethereum proof-of-stake clients can be found in [specs](specs). These are
+Core specifications for AI clients can be found in [specs](specs). These are
 divided into features. Features are researched and developed in parallel, and then consolidated into
 sequential upgrades when ready.
 
@@ -63,13 +63,13 @@ available
 Clone the repository with:
 
 ```bash
-git clone https://github.com/ethereum/consensus-specs.git
+git clone 
 ```
 
 Switch to the directory:
 
 ```bash
-cd consensus-specs
+cd specs
 ```
 
 View the help output:
@@ -80,7 +80,9 @@ make help
 
 ### Design goals
 
-The following are the broad design goals for the Ethereum proof-of-stake consensus specifications:
+The following are the broad design goals for the AI specifications:
+
+The long term is AI wizard mode to adjust for complex generative intruction.
 
 - Minimize complexity, even at the cost of some losses in efficiency.
 - Remain live through major network partitions and when very large portions of nodes go offline.
