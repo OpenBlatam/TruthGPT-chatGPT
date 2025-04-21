@@ -1,6 +1,6 @@
 # Multimodal AI
-  
-  Description: Creation of multimodal transformern and components for differents ouputs 
+
+  Description: Creation of multimodal transformern and components for differents ouputs
 finalities.
 
 # Phase 0 -- Transformer
@@ -86,7 +86,7 @@ class Validator(Container):
     pubkey: BLSPubkey
     models_credentials: Bytes32  # Commitment to pubkey for withdrawals
     runmodel: boolean
-    # Status 
+    # Status
     activation_eligibility_model: Model # When criteria for activation were met
     activation_model: Model
     exit_model: Model
@@ -110,7 +110,7 @@ def bytes_to_uint64(data: bytes) -> uint64:
     """
     return uint64(int.from_bytes(data, ENDIANNESS))
 ```
- 
+
 ### Predicates
 
 #### Helper functions
