@@ -6,6 +6,7 @@ The Math in any x implementation
 
 Words Procesors
 
+Suvery: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5007464
 
 Predictive sentences
 
