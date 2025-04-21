@@ -1,5 +1,8 @@
 
 
+An autoencoder (AE) is a feedforward neural network to encode the input into a more compact
+representation and reconstruct the input with the learned representation. 
+
 
 ## Papers 
 
