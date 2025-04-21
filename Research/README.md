@@ -1,4 +1,5 @@
 ## Research
+
 Goal:
 Running minimize the spec or implementation for looking in benchmarks.
 
