@@ -1,5 +1,26 @@
 #TensorFlow
 
+
+older Torch-style backend structure and tensorflow 
+
+| **Feature**                 | **Legacy Torch (TH/THC)**             | **GPT Backends (Modern)**                         |
+|-----------------------------|----------------------------------------|---------------------------------------------------|
+| **Language**                | C, CUDA                                | C++, CUDA, Triton, Python (JIT), MLIR             |
+| **Invocation Style**        | Manually bound via `updateOutput`     | Declarative `forward()` or graph compilers        |
+| **Softmax**                 | Manual C/CUDA                          | ATen, cuDNN, FlashAttention                       |
+| **Optimization**            | None / Manual                          | Kernel fusion, tiling, caching                    |
+| **Compilation / Fusion**    | Manual only                            | AOT / JIT compiled (TensorRT, Triton, XLA, etc.)  |
+
+| **Backend**      | **GitHub Link / Docs**                                    | **Key Use**                        |
+|------------------|-----------------------------------------------------------|------------------------------------|
+| ATen (PyTorch)   | [github.com/pytorch/pytorch](https://github.com/pytorch/pytorch) | Native ops (e.g. softmax)         |
+| FlashAttention   | [github.com/Dao-AILab/flash-attention](https://github.com/Dao-AILab/flash-attention) | Fused softmax + attention         |
+| Triton           | [github.com/openai/triton](https://github.com/openai/triton) | Custom GPU kernels                |
+| xFormers         | [facebookresearch/xformers](https://github.com/facebookresearch/xformers) | Meta's fast transformer ops       |
+| TensorRT         | [developer.nvidia.com/tensorrt](https://developer.nvidia.com/tensorrt) | Runtime inference optimization    |
+| DeepSpeed        | [microsoft/DeepSpeed](https://github.com/microsoft/DeepSpeed) | Efficient training + fused ops    |
+
+
 TensorFlow is an open source software library for numerical computation using
 data flow graphs.  Nodes in the graph represent mathematical operations, while
 the graph edges represent the multidimensional data arrays (tensors) that flow
