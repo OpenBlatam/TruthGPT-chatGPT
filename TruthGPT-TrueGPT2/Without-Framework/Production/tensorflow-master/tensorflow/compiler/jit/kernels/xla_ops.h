@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
-
+// TODO: Adapt the frontier model of trition to this for better performance.
 #ifndef TENSORFLOW_COMPILER_JIT_KERNELS_XLA_OPS_H_
 #define TENSORFLOW_COMPILER_JIT_KERNELS_XLA_OPS_H_
 

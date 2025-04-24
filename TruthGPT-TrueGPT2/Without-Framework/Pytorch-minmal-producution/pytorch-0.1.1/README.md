@@ -1,5 +1,25 @@
 # pytorch [alpha-1] ![Build Status](https://travis-ci.com/apaszke/pytorch.svg?token=x5muYzmNgtGJxk6DvWMN&branch=master)
 
+
+Here's a minimal GPT-like architecture manually coded with PyTorch 0.1.1. We'll make:
+
+A 2-layer Transformer block
+
+Single-head attention
+
+Language modeling head
+
+Add masking
+
+Add layer norm manually
+
+Load Shakespeare or tiny dataset to train
+
+Benchmark this on CPU
+
+
+
+
 The project is still under active development and is likely to drastically change in short periods of time.
 We will be announcing API changes and important developments via a newsletter, github issues and post a link to the issues on slack.
 Please remember that at this stage, this is an invite-only closed alpha, and please don't distribute code further.
