@@ -26,6 +26,49 @@ for machine learning. It has a comprehensive, flexible ecosystem of
 researchers push the state-of-the-art in ML and developers easily build and
 deploy ML-powered applications.
 
+# 🔧 Deep Learning Compilers & Runtimes for GPTs
+
+This table summarizes popular compilers and runtimes optimized for GPT-style large language models (LLMs), including best-use cases and key notes.
+
+## 📊 Compiler & Runtime Comparison
+
+| **Compiler / Runtime**         | ✅ **Best For**                        | 🌟 **Notes** |
+|-------------------------------|----------------------------------------|--------------|
+| **TensorRT-LLM**              | High-performance inference on NVIDIA GPUs | Optimized for LLMs like GPT-2/GPT-3. Supports FP8. Up to 21x CPU speedup. |
+| **TensorRT**                  | Inference                              | NVIDIA-optimized, supports quantization and kernel fusion. Ideal for real-time workloads. |
+| **ONNX Runtime (ORT)**        | Cross-framework inference              | Supports PyTorch, TensorFlow exports. Runs on CPU, GPU, or accelerators. |
+| **PjRt (Portable JIT Runtime)** | Portability, TPU/GPU backend for TensorFlow | New backend for TensorFlow XLA, better device abstraction. |
+| **XLA (Accelerated Linear Algebra)** | Training and inference             | Compiles ops into optimized code. Used in TensorFlow & JAX. Great for TPUs. |
+| **Torch-MLIR / `torch.compile`** | PyTorch training/inference           | New in PyTorch 2.x. Brings massive speedups using AOTAutograd and TorchInductor. |
+| **JAX + XLA**                 | Research, TPU training                 | High-parallelism setup. Excellent for TPU/GPU workloads and full LLM training. |
+
+---
+
+## ✅ Usage Guide
+
+Choose the right compiler or runtime based on your goals:
+
+- **🧠 Research & prototyping:** `JAX + XLA`, `Torch-MLIR`
+- **🚀 Inference speed (NVIDIA):** `TensorRT`, `TensorRT-LLM`
+- **🔄 Framework interoperability:** `ONNX Runtime`
+- **📦 TensorFlow (TPU/GPU):** `PjRt`, `XLA`
+
+---
+
+## 📚 Additional Resources
+
+- [TensorRT-LLM GitHub](https://github.com/NVIDIA/TensorRT-LLM)
+- [ONNX Runtime](https://onnxruntime.ai)
+- [PyTorch 2.0 `torch.compile`](https://pytorch.org/docs/stable/generated/torch.compile.html)
+- [JAX Documentation](https://jax.readthedocs.io)
+- [Deep Learning Compilers – Unify.AI Blog](https://unify.ai/blog/deep-learning-compilers)
+
+---
+
+## 📌 License
+
+Distributed under the [MIT License](LICENSE).
+
 TensorFlow was originally developed by researchers and engineers working within
 the Machine Intelligence team at Google Brain to conduct research in machine
 learning and neural networks. However, the framework is versatile enough to be

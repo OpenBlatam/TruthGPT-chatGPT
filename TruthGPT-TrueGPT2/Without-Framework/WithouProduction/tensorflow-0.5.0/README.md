@@ -1,5 +1,8 @@
 #TensorFlow
 
+Description: Creation of customizables Generative AI are on limitations the tensorflow apatation looking for construction on the fly.
+
+Missing for frontier tranformer and benchmark viral.
 
 TODO:
 
