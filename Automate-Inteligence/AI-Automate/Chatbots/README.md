@@ -1,39 +1,32 @@
+# 🤖 Chatbots
 
+**Description:**  
+Automate intelligence in the chatbot landscape. 🤖💬
 
+---
 
+## 📚 Papers
+*(Add relevant papers here if needed)*
 
+---
 
+## 🔗 References
 
+### 🏥 Medical
+- [Llama2 Medical Chatbot](https://github.com/AIAnytime/Llama2-Medical-Chatbot)  
+- [DiagnoAI - Medical Chatbot](https://github.com/Jishnnu/DiagnoAI-Medical-Chatbot)
 
-## References
-Medical
+### ⚖️ Legal
+- [GPT Leyes al instante](https://github.com/crissins/GPT-Leyes-al-instante?tab=readme-ov-file)
 
-https://github.com/AIAnytime/Llama2-Medical-Chatbot
+### 📝 Random Prompts
+- [AI RAG Entrepreneur Q&A](https://github.com/AshleyZhao/ai-rag-entrepreneur-qa/tree/main)  
+- [ChatGPT Python Applications](https://github.com/xiaowuc2/ChatGPT-Python-Applications/tree/main)
 
-https://github.com/Jishnnu/DiagnoAI-Medical-Chatbot
+### 🌍 Closed Source LATAM
+- **Yana** *(no GitHub repo available)*
 
-
-
-Legal
-
-https://github.com/crissins/GPT-Leyes-al-instante?tab=readme-ov-file
-
-
-Random prompt
-
-https://github.com/AshleyZhao/ai-rag-entrepreneur-qa/tree/main
-https://github.com/xiaowuc2/ChatGPT-Python-Applications/tree/main
-
-Closed source latam
-
-Yana 
-
-
-
-Open source
-https://github.com/JStumpp/awesome-chatbots
-
-
-https://github.com/sindresorhus/awesome-chatgpt
-
-https://github.com/taishi-i/awesome-ChatGPT-repositories
+### 🌐 Open Source
+- [Awesome Chatbots](https://github.com/JStumpp/awesome-chatbots)  
+- [Awesome ChatGPT](https://github.com/sindresorhus/awesome-chatgpt)  
+- [Awesome ChatGPT Repositories](https://github.com/taishi-i/awesome-ChatGPT-repositories)

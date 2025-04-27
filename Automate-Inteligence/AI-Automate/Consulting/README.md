@@ -1,46 +1,38 @@
+# Resources & Templates
 
-market
-https://listoweb.com.mx/
+## 🌐 Market
+- [Listoweb - Marketing Website](https://listoweb.com.mx/)
 
-model bussiness
-https://www.forecastr.co/templates
+## 📊 Business Model Templates
+- [Forecastr - Business Model Templates](https://www.forecastr.co/templates)
 
-templates
-https://clickup.com/blog/business-plan-templates/
-https://app.clickup.com/9014371632/template/default/t-200476485/autoTemplate
+## 📋 Business Plan Templates
+- [ClickUp Business Plan Templates](https://clickup.com/blog/business-plan-templates/)
+- [ClickUp Template Example](https://app.clickup.com/9014371632/template/default/t-200476485/autoTemplate)
 
-https://github.com/ixartz/Next-js-Boilerplate
+## 🚀 Next.js Templates & Boilerplates
+- [Next.js Boilerplate](https://github.com/ixartz/Next-js-Boilerplate)
+- [Next.js Landing Page Starter Template](https://github.com/ixartz/Next-JS-Landing-Page-Starter-Template?tab=readme-ov-file)
+- [Next.js Starter](https://github.com/Skolaczk/next-starter)
 
-https://github.com/ixartz/Next-JS-Landing-Page-Starter-Template?tab=readme-ov-file
+## 🌍 Ethereum Websites & Repositories
+- [Ethereum JavaScript Repositories](https://github.com/ethereum?q=&type=all&language=javascript&sort=)
+- [Alistair - Ethereum Resource](https://alistair.sh/)
 
-https://github.com/Skolaczk/next-starter
+## 🎨 Design & Colors
 
+### 🖤 Black Color Scheme
+- [DeFiChain Website](https://github.com/DeFiCh/defichain.com)
 
-eth sites
-https://github.com/ethereum?q=&type=all&language=javascript&sort=
+## 🧑‍💼 Consulting
+- [Quansight Website](https://github.com/Quansight/Quansight-website)
 
-https://alistair.sh/
+## 🛒 Ecommerce Templates
+- [Boundless Commerce Templates](https://boundless-commerce.com/templates)
 
+## 🖥️ MERN Stack
+- [TypeScript MERN Starter](https://github.com/shanhuiyang/TypeScript-MERN-Starter)
+- [DVC.org MERN Stack](https://github.com/iterative/dvc.org)
 
-## Desing colors
-
-black color
-
-https://github.com/DeFiCh/defichain.com
-
-consultin
-https://github.com/Quansight/Quansight-website
-
-
-eccomerce
-https://boundless-commerce.com/templates
-
-
-mern
-https://github.com/shanhuiyang/TypeScript-MERN-Starter
-
-https://github.com/iterative/dvc.org
-
-
-Colors
-https://github.com/microsoft/TypeScript-Website
+## 🎨 Colors
+- [TypeScript Website Colors](https://github.com/microsoft/TypeScript-Website)
