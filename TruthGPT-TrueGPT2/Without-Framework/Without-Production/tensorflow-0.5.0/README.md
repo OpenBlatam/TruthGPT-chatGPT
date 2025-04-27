@@ -1,41 +1,86 @@
-#TensorFlow
+# TensorFlow - Customizable Generative AI
 
-Description: Creation of customizables Generative AI are on limitations the tensorflow apatation looking for construction on the fly.
+## 🚀 Overview
 
-Missing for frontier tranformer and benchmark viral.
+This project focuses on the development of customizable Generative AI models using **TensorFlow**, with a particular emphasis on **GPT** models and transformer architectures. TensorFlow's flexibility allows for the construction of generative models on the fly, but there are still several limitations and challenges when working with older TensorFlow versions (e.g., 0.5). The goal is to adapt TensorFlow for modern AI practices while addressing these challenges.
 
-TODO:
+## ⚠️ Key Challenges
 
-tf.keras
+### 1. **Training Large GPT Models**
+   - Training large GPT models using TensorFlow 0.5 is slow and inefficient due to the absence of modern optimizations.
+   - Key optimizations like mixed precision, eager execution, and graph optimizations are essential for improving training efficiency, but are not fully supported in TensorFlow 0.5.
 
-Eager execution
+### 2. **TensorFlow 0.5 Limitations**
+   - **tf.keras**: Missing support for TensorFlow’s high-level Keras API, which simplifies model building and training.
+   - **Multi-head attention**: Essential for transformers, but not implemented natively in TensorFlow 0.5 (e.g., `tf.nn.multi_head_attention`).
+   - **Eager execution and dynamic control flow**: These features are required for dynamic computation graphs and are only available in TensorFlow 2.x or newer.
+   - **Layer normalization**: Crucial for transformer architectures to stabilize training and improve convergence, but not efficiently supported in older versions.
 
-Dynamic control flow
+## 🔧 TODO
 
-Layer normalization
+To overcome these limitations, the following tasks are critical for adapting TensorFlow to modern requirements for large generative models:
 
-Multi-head attention
+### 1. **tf.keras**
+   - Migrate to `tf.keras` for easier model construction and training, replacing older TensorFlow models.
+   
+### 2. **Eager Execution**
+   - Enable **eager execution** to support dynamic computation graphs, which are essential for transformer-based models.
 
-Custom op fusions
+### 3. **Dynamic Control Flow**
+   - Implement dynamic control flow mechanisms to adapt the architecture during training and inference.
 
+### 4. **Layer Normalization**
+   - Develop custom layer normalization that is efficient and compatible with large transformer models.
 
-Running GPT on TensorFlow 0.5 is theoretically possible, but only for toy models. If you want to train or finetune real GPT models, use:
+### 5. **Multi-head Attention**
+   - Implement **multi-head attention** layers compatible with TensorFlow 0.5 and optimize them for better performance.
 
-PyTorch + HuggingFace for flexibility
+### 6. **Custom Op Fusions**
+   - Explore creating **custom op fusions** for better memory and computation optimization during model training.
 
-TensorFlow 2.x if you need TF
+## 🔧 Framework Recommendations
 
-ONNX Runtime, Triton, or vLLM for efficient inference
+### 1. **Use Modern Frameworks for Training Large GPT Models**
+   - **PyTorch + HuggingFace**: Recommended for flexibility and ease of use in training and finetuning large GPT models.
+   - **TensorFlow 2.x**: If TensorFlow is a must, upgrading to TensorFlow 2.x will provide better support for modern optimizations like eager execution, `tf.keras`, and `tf.nn.multi_head_attention`.
+   - **ONNX Runtime, Triton, or vLLM**: For efficient inference of trained models, consider using optimized runtimes like **ONNX**, **Triton** or **vLLM**.
 
-Older Torch-style backend structure and tensorflow
+### 2. **Consider Alternative Backends for Performance**
+   - **Older Torch-style Backend**: While TensorFlow 0.5 may be useful for smaller, toy models, consider using a more modern backend like **PyTorch** or a TensorFlow 2.x structure to better utilize advanced features.
 
-Key Challenges:
-Training Large GPT Models: Due to the lack of modern optimizations, training large models is slow and inefficient. Modern versions of TensorFlow (v1.15 or 2.x) support graph optimizations, mixed precision, and eager execution that drastically improve performance.
+## ⚙️ How to Get Started
 
-TensorFlow 0.5 Limitations: The version you're using lacks many features that would help speed up or simplify the training (e.g., tf.keras, tf.nn.multi_head_attention).
+1. **Set Up TensorFlow**
+   - If you're using TensorFlow 2.x, install the latest version:
+     ```bash
+     pip install tensorflow
+     ```
+   - For older versions like TensorFlow 0.5, you may need to manually configure dependencies and compatibility layers.
 
+2. **Create Your Model**
+   - Use `tf.keras` or custom layers for model architecture.
+   - Implement or import **multi-head attention** layers and **layer normalization**.
 
-If you want to cut the edge you can use 
+3. **Training on Custom Data**
+   - Customize data pipelines using **tf.data**.
+   - Train the model with your specific dataset and experiment with different optimizations.
+
+4. **Explore Optimized Inference Frameworks**
+   - After training, export your model to **ONNX** or other optimized formats for faster inference.
+
+## 📚 References
+
+- **TensorFlow 2.x Overview**: [TensorFlow Docs](https://www.tensorflow.org)
+- **GPT Models and Transformer Architecture**: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+- **ONNX Runtime for Efficient Inference**: [ONNX Docs](https://onnxruntime.ai/)
+- **Triton Inference Server**: [Triton Docs](https://github.com/triton-inference-server/server)
+
+---
+
+🔧 **For Advanced Users**:
+- Explore building custom ops and fusions to improve the efficiency of large-scale model training.
+- Use **TPU** support for massive scale if your workload requires it.
+
 
 ### 🔗 GPT Implementation Stack (JAX + Flax)
 
