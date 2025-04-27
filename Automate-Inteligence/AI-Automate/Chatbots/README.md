@@ -4,6 +4,9 @@
 Automate intelligence in the chatbot landscape. 🤖💬
 
 ---
+## Books
+
+https://link.springer.com/chapter/10.1007/978-3-031-18497-0_49
 
 ## 📚 Papers
 *(Add relevant papers here if needed)*
