@@ -1,79 +1,82 @@
-# Large language models (LLMs)
+# Large Language Models (LLMs)
 
 ## Description:
+Explore various tools, frameworks, and research related to large language models (LLMs), automation, and AI systems.
 
+---
 
-chatgpt clone
-https://github.com/huggingface/chat-ui
+## 🤖 ChatGPT Clone
+- [Huggingface Chat UI](https://github.com/huggingface/chat-ui)
 
-Automate OS
-https://github.com/agiresearch/AIOS
+## 🖥️ Automate OS
+- [AIOS - Automate Operating System](https://github.com/agiresearch/AIOS)
 
+## 🌐 Automate Web Steps
+- [Skyvern - Automate Web Steps](https://github.com/Skyvern-AI/skyvern)
 
-Automate steps web
-https://github.com/Skyvern-AI/skyvern
+## 💻 GitHub Copilot Alternative
+- [Codeium Vim](https://github.com/Exafunction/codeium.vim)
 
-github copilot
-https://github.com/Exafunction/codeium.vim
+## 🚀 Performance
+- [LLMLingua - LLM Performance](https://github.com/microsoft/LLMLingua)
 
-#Performance
-https://github.com/microsoft/LLMLingua
+## 📱 Mobile Agents
+- [AppAgent - Mobile Agent Automation](https://github.com/mnotgod96/AppAgent)
 
+## 🌐 LLMs Connecting to the Internet
+- [Exa.ai - LLMs Getting Started](https://docs.exa.ai/reference/getting-started)
 
-#Mobile agents
-https://github.com/mnotgod96/AppAgent
+---
 
-# LLMs connect to the internet 
-https://docs.exa.ai/reference/getting-started
+## 🆓 Open Source LLMs
+- [Mistralai - Open LLMs](https://github.com/mistralai)
+- [Qwen - Open LLMs](https://github.com/QwenLM/Qwen)
+- [Open LLMs by Eugeneyan](https://github.com/eugeneyan/open-llms)
+- [Petals by BigScience Workshop](https://github.com/bigscience-workshop/petals)
 
-LLMs open source that...
-https://github.com/mistralai
+---
 
-https://github.com/QwenLM/Qwen
+## 💡 Grok - Elon Musk Dummy Frameworks
+- [Grok-1 by XAI](https://github.com/xai-org/grok-1)
 
-https://github.com/eugeneyan/open-llms
+## 🎥 SORA Video AI
+- [Open-Sora by HPCAI Tech](https://github.com/hpcaitech/Open-Sora)
 
-https://github.com/bigscience-workshop/petals
+## 🛠️ AutoDev (DEVIN)
+- [Auto-Dev by Unit Mesh](https://github.com/unit-mesh/auto-dev)
 
-Grok elon musk dummy frameworks
-https://github.com/xai-org/grok-1
+## 💻 Install & Deploy LLMs Locally
+- [Deploy LLMs Locally - YouTube Tutorial](https://www.youtube.com/watch?v=efoJ9GUOymY)
 
-# SORA Video AI
-https://github.com/hpcaitech/Open-Sora
+## 🔄 Chrome Sessions Steps Automation
+- [Chrome-GPT by RichardYC](https://github.com/richardyc/Chrome-GPT)
 
-# AutoDev  (DEVIN)
-https://github.com/unit-mesh/auto-dev
-# Install and deploy LLMs local (is too long)
-https://www.youtube.com/watch?v=efoJ9GUOymY
+## 🧠 Agent Orchestrations
+- [AGiXT - Agent Orchestration](https://github.com/Josh-XT/AGiXT#key-features)
 
-#Chrome sessions steps automation
-https://github.com/richardyc/Chrome-GPT
+## 🔄 Auto-Generation
+- [Auto Gen - YouTube Video](https://www.youtube.com/watch?v=ijYDTDR4f8k)
 
-# Agent orchestrations
-https://github.com/Josh-XT/AGiXT#key-features
-# Auto gen
-https://www.youtube.com/watch?v=ijYDTDR4f8k
-# Data and AI algorithms into production-ready web apps
-https://github.com/Avaiga/taipy
+## 🌐 Data & AI Algorithms into Web Apps
+- [Taipy - Data & AI Web Apps](https://github.com/Avaiga/taipy)
 
-# Orchestration
-https://github.com/genia-dev/GeniA
+## 🛠️ Orchestration Framework
+- [GeniA - AI Orchestration](https://github.com/genia-dev/GeniA)
 
+## 🧑‍💻 Devin Clone
+- [Devika - Devin Clone](https://github.com/stitionai/devika)
 
-# Devin clone
-https://github.com/stitionai/devika
+## 🧠 Prompt Engineering
+- [Awesome GPT Prompt Engineering](https://github.com/snwfdhmp/awesome-gpt-prompt-engineering)
 
-Prompt eng.
-https://github.com/snwfdhmp/awesome-gpt-prompt-engineering
+## 💼 Salesforce LLMs
+- [XGen by Salesforce](https://github.com/salesforce/xgen)
 
-Saleforces:
-https://github.com/salesforce/xgen
+## 🇨🇳 Huawei Pretrained Language Models
+- [Huawei Pretrained Language Model](https://github.com/huawei-noah/Pretrained-Language-Model)
 
-Huawei
-https://github.com/huawei-noah/Pretrained-Language-Model
+## 🔍 LLM Evolutions
+- [LLM Survey - RUCAIBox](https://github.com/RUCAIBox/LLMSurvey)
 
-Evolutions:
-https://github.com/RUCAIBox/LLMSurvey
-
-Papers
-https://github.com/BradyFU/Awesome-Multimodal-Large-Language-Models
+## 📑 Papers
+- [Awesome Multimodal LLMs](https://github.com/BradyFU/Awesome-Multimodal-Large-Language-Models)

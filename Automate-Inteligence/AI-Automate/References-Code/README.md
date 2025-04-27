@@ -1,37 +1,37 @@
-## References of Automate instructionws with AI 
+## References of Automate Instructions with AI 🤖
 
-Description: challenges for preemptive checks and error corrections.
+### Description:
+Challenges for preemptive checks and error corrections.
 
-## References
+---
 
-Awesome List
+### Awesome List 🌟
 
-Table formats:
+**Table Formats:**
+- [Awesome Tabular LLMs - GitHub](https://github.com/SpursGoZmy/Awesome-Tabular-LLMs)
 
-https://github.com/SpursGoZmy/Awesome-Tabular-LLMs
+---
 
-Papers
+### Papers 📑
 
-Search:
+**Search:**
+- [Data Transformation Tasks](https://scholar.google.com/scholar?hl=es&as_sdt=0%2C5&q=commands+in+gpt&btnG=)
 
- Data Transformation Tasks
+- [Paper on Arxiv: 2307.08674](https://arxiv.org/pdf/2307.08674)
 
-https://scholar.google.com/scholar?hl=es&as_sdt=0%2C5&q=commands+in+gpt&btnG=
+**The Math:**
+- [Proceedings MLR - Agarwal et al. (2021)](https://proceedings.mlr.press/v133/agarwal21b/agarwal21b.pdf)
 
+---
 
-https://arxiv.org/pdf/2307.08674
+### Good Repos 📂
 
-The math: 
+- [AI Telecom by Medhat Fawzy - GitHub](https://github.com/medhatfawzy/AI-Telecom)
+- [Machine Learning for Telecommunications by AWS Solutions - GitHub](https://github.com/aws-solutions-library-samples/machine-learning-for-telecommunications/tree/master)
 
-https://proceedings.mlr.press/v133/agarwal21b/agarwal21b.pdf
+---
 
-Good Repos
+### Repos in Paper-Code 📁
 
-https://github.com/medhatfawzy/AI-Telecom
-
-https://github.com/aws-solutions-library-samples/machine-learning-for-telecommunications/tree/master
-
-Repos in paper-code
-
-Filsystem
-https://github.com/agiresearch/AIOS-LSFS
+**Filesystem:**
+- [AIOS-LSFS by Agiresearch - GitHub](https://github.com/agiresearch/AIOS-LSFS)

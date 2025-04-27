@@ -1,32 +1,28 @@
 # Hackathons
 
-
 ## Description
 Looking for ideas that could be implemented in a hackathon or fast ideas.
 
-# Events 
+---
 
-https://lablab.ai/event
+## 🗓️ Events
+- [Lablab AI Events](https://lablab.ai/event)
 
+---
 
-# Projects 
+## 💻 Projects
 
+### 📊 Data EDA Analytics
+- [GemInsights - Data EDA Analytics](https://github.com/izam-mohammed/GemInsights)
 
-Data EDA analytics
-https://github.com/izam-mohammed/GemInsights
+### 🛠️ Workflows
+- [AI Actions - GitHub Actions for AI](https://github.com/actions-io/ai-actions)
 
+### 🧠 Judge Ideas of AI
+- [Judgy Backend - AI Judge Ideas](https://github.com/steinskeeper/judgy-backend)
 
+### 🖼️ Images that Check Automatically
+- [SquareGoogleAIHackathon - Image Checking](https://github.com/kaikune/SquareGoogleAIHackathon)
 
-Workflows:
-https://github.com/actions-io/ai-actions
-
-
-judge ideas of ai
-https://github.com/steinskeeper/judgy-backend
-
-
-Images that cheack automatic
-https://github.com/kaikune/SquareGoogleAIHackathon
-
-Research papaer visualize
-https://codex.village.dev/
+### 📄 Research Paper Visualization
+- [Codex Village - Research Paper Visualization](https://codex.village.dev/)

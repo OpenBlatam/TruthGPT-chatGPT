@@ -1,59 +1,65 @@
+# References 📚
 
+### Overview 🌐
+- [Sci-Hub - Access to Papers](https://sci-hub.li)
+- [ScienceDirect Article](https://www.sciencedirect.com/science/article/abs/pii/S0166361519304609)
 
+**1000 Papers:**
+- [Paper on AEI - Sci-Hub](https://sci-hub.se/https://doi.org/10.1016/j.aei.2021.101246)
+- [Book Chapter - Sci-Hub](https://sci-hub.yt/10.1007/978-1-4842-3808-0_5)
 
+---
 
-# References
+## References Practice 🛠️
 
-Overview
-https://sci-hub.li
-https://www.sciencedirect.com/science/article/abs/pii/S0166361519304609
+### WIZARD MODE 🧙‍♂️
+- [Robocorp Wizard Mode - GitHub](https://github.com/robocorp/rcc/tree/master/wizard)
 
-1000 papers
+---
 
-https://sci-hub.se/https://doi.org/10.1016/j.aei.2021.101246
+### Text Extraction 📄
 
-https://sci-hub.yt/10.1007/978-1-4842-3808-0_5
+- [Process Invoices with Amazon Textract - GitHub](https://github.com/robocorp/example-process-invoices-with-amazon-textract)
+- [Open Source Text Extraction with Pytesseract - PyPi](https://pypi.org/project/pytesseract/)
 
+---
 
-## References pratice 
+### Frameworks 🖥️
 
+- [Robot Framework - GitHub](https://github.com/robotframework/robotframework/tree/master/src/robot)
 
-WIZARD MODE:
+---
 
-https://github.com/robocorp/rcc/tree/master/wizard
+### Plugin 🔌
 
+- [TagUI Automation Plugin - GitHub](https://github.com/aisingapore/TagUI)
 
-Text extraction
+---
 
-https://github.com/robocorp/example-process-invoices-with-amazon-textract
+### Workflows 🔄
 
-Tex extraction open source
+- [Skyvern AI Workflows - GitHub](https://github.com/Skyvern-AI/skyvern)
 
-https://pypi.org/project/pytesseract/
+---
 
+### Orchestrator ⚙️
 
-Frameworks
+- [Automation Orchestrator - GitHub](https://github.com/Basico-PS/AutomationOrchestrator/tree/master)
 
-https://github.com/robotframework/robotframework/tree/master/src/robot
+---
 
+### Connect VBA to Auto Command 💻
 
-Plugin:
-https://github.com/aisingapore/TagUI
+- [RPA Visual Basic Scripts - GitHub](https://github.com/KhaledMostafaME/RPA-Visual-Basic-Scripts-VBS/tree/master)
 
+---
 
+### Screenshot of Windows 🖼️
 
-Workflows:
-https://github.com/Skyvern-AI/skyvern
+- [Flanium WinBrowser Screenshot - GitHub](https://github.com/ALaurian/Flanium/blob/8a04ac54208f0a0e79972ec06acb681c7aa60d39/Flanium/Browsers/WinBrowser.cs#L133)
 
+---
 
-Ochestrator:
-https://github.com/Basico-PS/AutomationOrchestrator/tree/master
+### Robotics 🤖
 
-Conect VBA to auto commnad
-https://github.com/KhaledMostafaME/RPA-Visual-Basic-Scripts-VBS/tree/master
-
-Screenshot of windows
-https://github.com/ALaurian/Flanium/blob/8a04ac54208f0a0e79972ec06acb681c7aa60d39/Flanium/Browsers/WinBrowser.cs#L133
-
-Robotics
-https://github.com/kyegomez/PALM-E
+- [PALM-E Robotics - GitHub](https://github.com/kyegomez/PALM-E)
