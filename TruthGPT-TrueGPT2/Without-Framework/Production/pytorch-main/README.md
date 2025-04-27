@@ -45,6 +45,33 @@ Our trunk health (Continuous Integration signals) can be found at [hud.pytorch.o
 
 <!-- tocstop -->
 
+## Adaptative Generative AI
+
+import math
+import os
+import warnings
+
+import torch
+import torch.utils.checkpoint
+import torch.nn.functional as F
+
+from torch import nn
+
+They override PyTorch with Triton kernels (for speed and efficiency).
+
+These functions like act_quant_kernel, fp8_gemm_kernel are Triton kernels, NOT native PyTorch kernels.
+
+Forward pass
+ ├── Normal Linear / Attention --> PyTorch
+ ├── Quantized operations (optimize speed) --> Triton kernels
+
+
+| Kernel | DeepSeek uses | You could use |
+|:-------|:--------------|:--------------|
+| Activation Quant | `act_quant` (Triton) | `act_quant_torch` (PyTorch) |
+| Weight Dequant   | `weight_dequant` (Triton) | `weight_dequant_torch` (PyTorch) |
+| FP8 GEMM         | `fp8_gemm` (Triton) | `fp8_gemm_torch` (PyTorch) |
+
 ## More About PyTorch
 
 [Learn the basics of PyTorch](https://pytorch.org/tutorials/beginner/basics/intro.html)
