@@ -1,10 +1,7 @@
 # Specifications
 
-[![Join the chat at https://discord.gg/qGpsxSA](https://img.shields.io/badge/chat-on%20discord-blue.svg)](https://discord.gg/qGpsxSA)
-[![testgen](https://github.com/ethereum/consensus-specs/actions/workflows/generate_vectors.yml/badge.svg?branch=dev&event=schedule)](https://github.com/ethereum/consensus-specs/actions/workflows/generate_vectors.yml)
-
 This repository hosts the current Ethereum
-[proof-of-stake](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/) specifications.
+) specifications.
 Discussions about design rationale and proposed changes can be brought up and discussed as issues.
 Solidified, agreed-upon changes to the specifications can be made through pull requests.
 
@@ -18,18 +15,9 @@ sequential upgrades when ready.
 
 | Seq. | Code Name     | Fork Epoch | Links                                                                        |
 | ---- | ------------- | ---------- | ---------------------------------------------------------------------------- |
-| 0    | **Phase0**    | `0`        | [Specs](specs/phase0), [Tests](tests/core/pyspec/eth2spec/test/phase0)       |
-| 1    | **Altair**    | `74240`    | [Specs](specs/altair), [Tests](tests/core/pyspec/eth2spec/test/altair)       |
-| 2    | **Bellatrix** | `144896`   | [Specs](specs/bellatrix), [Tests](tests/core/pyspec/eth2spec/test/bellatrix) |
-| 3    | **Capella**   | `194048`   | [Specs](specs/capella), [Tests](tests/core/pyspec/eth2spec/test/capella)     |
-| 4    | **Deneb**     | `269568`   | [Specs](specs/deneb), [Tests](tests/core/pyspec/eth2spec/test/deneb)         |
-
+| 0    | **Phase0**    | `0`        | [Specs](specs/phase0), [Tests]d
 ### In-development Specifications
 
-| Seq. | Code Name   | Fork Epoch | Links                                                                    |
-| ---- | ----------- | ---------- | ------------------------------------------------------------------------ |
-| 5    | **Electra** | TBD        | [Specs](specs/electra), [Tests](tests/core/pyspec/eth2spec/test/electra) |
-| 6    | **Fulu**    | TBD        | [Specs](specs/fulu), [Tests](tests/core/pyspec/eth2spec/test/fulu)       |
 
 ### Accompanying documents
 
