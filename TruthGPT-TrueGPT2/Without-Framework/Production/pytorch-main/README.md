@@ -47,6 +47,12 @@ Our trunk health (Continuous Integration signals) can be found at [hud.pytorch.o
 
 ## Adaptative Generative AI
 
+Feature	How to Implement
+Replace PyTorch ops with Triton kernels	Example: Write a faster LayerNorm, GELU, MatMul.
+Fuse operations	Instead of LayerNorm+Dropout+MatMul separately, fuse them in a single Triton kernel.
+Fine-tune Triton block sizes	Make your kernels optimized for your specific GPUs (A100, 4090, etc.).
+Mix Triton + torch.compile	TorchDynamo (torch.compile) can optimize your model and call Triton kernels where needed.
+
 import math
 import os
 import warnings

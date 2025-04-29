@@ -12,7 +12,17 @@ determine data contiguity. For dense operations, we argue
 that using block pointer is a more efficient approach because
 it explicitly conveys contiguity information.
 
+Overview
 
+Tensor-level IRs have been used by XLA [16] and
+Glow [38] to transform tensor programs into predefined LLVM-IR and CUDA-C operation templates (e.g.,
+tensor contractions, element-wise operations, etc.) using pattern-matching.
+• The polyhedral model [18] has been used by Tensor
+Comprehensions (TC) [43] and Diesel [14] to parameterize and automate the compilation of one or many
+DNN layers into LLVM-IR and CUDA-C programs.
+• Loop synthesizers have been used by Halide [37]
+and TVM [10] to transform tensor computations into
+loop nests that can be manually optimized using userdefined (though possibly parametric [11]) schedules.
 
 ## Papers
 
