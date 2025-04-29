@@ -21,6 +21,25 @@ it explicitly conveys contiguity information.
 
 https://arxiv.org/pdf/2002.03794
 
+https://arxiv.org/pdf/2311.13587
+
+# Desings 
+
+
+## Triton Compiler
+
+First Version:
+https://www.eecs.harvard.edu/~htk/publication/2019-mapl-tillet-kung-cox.pdf
+
+https://dl.acm.org/doi/pdf/10.1145/3623652.3623672
+
+https://dl.acm.org/doi/pdf/10.1145/3623652.3623672
+
+Deep Leraning compilers 
+https://www.usenix.org/system/files/osdi18-chen.pdf
+
+
+## LLVM-based intermediate representation
 
 ## Inference 
 https://arxiv.org/pdf/2503.14985
@@ -33,3 +52,4 @@ https://arxiv.org/pdf/2405.06907
 ## Code
 https://github.com/agiresearch/CoRE
 
+https://github.com/apache/tvm
