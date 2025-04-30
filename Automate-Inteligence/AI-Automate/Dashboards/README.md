@@ -1,53 +1,74 @@
-The Power
-of Open Source
-Twenty is GPL-licensed. It means you own, not rent, the software. You get the simplicity of SaaS, with the freedom and cost savings of Open Source.
+# 🌟 The Power of Open Source
+
+It means you **own**, not rent, your software.  
+You get the simplicity and convenience of SaaS — without the lock-in.  
+With Open Source, you gain **freedom**, **transparency**, and **cost savings** — all while staying in control of your stack.
 
 # Code
+## 🚑 Health Care  
+**[Medplum](https://github.com/medplum/medplum)**  
+A modern, FHIR-native healthcare platform built for developers. Secure, composable, and blazing fast.
 
-## Health Care 
+---
 
-https://github.com/medplum/medplum
+## 🧠 LLM Platforms  
+**[Langfuse](https://github.com/langfuse/langfuse)**  
+Monitor, debug, and evaluate LLM applications. Powerful observability for AI workflows.
 
-## LLMS Platforms
+---
 
-https://github.com/langfuse/langfuse
+## 💬 AI Chat for Your Team’s Data  
+**[Onyx](https://github.com/onyx-dot-app/onyx)**  
+Chat with your internal docs, files, and knowledge base. Fast, secure, and private.
 
-## AI Chats for your team data 
+---
 
-https://github.com/onyx-dot-app/onyx
+## 🧪 Test LLMs  
+**[DeepEval](https://github.com/confident-ai/deepeval)**  
+Automated evaluation of LLM outputs with real metrics and test cases that matter.
 
+---
 
-## Tests LLMs
+## 🛠️ Fine-Tune with Speed  
+**[Unsloth](https://github.com/unslothai/unsloth)**  
+Efficient LLM fine-tuning — reduced memory, faster training, better performance.
 
-https://github.com/confident-ai/deepeval
+---
 
+## 📊 Data Observability  
+**[SigNoz](https://github.com/SigNoz/signoz)**  
+Monitor logs, metrics, and traces — all in one sleek, open-source platform.
 
-## Fine tune 
+---
 
-https://github.com/unslothai/unsloth
+## 🤝 CRM  
+**[Twenty](https://github.com/twentyhq/twenty)**  
+An all-in-one, open-source CRM for sales, support, and marketing. You’re in control.
 
-## Data 
-https://github.com/SigNoz/signoz
+---
 
-# CRM
-https://github.com/twentyhq/twenty
+## 📈 Sales Intelligence  
+**[Lightdash](https://github.com/lightdash/lightdash)**  
+The open-source Looker alternative. Business intelligence built on top of dbt.
 
+---
 
-## Sales 
+## 💰 Finance Infrastructure  
+**[Formance](https://github.com/formancehq/stack)**  
+Programmable money movement and finance operations. Modern APIs for fintech builders.
 
-https://github.com/lightdash/lightdash
+---
 
-## Finance 
+## 🧾 Billing & Invoicing  
+**[Lago](https://github.com/getlago/lago)**  
+Open-source metering and billing system. Flexible, usage-based, and developer-first.
 
-https://github.com/formancehq/stack
+---
 
-## Billing (Accountability)
+## 🔐 Secrets & Security  
+**[Infisical](https://github.com/Infisical/infisical)**  
+Secure secret management for teams. End-to-end encrypted. Easy to use, hard to break.
 
-https://github.com/getlago/lago
+---
 
-
-## Security
-
-https://github.com/Infisical/infisical
-
-
+> _Built with love for builders, by builders._
