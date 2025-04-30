@@ -29,4 +29,4 @@ Each individual CudaIPCRefCountersFile contains multiple reference counters for 
 
 CudaIPCSentDataLimbo is keeping references to data blocks which are not in use by producer process (i.e., tensor when out of scope), but still in use (or will be in use) by a consumer. It also tries to reduce the number of stored blocks by scanning the limbo list for blocks whose ref count has gone to zero on various events such as CudaCaching allocator haven't found any suitable block for the next allocation, the attempt of any shared block deletion, explicit call of cuda_ipc_collect.
 
-Consumer's side wraps received data into the different structure CudaIPCReceivedData. On destruction, it takes care of decreasing reference count to the received tensor.
+Consumer's side wraps received data into the different structure CudaIPCReceivedData. On destruction, it takes care of decreasing r[text](../../../../../../../Downloads/system-prompts-and-models-of-ai-tools-main)eference count to the received tensor.
