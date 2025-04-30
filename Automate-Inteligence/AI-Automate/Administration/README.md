@@ -27,27 +27,27 @@ Insights
 VIRAL is not workin not model fit
 Looking for the fit of personalization
 
-market research
-Wordlwide
+## Market Research
 
-https://www.hostinger.mx/tutoriales/empresas-de-desarrollo-web
+### Global Research  
+For insights into web development agencies:  
+[Hostinger - Web Development Companies](https://www.hostinger.mx/tutoriales/empresas-de-desarrollo-web)
 
+### LatAm Research  
+Explore the top 10 web development agencies in Mexico:  
+[Top 10 Web Development Agencies in Mexico](https://branch.com.co/marketing-digital/top-10-de-las-mejores-agencias-de-desarrollo-web-en-mexico/)
 
-Latam
+---
 
-https://branch.com.co/marketing-digital/top-10-de-las-mejores-agencias-de-desarrollo-web-en-mexico/
+## Resources
 
+- **Free Excel Spreadsheets**:  
+[Free Spreadsheets](https://exinfm.com/mobile/free_spreadsheets.htm)
 
-excels
-https://exinfm.com/mobile/free_spreadsheets.htm
+- **Finance Dashboard**:  
+[Finance Dashboard Template](https://troubled-syringa-a3b.notion.site/FINANCE-DASHBOARD-e8f55b1f0cf84e6a9d2cf0e34e041d81)
 
-https://troubled-syringa-a3b.notion.site/FINANCE-DASHBOARD-e8f55b1f0cf84e6a9d2cf0e34e041d81
-
-miro
-https://miro.com/es/plantillas/investigacion/
-
-
-
-https://miro.com/es/plantillas/investigacion-y-diseno/
-
-https://miro.com/es/plantillas/presentacion-financiera/
+- **Miro Templates for Research & Design**:  
+  - [Research Templates](https://miro.com/es/plantillas/investigacion/)
+  - [Research & Design Templates](https://miro.com/es/plantillas/investigacion-y-diseno/)
+  - [Financial Presentation Templates](https://miro.com/es/plantillas/presentacion-financiera/)

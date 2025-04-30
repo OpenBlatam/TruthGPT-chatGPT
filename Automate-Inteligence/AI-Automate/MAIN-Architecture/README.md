@@ -84,16 +84,19 @@ he actual implementation will largely depend on how your datasets and plotting f
 This may involve complex Natural Language Processing and Machine Learning tasks.
 
 
+# AI Task Automation and Shell Command Integration
+
 ## Code
 
-Shell commands Ai director:
+### Shell Commands AI Director
 
-https://github.com/TheR1D/shell_gpt/blob/main/sgpt/llm_functions/init_functions.py
+- **[ShellGPT - AI Command Director](https://github.com/TheR1D/shell_gpt/blob/main/sgpt/llm_functions/init_functions.py)**  
+  This codebase provides functions to integrate GPT with shell commands, allowing you to automate and streamline tasks via natural language input.
 
-https://github.com/tbckr/sgpt?tab=readme-ov-file
+- **[sgpt - Shell Command GPT Integration](https://github.com/tbckr/sgpt?tab=readme-ov-file)**  
+  Another implementation of GPT that enhances the functionality of shell commands with AI-driven interactions.
 
+### LangChain Multichains
 
-LangChain multichains
-
-https://github.com/mrseanryan/gpt-command/blob/master/core.py
-
+- **[LangChain Multichain Implementation](https://github.com/mrseanryan/gpt-command/blob/master/core.py)**  
+  This project leverages LangChain to create multichain workflows with GPT, allowing complex, multi-step processes to be automated with ease.

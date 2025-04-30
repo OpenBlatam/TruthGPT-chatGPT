@@ -1,5 +1,5 @@
-# AI-Telecom-WDNA-Automate-
+# AI-Automate-Taks
 
 ## Description:
 
-Software wiht LLMs and AI for automate telecom tasks like NOC, IT, Finance, etc.
+Software wiht LLMs and AI for automate tasks like NOC, IT, Finance, etc ...
