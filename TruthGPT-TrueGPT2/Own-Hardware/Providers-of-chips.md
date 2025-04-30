@@ -7,3 +7,8 @@ Xilinx Vivado IP Catalog (https://www.xilinx.com/products/design-tools/vivado/in
 Intel Quartus Prime IP Catalog (https://www.intel.com/content/www/us/en/programmable/products/intellectual-property/ip.html): Similar to Xilinx, Intel provides an IP Catalog for their FPGA devices. The Intel Quartus Prime IP Catalog offers pre-built IP cores for various functions like memory interfaces, high-speed transceivers, DSP blocks, and arithmetic functions. Some of these cores may require a license as well.
 
 GitHub (https://github.com/): GitHub is another great source for finding open-source Verilog or VHDL modules. You can search for specific functionalities or explore repositories from well-known organizations or users. Be sure to check the licensing terms and conditions before using the code in your project.
+
+
+## Start ups 
+
+https://www.silimate.com/
