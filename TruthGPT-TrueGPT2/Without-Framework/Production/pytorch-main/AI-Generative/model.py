@@ -496,12 +496,12 @@ class MLA(nn.Module):
 
 class MLP(nn.Module):
     """
-    Multi-Layer Perceptron (MLP) used as a feed-forward layer.
+    ulti-Layer Perceptron (MLP) used as a feed-forward layer.
 
     Attributes:
         w1 (nn.Module): Linear layer for input-to-hidden transformation.
         w2 (nn.Module): Linear layer for hidden-to-output transformation.
-        w3 (nn.Module): Additional linear layer for feature transformation.
+        w3 (nn.Module): Additional linear layer for feature transformation.M
     """
     def __init__(self, dim: int, inter_dim: int):
         """
