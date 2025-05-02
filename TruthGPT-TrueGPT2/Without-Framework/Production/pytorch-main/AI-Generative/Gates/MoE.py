@@ -13,6 +13,8 @@ class Gate(nn.Module):
         weight (torch.nn.Parameter): Learnable weights for the gate.
         bias (Optional[torch.nn.Parameter]): Optional bias term for the gate.
     """
+
+# On this sampling is the fast solution to 
 # DeepSpeed framework here: https://github.com/deepspeedai/DeepSpeed/blob/master/deepspeed/inference/engine.py 
 class MoE(nn.Module):
     """
