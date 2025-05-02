@@ -2,6 +2,8 @@
 
 State-of-the-art neural networks use a range of custom layers to improve performance, generalization, and efficiency. Below is a summary of the most common architectural components:
 
+
+
 ### 🧠 Attention Mechanisms
 - **Multi-Head Attention** – Enables simultaneous attention to different parts of the input sequence.
 - **Cross-Attention** – Allows a model to attend to a separate sequence (e.g., encoder-decoder architectures).
