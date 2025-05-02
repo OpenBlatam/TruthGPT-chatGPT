@@ -1,10 +1,25 @@
 # Introduction
 
+## 🧠 FPGA Speech/GCN Neural Architecture
+
+FPGAs provide significant advantages in **throughput**, **latency**, and **energy efficiency** when implementing low-latency, compute-intensive AI applications compared to general-purpose CPUs and GPUs.
+
+### ✅ Methodology
 
 
-FPGAs provide significant advantages in throughput, latency,
-and energy efficiency for implementing low-latency, computeintensive applications when compared to general-purpose CPUs
-and GPUs
+1. Choose an HDL (e.g., Verilog or VHDL).
+2. Define input/output ports for microphone and screen.
+3. Process audio input + extract features.
+4. Implement a speech recognition model (e.g., neural net or HMM).
+5. Display recognized text on the output screen.
+6. Write a testbench to verify system correctness.
+
+> **🚨 Troll Mode Pipeline (For Fun)**  
+> - Implement sigmoid in HDL ✅  
+> - Backpropagation in VHDL? LOL ✅  
+> - Pipelined binary classifier on FPGA ✅  
+> - Pray to the silicon gods before synthesis 🙏  
+
 
 Choose an HDL (VHDL or Verilog) to write your program.
 Define the input and output ports to connect the FPGA with the microphone and display screen.
@@ -42,6 +57,33 @@ Use efficient coding techniques: Efficient coding practices, such as minimizing 
 Sessin troll mode https://chat.openai.com/chat/0adffe7c-f361-42f0-9911-954674f3176e
 
 ¨¨¨¨¨
+
+## 🛠️ Verilog GCN Example
+
+```verilog
+module gcn_layer (
+    input [n_nodes-1:0] x_in,
+    input [n_nodes-1:0] adj,
+    output [n_nodes-1:0] x_out
+);
+    parameter N_HIDDEN = 16;
+    parameter N_OUTPUTS = 16;
+
+    // Layer weights and biases
+    reg signed [15:0] W0[N_HIDDEN-1:0][n_nodes-1:0];
+    reg signed [15:0] W1[N_OUTPUTS-1:0][N_HIDDEN-1:0];
+    reg signed [15:0] b0[N_HIDDEN-1:0];
+    reg signed [15:0] b1[N_OUTPUTS-1:0];
+
+    // Constants for piecewise sigmoid approximation
+    parameter REAL C0 = 0.5, C1 = 0.197, C2 = 0.0238, C3 = 0.0009;
+
+    // GCN computation and sigmoid approximations...
+    // [Full design logic omitted for brevity]
+endmodule
+```
+
+```
 module gcn_layer (
     input [n_nodes-1:0] x_in, // Input feature vectors
     input [n_nodes-1:0] adj,  // Adjacency matrix
@@ -134,6 +176,9 @@ end
 end
 
 endmodule
+
+```
+
 ¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨leak troll mode the DOJO is tricky rat trap 
 this module on hiw own languague on his hardware design goal 
 
@@ -168,17 +213,17 @@ are truncated to 2048 tokens, the training context used during pretraining, with
 target. Only summarization tasks required input truncation.
 
 
-## References 
+## 📚 References
 
+### 💻 Code
 
+- [Open-Source FPGA Resource](https://github.com/os-fpga/open-source-fpga-resource)  
+- [An Open-Source Framework for High-Level Synthesis Tools](https://dl.acm.org/doi/abs/10.1145/2554688.2554738)
 
-### Code
-https://github.com/os-fpga/open-source-fpga-resource
+<!-- Optional image reference -->
+<!-- ![Screenshot](assets/schematic.png) -->
 
-https://dl.acm.org/doi/abs/10.1145/2554688.2554738
-![Screenshot 2023-03-23 at 20.14.56.png](..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fqf%2F4_fp429x6sz5vjlnzmpyz9hw0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_xzmtzD%2FScreenshot%202023-03-23%20at%2020.14.56.png)
+### 📄 Literature
 
-## Literature 
-
-https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/747258
-https://doi.org/10.1145/3373087.3375887
+- [A Survey of High-Level Synthesis](https://sci-hub.se/https://ieeexplore.ieee.org/abstract/document/747258)  
+- [A Modular Approach to FPGA Design Automation](https://doi.org/10.1145/3373087.3375887)

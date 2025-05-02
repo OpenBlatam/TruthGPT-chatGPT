@@ -4,6 +4,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 # Extract Transformer for hugging face?
+
+# f(x) = ϕ(xW1 + b1)W2 + b2
 class MLP(nn.Module):
     """
     ulti-Layer Perceptron (MLP) used as a feed-forward layer.
