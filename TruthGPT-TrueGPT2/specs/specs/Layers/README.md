@@ -90,7 +90,7 @@ class CRMS(Container):
 class Multi_Layer_Perceptron(Container):
     previous_version: Version
     current_version: Version
-    model: Model  # model of latest model
+    layer: MLP  # latest container
 ```
 
 ```python
