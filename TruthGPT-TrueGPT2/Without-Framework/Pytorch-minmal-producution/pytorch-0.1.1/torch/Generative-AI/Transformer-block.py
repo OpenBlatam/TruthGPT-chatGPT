@@ -1,4 +1,4 @@
-
+# The modular design ?
 
 class GPTLayer:
     def __init__(self, input_size, output_size):
