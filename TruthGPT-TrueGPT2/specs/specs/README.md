@@ -1,7 +1,6 @@
-# Specifications
+# Specifications of Modular AI
 
-This repository hosts the current Ethereum
-) specifications.
+This repository hosts the current TruthGPT specifications.
 Discussions about design rationale and proposed changes can be brought up and discussed as issues.
 Solidified, agreed-upon changes to the specifications can be made through pull requests.
 
@@ -15,14 +14,15 @@ sequential upgrades when ready.
 
 | Seq. | Code Name     | Fork Epoch | Links                                                                        |
 | ---- | ------------- | ---------- | ---------------------------------------------------------------------------- |
-| 0    | **Phase0**    | `0`        | [Specs](specs/phase0), [Tests]d
+| 0    | **Phase0**    | `0`        | [Specs](specs/phase0), [Tests]
+| 1    | **Phase1**    | `1`        | [Specs](specs/phase1), [Tests]d
+
 ### In-development Specifications
 
 
 ### Accompanying documents
 
 - [SimpleSerialize (SSZ) spec](ssz/simple-serialize.md)
-- [Merkle proof formats](ssz/merkle-proofs.md)
 - [General test format](tests/formats/README.md)
 
 ### External specifications
@@ -30,10 +30,6 @@ sequential upgrades when ready.
 Additional specifications and standards outside of requisite client functionality can be found in
 the following repositories:
 
-- [Beacon APIs](https://github.com/ethereum/beacon-apis)
-- [Engine APIs](https://github.com/ethereum/execution-apis/tree/main/src/engine)
-- [Beacon Metrics](https://github.com/ethereum/beacon-metrics)
-- [Builder Specs](https://github.com/ethereum/builder-specs)
 
 ### Reference tests
 
@@ -70,20 +66,18 @@ make help
 
 The following are the broad design goals for the AI specifications:
 
-The long term is AI wizard mode to adjust for complex generative intruction.
+The long term is AI for factory mode to adjust for complex generative intruction.
 
 - Minimize complexity, even at the cost of some losses in efficiency.
-- Remain live through major network partitions and when very large portions of nodes go offline.
 - Select components that are quantum secure or easily swappable for quantum-secure alternatives.
-- Utilize crypto and design techniques that allow for a large participation of validators.
 - Minimize hardware requirements such that a consumer laptop can participate.
+- Modular design in low and app devlopment (adapt to langchain)
+- Optimize the benchmarks for open and closed LLMs
 
 ### Useful resources
 
 - [Design Rationale](https://notes.ethereum.org/s/rkhCgQteN#)
 - [Phase0 Onboarding Document](https://notes.ethereum.org/s/Bkn3zpwxB)
-- [Combining GHOST and Casper paper](https://arxiv.org/abs/2003.03052)
 - [Online specifications viewer](https://ethereum.github.io/consensus-specs/)
-- [The Eth2 Book](https://eth2book.info)
 - [PySpec Tests](tests/core/pyspec/README.md)
 - [Reference Tests Generators](tests/generators/README.md)
