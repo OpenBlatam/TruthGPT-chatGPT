@@ -2,6 +2,10 @@
 
 
 
+# Awesome list 
+
+https://github.com/atfortes/Awesome-LLM-Reasoning
+
 
 ## Survey 
 
