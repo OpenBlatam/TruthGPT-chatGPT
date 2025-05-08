@@ -74,3 +74,7 @@ The best AI applications for commercial use that are closed source — looking f
 - [Seek Vectors](https://www.seekvectors.com) – AI tools for vector-based design.  
 - [Kamai Digital](https://www.kamaidigital.com) – Digital marketing and AI tools.  
 - [Synthmind](https://www.synthmind.com) – AI tools for creative professionals.  
+
+
+Top Lists:
+https://www.synthesia.io/post/ai-tools#fathom
