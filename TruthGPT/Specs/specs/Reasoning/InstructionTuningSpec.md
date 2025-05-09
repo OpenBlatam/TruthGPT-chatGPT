@@ -6,6 +6,7 @@ Instruction tuning (IFT) is the foundation of post-training and creating helpful
 ## Core Components
 
 ### 1. Chat Template System
+
 | Component          | Description                                                    | Implementation Details                    |
 |-------------------|----------------------------------------------------------------|------------------------------------------|
 | `ChatTemplate`    | Formats user queries for model processing                      | Jinja2 template system                   |
@@ -13,6 +14,7 @@ Instruction tuning (IFT) is the foundation of post-training and creating helpful
 | `TokenProcessor`  | Manages special tokens and boundaries                          | Token sequence processing                |
 
 ### 2. Message Roles
+
 | Role        | Description                                                    | Usage                                    |
 |------------|----------------------------------------------------------------|------------------------------------------|
 | `system`   | Initial instructions for the model                            | First message only                       |
@@ -20,6 +22,7 @@ Instruction tuning (IFT) is the foundation of post-training and creating helpful
 | `assistant`| Model's responses                                             | Alternating with user                    |
 
 ### 3. Training Components
+
 | Component          | Description                                                    | Implementation Details                    |
 |-------------------|----------------------------------------------------------------|------------------------------------------|
 | `DataProcessor`   | Processes instruction datasets                                | Format conversion and validation         |
@@ -73,6 +76,7 @@ class ChatTemplate:
 ```
 
 ### Training Process
+
 ```python
 class InstructionTrainer:
     def __init__(self, model, tokenizer, chat_template):
@@ -130,6 +134,7 @@ class InstructionTrainer:
 5. Mask prompts during loss computation
 
 ### Training Configuration
+
 | Parameter     | Type    | Description                                      |
 |--------------|---------|--------------------------------------------------|
 | `batch_size` | `int`   | Training batch size (default: `32`)              |
@@ -138,6 +143,7 @@ class InstructionTrainer:
 | `warmup_steps`| `int`   | Learning rate warmup steps (default: `1000`)     |
 
 ### Dataset Requirements
+
 | Requirement   | Description                                                    |
 |--------------|----------------------------------------------------------------|
 | `size`       | ~1M prompts for optimal performance                            |
@@ -174,6 +180,7 @@ for batch in dataloader:
 ## Monitoring and Validation
 
 ### Key Metrics
+
 | Metric           | Description                                      |
 |-----------------|--------------------------------------------------|
 | `loss`          | Training loss on assistant responses             |

@@ -1,5 +1,17 @@
 # Reward Model Specification
 
+## Mathematical Notation
+
+
+//
+
+Let $X$ be the space of possible queries (e.g., user prompts). For each query $x \in X$, we collect one or more candidate responses $\{y_j\}_{j=1}^{m_x}$ where $m_x$ is the number of candidate responses for query $x$.
+
+The dataset $D$ is defined as:
+$$D = \{(x_i, \{y_{ij}\}_{j=1}^{m_i}, \{\text{preferences}_i\})\}_{i=1}^N$$
+
+// 
+
 ## Architecture Overview
 The reward model is a neural network that learns to predict human preferences by comparing pairs of model outputs. It uses a transformer-based architecture with a specialized reward head for preference prediction.
 

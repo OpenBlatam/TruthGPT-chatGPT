@@ -1,5 +1,21 @@
 # Policy Gradients Specification
 
+## MATH
+
+Once we have a trained reward model $R_\theta(x, y)$ that captures human preferences, we can integrate it into a RL framework to optimize a policy $\pi_\phi$. In essence, we replace (or augment) the environment's native reward signal with $R_\theta(x, y)$ so that the agent focuses on producing responses $y$ that humans prefer for a given query $x$.
+
+In typical RL notation:
+- Each state $s$ here can be interpreted as the partial dialogue or partial generation process for the next token (in language modeling).
+- Each action $a$ is the next token (or next chunk of text) to be generated.
+- The policy $\pi_\phi(a | s)$ is a conditional distribution over the next token, parameterized by $\phi$.
+
+We seek to find $\phi$ that maximizes the expected reward under $R_\theta$. Concretely, let $x$ be a user query, and let $y \sim \pi_\phi(\cdot | x)$ be the generated response. We aim to solve:
+
+$$\max_\phi \mathbb{E}_{x \sim X} \left[ \mathbb{E}_{y \sim \pi_\phi(\cdot | x)} \left[ R_\theta(x, y) \right] \right]$$
+
+This means that on average, over user queries $x$ and responses $y$ drawn from the policy $\pi_\phi$, we want the reward model's score $R_\theta(x, y)$ to be as high as possible.
+
+
 ## Overview
 Policy gradient algorithms are fundamental to RLHF, using recently generated samples to update models. This specification outlines a modular implementation that integrates with the rejection sampling pipeline.
 
