@@ -24,3 +24,4 @@ https://github.com/mys007/ecc
 
 https://github.com/trotsky1997/mathblackbox
 
+https://github.com/natolambert/rlhf-book
