@@ -56,6 +56,11 @@ https://arxiv.org/pdf/2501.09686
 
 
 https://arxiv.org/pdf/2502.21321
+
+# Articules 
+
+https://cognition.ai/blog/kevin-32b
+
 ## Code 
 
 ### Framework
