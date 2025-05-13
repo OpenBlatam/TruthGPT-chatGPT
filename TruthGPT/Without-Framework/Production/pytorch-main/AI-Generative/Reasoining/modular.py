@@ -1,13 +1,25 @@
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.cpp_extension import load_inline
 from torch.nn import Parameter
-from typing import Tuple, Optional, Union, Dict, Any
+from typing import Tuple, Optional, Union, Dict, Any, List, Protocol, Type
 import warnings
 import math
 import os
 import platform
 from dataclasses import dataclass
 from enum import Enum, auto
+import yaml
+import argparse
+import logging
+from pathlib import Path
+import wandb
+from torch.utils.tensorboard import SummaryWriter
+import triton
+import triton.language as tl
+from abc import ABC, abstractmethod
+from triton_kernels import DeepSeekLayerNormModule
 
 class PrecisionMode(Enum):
     """Precision modes for layer normalization."""
@@ -290,21 +302,15 @@ layer_norm = load_inline(
     extra_ldflags=[""],
 )
 
-class LayerNorm(torch.nn.Module):
+class OptimizedLayerNorm(nn.Module):
     """
-    Highly optimized Layer Normalization implementation with CUDA acceleration.
+    Optimized Layer Normalization implementation using PyTorch's native functions.
     
     This implementation features:
-    - Vectorized memory access for better throughput
-    - Efficient warp-level reduction using cooperative groups
-    - Optimal block size calculation
-    - Memory coalescing and prefetching
     - Automatic device placement
-    - Architecture-specific optimizations
-    - Tensor core support for compatible GPUs
-    - Fast approximate reciprocal square root
+    - Mixed precision support
+    - Memory efficient operations
     - Platform-specific optimizations
-    - Modular design with configuration options
     
     Args:
         config (LayerNormConfig): Configuration for layer normalization
@@ -320,11 +326,11 @@ class LayerNorm(torch.nn.Module):
         self.elementwise_affine = config.elementwise_affine
         
         if config.elementwise_affine:
-            self.gamma = Parameter(torch.ones(config.normalized_shape, device=config.device))
-            self.beta = Parameter(torch.zeros(config.normalized_shape, device=config.device))
+            self.weight = Parameter(torch.ones(config.normalized_shape, device=config.device))
+            self.bias = Parameter(torch.zeros(config.normalized_shape, device=config.device))
         else:
-            self.register_parameter('gamma', None)
-            self.register_parameter('beta', None)
+            self.register_parameter('weight', None)
+            self.register_parameter('bias', None)
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -336,7 +342,7 @@ class LayerNorm(torch.nn.Module):
         Returns:
             torch.Tensor: Normalized tensor
         """
-        if not x.is_cuda:
+        if not x.is_cuda and self.config.device == 'cuda':
             warnings.warn("Input tensor is not on CUDA device. Performance may be suboptimal.")
             x = x.cuda()
         
@@ -348,20 +354,14 @@ class LayerNorm(torch.nn.Module):
             D = self.normalized_shape[0]
             x = x.view(N, -1)
         
-        if self.elementwise_affine:
-            return layer_norm.layer_norm_cuda(x, self.gamma, self.beta, N, D, self.eps)
-        else:
-            # Use identity gamma and zero beta when elementwise_affine is False
-            gamma = torch.ones_like(x[0])
-            beta = torch.zeros_like(x[0])
-            return layer_norm.layer_norm_cuda(x, gamma, beta, N, D, self.eps)
+        # Use PyTorch's native layer normalization
+        return F.layer_norm(x, self.normalized_shape, self.weight, self.bias, self.eps)
     
     def extra_repr(self) -> str:
         return (f'normalized_shape={self.normalized_shape}, '
                 f'eps={self.eps}, '
                 f'elementwise_affine={self.elementwise_affine}, '
-                f'precision={self.config.precision}, '
-                f'use_tensor_cores={self.config.use_tensor_cores}')
+                f'precision={self.config.precision}')
 
 # Example usage:
 """
@@ -376,9 +376,492 @@ config = LayerNormConfig(
 )
 
 # Create layer normalization
-layer_norm = LayerNorm(config)
+layer_norm = OptimizedLayerNorm(config)
 
 # Use in model
 x = torch.randn(32, 512, device='cuda')
 y = layer_norm(x)
 """
+
+@ComponentRegistry.register('optimized_layernorm')
+class OptimizedLayerNormComponent(BaseComponent):
+    """Optimized Layer Normalization component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.normalized_shape = config.get('normalized_shape', 512)
+        self.eps = config.get('eps', 1e-5)
+        
+        layer_norm_config = LayerNormConfig(
+            normalized_shape=self.normalized_shape,
+            eps=self.eps,
+            elementwise_affine=True,
+            device=config.get('device', 'cuda'),
+            precision=PrecisionMode.FP32
+        )
+        
+        self.layer_norm = OptimizedLayerNorm(layer_norm_config)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Forward pass of the layer normalization."""
+        return self.layer_norm(x)
+    
+    def _apply_triton_optimizations(self, config: Dict[str, Any]) -> None:
+        """Apply optimizations."""
+        if config.get('use_mixed_precision', False):
+            self.layer_norm = self.layer_norm.half()
+
+@ComponentRegistry.register('deepseek_layernorm')
+class DeepSeekLayerNormComponent(BaseComponent):
+    """DeepSeek-style Triton-optimized Layer Normalization component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.normalized_shape = config.get('normalized_shape', 512)
+        self.eps = config.get('eps', 1e-5)
+        
+        self.layer_norm = DeepSeekLayerNormModule(
+            normalized_shape=self.normalized_shape,
+            eps=self.eps
+        )
+        
+        # Move to device
+        device = config.get('device', 'cuda')
+        self.layer_norm = self.layer_norm.to(device)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Forward pass of the layer normalization."""
+        if not x.is_cuda:
+            warnings.warn("Input tensor is not on CUDA device. Performance may be suboptimal.")
+            x = x.cuda()
+        
+        # Handle different input shapes
+        if x.dim() == 2:
+            N, D = x.size()
+        else:
+            N = x.size(0)
+            D = self.normalized_shape
+            x = x.view(N, -1)
+        
+        return self.layer_norm(x)
+    
+    def _apply_triton_optimizations(self, config: Dict[str, Any]) -> None:
+        """Apply Triton-specific optimizations."""
+        if config.get('use_triton', False):
+            # Enable Triton optimizations
+            triton.Config.use_tensor_cores = config.get('use_tensor_cores', True)
+            triton.Config.use_fast_math = config.get('use_fast_math', True)
+            triton.Config.use_cooperative_groups = config.get('use_cooperative_groups', True)
+            triton.Config.use_prefetching = config.get('use_prefetching', True)
+            triton.Config.use_vectorization = config.get('use_vectorization', True)
+
+@dataclass
+class ModelConfig:
+    """Configuration for the modular model."""
+    num_layers: int
+    hidden_size: int
+    output_size: int
+    dropout: float = 0.1
+    device: str = 'cuda'
+    precision: PrecisionMode = PrecisionMode.FP32
+    use_tensor_cores: bool = True
+    use_fast_math: bool = True
+    use_cooperative_groups: bool = True
+    use_prefetching: bool = True
+    use_vectorization: bool = True
+
+# Component Registry
+class ComponentRegistry:
+    """Registry for all modular components."""
+    _components: Dict[str, Type['BaseComponent']] = {}
+    
+    @classmethod
+    def register(cls, name: str) -> callable:
+        def decorator(component_class: Type['BaseComponent']) -> Type['BaseComponent']:
+            cls._components[name] = component_class
+            return component_class
+        return decorator
+    
+    @classmethod
+    def get_component(cls, name: str) -> Type['BaseComponent']:
+        if name not in cls._components:
+            raise KeyError(f"Component {name} not found in registry")
+        return cls._components[name]
+
+# Component Interfaces
+class ComponentInterface(Protocol):
+    """Interface for all components."""
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        ...
+
+class OptimizableComponent(Protocol):
+    """Interface for components that can be optimized."""
+    def optimize(self, config: Dict[str, Any]) -> None:
+        ...
+
+class ConfigurableComponent(Protocol):
+    """Interface for components that can be configured."""
+    def configure(self, config: Dict[str, Any]) -> None:
+        ...
+
+# Base Classes
+class BaseComponent(nn.Module, ComponentInterface, OptimizableComponent, ConfigurableComponent):
+    """Base component for all modular components."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__()
+        self.config = config
+        self.optimized = False
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        raise NotImplementedError
+    
+    def optimize(self, config: Dict[str, Any]) -> None:
+        """Optimize component for better performance."""
+        if not self.optimized and config.get('use_triton', False):
+            self._apply_triton_optimizations(config)
+            self.optimized = True
+    
+    def configure(self, config: Dict[str, Any]) -> None:
+        """Configure component with new settings."""
+        self.config.update(config)
+    
+    def _apply_triton_optimizations(self, config: Dict[str, Any]) -> None:
+        """Apply Triton-specific optimizations."""
+        pass
+
+# Component Factories
+class ComponentFactory:
+    """Factory for creating components."""
+    @staticmethod
+    def create_component(name: str, config: Dict[str, Any]) -> BaseComponent:
+        component_class = ComponentRegistry.get_component(name)
+        return component_class(config)
+
+# Attention Components
+@ComponentRegistry.register('attention')
+class AttentionComponent(BaseComponent):
+    """Base attention component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.num_heads = config.get('num_heads', 8)
+        self.head_dim = config.get('head_dim', 64)
+        self.scale = self.head_dim ** -0.5
+    
+    def _apply_triton_optimizations(self, config: Dict[str, Any]) -> None:
+        if config.get('use_triton', False):
+            # Apply Triton-specific optimizations
+            pass
+
+@ComponentRegistry.register('mla')
+class MLA(AttentionComponent):
+    """Multi-Head Latent Attention component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.q_proj = nn.Linear(config['hidden_size'], self.num_heads * self.head_dim)
+        self.k_proj = nn.Linear(config['hidden_size'], self.num_heads * self.head_dim)
+        self.v_proj = nn.Linear(config['hidden_size'], self.num_heads * self.head_dim)
+        self.out_proj = nn.Linear(self.num_heads * self.head_dim, config['hidden_size'])
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        batch_size, seq_len, _ = x.size()
+        
+        # Project queries, keys, and values
+        q = self.q_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim)
+        k = self.k_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim)
+        v = self.v_proj(x).view(batch_size, seq_len, self.num_heads, self.head_dim)
+        
+        # Compute attention scores
+        scores = torch.matmul(q, k.transpose(-2, -1)) * self.scale
+        attn_weights = F.softmax(scores, dim=-1)
+        
+        # Apply attention
+        context = torch.matmul(attn_weights, v)
+        context = context.view(batch_size, seq_len, -1)
+        
+        return self.out_proj(context)
+
+# Expert Components
+@ComponentRegistry.register('expert')
+class ExpertComponent(BaseComponent):
+    """Base expert component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.expert_dim = config.get('expert_dim', 256)
+
+@ComponentRegistry.register('moe')
+class MoE(ExpertComponent):
+    """Mixture of Experts component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.num_experts = config.get('num_experts', 4)
+        self.k = config.get('k', 2)
+        
+        self.experts = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(config['hidden_size'], self.expert_dim),
+                nn.ReLU(),
+                nn.Linear(self.expert_dim, config['hidden_size'])
+            ) for _ in range(self.num_experts)
+        ])
+        
+        self.gate = nn.Linear(config['hidden_size'], self.num_experts)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        scores = F.softmax(self.gate(x), dim=-1)
+        top_k_scores, top_k_indices = torch.topk(scores, self.k, dim=-1)
+        top_k_scores = top_k_scores / top_k_scores.sum(dim=-1, keepdim=True)
+        
+        expert_outputs = []
+        for i in range(self.num_experts):
+            expert_mask = (top_k_indices == i).float()
+            expert_output = self.experts[i](x)
+            expert_outputs.append(expert_output * expert_mask.unsqueeze(-1))
+        
+        return sum(expert_outputs)
+
+# Prediction Components
+@ComponentRegistry.register('predictor')
+class PredictorComponent(BaseComponent):
+    """Base predictor component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.token_dim = config.get('token_dim', 128)
+
+@ComponentRegistry.register('mtp')
+class MTP(PredictorComponent):
+    """Multi-Token Prediction component."""
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+        self.num_tokens = config.get('num_tokens', 4)
+        
+        self.token_predictors = nn.ModuleList([
+            nn.Sequential(
+                nn.Linear(config['hidden_size'], self.token_dim),
+                nn.ReLU(),
+                nn.Linear(self.token_dim, config['hidden_size'])
+            ) for _ in range(self.num_tokens)
+        ])
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        token_outputs = []
+        for predictor in self.token_predictors:
+            token_outputs.append(predictor(x))
+        return sum(token_outputs) / self.num_tokens
+
+# Model Builder
+class ModelBuilder:
+    """Builds modular models from configuration."""
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.component_factory = ComponentFactory()
+    
+    def build(self) -> nn.Module:
+        """Build the complete model."""
+        components = []
+        
+        # Build base components
+        for _ in range(self.config['num_layers']):
+            component = self.component_factory.create_component(
+                self.config.get('base_component', 'attention'),
+                self.config
+            )
+            components.append(component)
+        
+        # Build specialized components
+        mla = self.component_factory.create_component('mla', self.config)
+        moe = self.component_factory.create_component('moe', self.config)
+        mtp = self.component_factory.create_component('mtp', self.config)
+        
+        # Create output layer
+        output_layer = nn.Linear(
+            self.config['hidden_size'],
+            self.config['output_size']
+        )
+        
+        return ModularModel(
+            components=components,
+            mla=mla,
+            moe=moe,
+            mtp=mtp,
+            output_layer=output_layer
+        )
+
+# Modular Model
+class ModularModel(nn.Module):
+    """Modular model combining multiple components."""
+    def __init__(self, components: List[BaseComponent], mla: MLA, moe: MoE,
+                 mtp: MTP, output_layer: nn.Linear):
+        super().__init__()
+        self.layers = nn.ModuleList(components)
+        self.mla = mla
+        self.moe = moe
+        self.mtp = mtp
+        self.output_layer = output_layer
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # Process through base layers
+        for layer in self.layers:
+            x = layer(x)
+        
+        # Apply specialized components
+        x = self.mla(x)
+        x = self.moe(x)
+        x = self.mtp(x)
+        
+        # Final output
+        return self.output_layer(x)
+
+class TritonConfigManager:
+    """Configuration management using Triton."""
+    def __init__(self, config_path: Optional[str] = None):
+        self.config = {}
+        if config_path:
+            self.load_config(config_path)
+        self.setup_argparse()
+    
+    def load_config(self, config_path: str) -> None:
+        """Load configuration from YAML file."""
+        with open(config_path, 'r') as f:
+            self.config = yaml.safe_load(f)
+    
+    def setup_argparse(self) -> None:
+        """Setup command line argument parsing."""
+        self.parser = argparse.ArgumentParser(description='Modular Model Training')
+        self.parser.add_argument('--config', type=str, help='Path to config file')
+        self.parser.add_argument('--device', type=str, default='cuda', help='Device to use')
+        self.parser.add_argument('--precision', type=str, default='fp32', help='Precision mode')
+        self.parser.add_argument('--batch_size', type=int, default=32, help='Batch size')
+        self.parser.add_argument('--epochs', type=int, default=10, help='Number of epochs')
+    
+    def parse_args(self) -> argparse.Namespace:
+        """Parse command line arguments."""
+        args = self.parser.parse_args()
+        if args.config:
+            self.load_config(args.config)
+        return args
+
+class Logger:
+    """Handles logging and visualization."""
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.setup_logging()
+        self.setup_wandb()
+        self.setup_tensorboard()
+    
+    def setup_logging(self) -> None:
+        """Setup basic logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def setup_wandb(self) -> None:
+        """Setup Weights & Biases logging."""
+        if self.config.get('use_wandb', False):
+            wandb.init(
+                project=self.config.get('wandb_project', 'modular-model'),
+                config=self.config
+            )
+    
+    def setup_tensorboard(self) -> None:
+        """Setup TensorBoard logging."""
+        self.writer = SummaryWriter(log_dir=self.config.get('log_dir', 'runs'))
+    
+    def log_metrics(self, metrics: Dict[str, float], step: int) -> None:
+        """Log metrics to all configured backends."""
+        self.logger.info(f"Step {step}: {metrics}")
+        if self.config.get('use_wandb', False):
+            wandb.log(metrics, step=step)
+        for name, value in metrics.items():
+            self.writer.add_scalar(name, value, step)
+
+class Trainer:
+    """Handles model training."""
+    def __init__(self, model: nn.Module, config: Dict[str, Any], logger: Logger):
+        self.model = model
+        self.config = config
+        self.logger = logger
+        self.setup_training()
+    
+    def setup_training(self) -> None:
+        """Setup training components."""
+        self.optimizer = torch.optim.Adam(
+            self.model.parameters(),
+            lr=self.config.get('learning_rate', 1e-4)
+        )
+        self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            self.optimizer,
+            T_max=self.config.get('epochs', 10)
+        )
+        self.criterion = torch.nn.CrossEntropyLoss()
+    
+    def train_step(self, batch: Tuple[torch.Tensor, torch.Tensor]) -> Dict[str, float]:
+        """Execute a single training step."""
+        inputs, targets = batch
+        self.optimizer.zero_grad()
+        outputs = self.model(inputs)
+        loss = self.criterion(outputs, targets)
+        loss.backward()
+        self.optimizer.step()
+        return {'loss': loss.item()}
+    
+    def train_epoch(self, dataloader: torch.utils.data.DataLoader) -> Dict[str, float]:
+        """Train for one epoch."""
+        self.model.train()
+        epoch_metrics = {'loss': 0.0}
+        for batch in dataloader:
+            metrics = self.train_step(batch)
+            for k, v in metrics.items():
+                epoch_metrics[k] += v
+        return {k: v / len(dataloader) for k, v in epoch_metrics.items()}
+
+class Evaluator:
+    """Handles model evaluation."""
+    def __init__(self, model: nn.Module, config: Dict[str, Any], logger: Logger):
+        self.model = model
+        self.config = config
+        self.logger = logger
+        self.metrics = {}
+    
+    def evaluate(self, dataloader: torch.utils.data.DataLoader) -> Dict[str, float]:
+        """Evaluate model on dataset."""
+        self.model.eval()
+        metrics = {'loss': 0.0, 'accuracy': 0.0}
+        with torch.no_grad():
+            for batch in dataloader:
+                inputs, targets = batch
+                outputs = self.model(inputs)
+                loss = torch.nn.functional.cross_entropy(outputs, targets)
+                accuracy = (outputs.argmax(dim=1) == targets).float().mean()
+                metrics['loss'] += loss.item()
+                metrics['accuracy'] += accuracy.item()
+        return {k: v / len(dataloader) for k, v in metrics.items()}
+
+class ExecutionPipeline:
+    """Orchestrates training and evaluation workflows."""
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.logger = Logger(config)
+        self.model = ModelBuilder(config).build()
+        self.trainer = Trainer(self.model, config, self.logger)
+        self.evaluator = Evaluator(self.model, config, self.logger)
+    
+    def train(self, train_loader: torch.utils.data.DataLoader,
+              val_loader: torch.utils.data.DataLoader) -> None:
+        """Execute training pipeline."""
+        for epoch in range(self.config['epochs']):
+            # Training
+            train_metrics = self.trainer.train_epoch(train_loader)
+            self.logger.log_metrics(
+                {f'train/{k}': v for k, v in train_metrics.items()},
+                epoch
+            )
+            
+            # Evaluation
+            val_metrics = self.evaluator.evaluate(val_loader)
+            self.logger.log_metrics(
+                {f'val/{k}': v for k, v in val_metrics.items()},
+                epoch
+            )
+            
+            # Learning rate scheduling
+            self.trainer.scheduler.step()

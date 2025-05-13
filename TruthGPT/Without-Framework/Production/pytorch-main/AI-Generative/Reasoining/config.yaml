@@ -1,0 +1,196 @@
+# Model configuration
+model:
+  num_layers: 6
+  hidden_size: 512
+  output_size: 1024
+  dropout: 0.1
+  device: cuda
+  precision: fp32
+  base_component: deepseek_layernorm  # Using DeepSeek-style layer normalization
+  use_tensor_cores: true
+  use_fast_math: true
+  use_cooperative_groups: true
+  use_prefetching: true
+  use_vectorization: true
+
+# Component configurations
+components:
+  attention:
+    num_heads: 8
+    head_dim: 64
+    dropout: 0.1
+    use_triton: true
+    triton_config:
+      BLOCK_SIZE: 128
+      num_warps: 4
+      num_stages: 3
+    optimizations:
+      use_flash_attention: true
+      use_memory_efficient: true
+      use_linear_attention: false
+  
+  expert:
+    num_experts: 4
+    expert_dim: 256
+    k: 2
+    use_triton: true
+    triton_config:
+      BLOCK_SIZE: 128
+      num_warps: 4
+      num_stages: 3
+    optimizations:
+      use_sparse_experts: true
+      use_expert_parallel: true
+      use_load_balancing: true
+  
+  predictor:
+    num_tokens: 4
+    token_dim: 128
+    use_triton: true
+    triton_config:
+      BLOCK_SIZE: 128
+      num_warps: 4
+      num_stages: 3
+    optimizations:
+      use_parallel_prediction: true
+      use_token_parallel: true
+      use_cache: true
+
+  deepseek_layernorm:
+    normalized_shape: 512
+    eps: 1e-5
+    use_triton: true
+    triton_config:
+      BLOCK_SIZE: 1024
+      num_warps: 8
+      num_stages: 1
+    optimizations:
+      use_tensor_cores: true
+      use_fast_math: true
+      use_cooperative_groups: true
+      use_prefetching: true
+      use_vectorization: true
+
+# Component registry
+registry:
+  enabled_components:
+    - attention
+    - expert
+    - predictor
+    - mla
+    - moe
+    - mtp
+    - deepseek_layernorm
+  component_configs:
+    attention:
+      type: base
+      optimizable: true
+      configurable: true
+    expert:
+      type: base
+      optimizable: true
+      configurable: true
+    predictor:
+      type: base
+      optimizable: true
+      configurable: true
+    mla:
+      type: specialized
+      base: attention
+      optimizable: true
+      configurable: true
+    moe:
+      type: specialized
+      base: expert
+      optimizable: true
+      configurable: true
+    mtp:
+      type: specialized
+      base: predictor
+      optimizable: true
+      configurable: true
+    deepseek_layernorm:
+      type: specialized
+      optimizable: true
+      configurable: true
+      base: null
+
+# Training configuration
+training:
+  batch_size: 32
+  epochs: 10
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  gradient_clip_val: 1.0
+  warmup_steps: 1000
+  max_steps: 100000
+  use_triton: true
+  triton_config:
+    BLOCK_SIZE: 128
+    num_warps: 4
+    num_stages: 3
+  optimizations:
+    use_mixed_precision: true
+    use_gradient_accumulation: true
+    use_gradient_checkpointing: true
+
+# Logging configuration
+logging:
+  use_wandb: true
+  wandb_project: modular-model
+  log_dir: runs
+  log_interval: 100
+  save_interval: 1000
+  eval_interval: 1000
+  triton_metrics: true
+  component_metrics: true
+  performance_metrics: true
+
+# Evaluation configuration
+evaluation:
+  metrics:
+    - accuracy
+    - loss
+    - perplexity
+    - component_performance
+    - triton_performance
+  batch_size: 64
+  num_workers: 4
+  use_triton: true
+  triton_config:
+    BLOCK_SIZE: 128
+    num_warps: 4
+    num_stages: 3
+
+# Data configuration
+data:
+  train_path: data/train
+  val_path: data/val
+  test_path: data/test
+  max_length: 512
+  vocab_size: 50000
+  use_triton: true
+  triton_config:
+    BLOCK_SIZE: 128
+    num_warps: 4
+    num_stages: 3
+
+# Triton configuration
+triton:
+  enabled: true
+  cache_dir: .triton_cache
+  num_warps: 4
+  num_stages: 3
+  BLOCK_SIZE: 128
+  use_cuda_graph: true
+  use_async: true
+  use_cooperative_groups: true
+  use_tensor_cores: true
+  use_fast_math: true
+  use_prefetching: true
+  use_vectorization: true
+  optimizations:
+    use_kernel_fusion: true
+    use_memory_optimization: true
+    use_compute_optimization: true
+    use_communication_optimization: true 
