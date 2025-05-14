@@ -1,5 +1,3 @@
-
-
 | Model               | Description                                                                                          | GitHub Repository                                                                 |
 |---------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | Reason-RFT          | Reinforcement Fine-Tuning framework enhancing generalization in visual reasoning tasks.              | [tanhuajie/Reason-RFT](https://github.com/tanhuajie/Reason-RFT)                   |
@@ -18,11 +16,15 @@
 | VisRL               | Applies RL to intention-driven visual perception, optimizing visual reasoning without annotated intermediate bounding boxes. | [zhangquanchen/VisRL](https://github.com/zhangquanchen/VisRL)                     |
 | MM-Eurek            | Extends large-scale rule-based RL to multimodal reasoning, introducing models like MM-Eureka-Qwen-7B. | [ModalMinds/MM-EUREKA](https://github.com/ModalMinds/MM-EUREKA)                   |
 
-
 # Suvey 
 https://arxiv.org/pdf/2504.21277
 
-
 # Awesome 
 https://github.com/yuanpinz/awesome-deep-multimodal-reasoning
+
+| Method                                                      | Description                                                                                                                                                             | Impact on Reasoning Models                                                                                                                               | Example Models                                                              | Link                                            | GitHub Open Source                                         |
+|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------|------------------------------------------------------------|
+| **Group Relative Policy Optimization (GRPO)**               | Eliminates the need for a traditional critic by employing group sampling to estimate advantages. It utilizes conservative policy updates to maintain stability.         | Significantly improves training efficiency and reduces memory consumption. It has shown particular benefits in enhancing mathematical reasoning abilities. | DeepSeek-Math, DeepSeek-R1                                                  | [GRPO Paper/Source](https://arxiv.org/abs/2402.02903)          | [GRPO-Zero](https://github.com/policy-gradient/GRPO-Zero) |
+| **Reinforcement Learning with Verifiable Rewards (RLVR)**   | Leverages binary feedback (e.g., correct/incorrect) and does not require a separate learned reward model. It often relies on external tools like calculators or verifiers to provide feedback. | Enhances training efficiency, especially in domains where task outcomes are easily verifiable (e.g., math problems, code generation with unit tests).       | DeepSeek-R1                                                                 | [RLVR Paper/Source](https://arxiv.org/abs/2305.14340)             | [GSM8K-RLVR](https://github.com/Mohammadjafari80/GSM8K-RLVR) |
+| **Dr. GRPO and Length-Controlled Policy Optimization (LCPO)** | These methods are extensions or related techniques designed to address specific challenges like length bias in model generations. They often incorporate mechanisms to penalize overly long and incorrect answers, thereby exerting more control over the length and quality of responses. | Leads to improved accuracy by discouraging verbose, unhelpful, or incorrect reasoning chains. Helps in reducing biases related to output length.             | Kimi k1.5, various other Large Language Models (LLMs) employing advanced RLHF | [LCPO Paper](https://arxiv.org/abs/2402.04831) | [Länge](https://github.com/cmu-l3/Länge)                   |
 
