@@ -51,7 +51,7 @@ https://github.com/atfortes/Awesome-LLM-Reasoning
 
 
 ## Survey 
-
+https://arxiv.org/pdf/2505.04921
 https://arxiv.org/pdf/2501.09686
 
 
