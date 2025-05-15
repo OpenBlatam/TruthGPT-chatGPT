@@ -28,3 +28,37 @@ https://github.com/yuanpinz/awesome-deep-multimodal-reasoning
 | **Reinforcement Learning with Verifiable Rewards (RLVR)**   | Leverages binary feedback (e.g., correct/incorrect) and does not require a separate learned reward model. It often relies on external tools like calculators or verifiers to provide feedback. | Enhances training efficiency, especially in domains where task outcomes are easily verifiable (e.g., math problems, code generation with unit tests).       | DeepSeek-R1                                                                 | [RLVR Paper/Source](https://arxiv.org/abs/2305.14340)             | [GSM8K-RLVR](https://github.com/Mohammadjafari80/GSM8K-RLVR) |
 | **Dr. GRPO and Length-Controlled Policy Optimization (LCPO)** | These methods are extensions or related techniques designed to address specific challenges like length bias in model generations. They often incorporate mechanisms to penalize overly long and incorrect answers, thereby exerting more control over the length and quality of responses. | Leads to improved accuracy by discouraging verbose, unhelpful, or incorrect reasoning chains. Helps in reducing biases related to output length.             | Kimi k1.5, various other Large Language Models (LLMs) employing advanced RLHF | [LCPO Paper](https://arxiv.org/abs/2402.04831) | [Länge](https://github.com/cmu-l3/Länge)                   |
 
+# GRPO: Mathematical Formulation
+
+**Group Relative Policy Optimization (GRPO)** eliminates the need for a traditional critic by employing group sampling to estimate advantages and uses conservative policy updates for stability.
+
+## Objective Function
+
+The objective function for GRPO is:
+
+```
+J_GRPO(θ) = E_{q~P(Q), {o_i}~π_{θ_old}} [
+    (1/G) ∑_{i=1}^G ∑_{t=1}^{|o_i|} min(r_t(θ)A_i, clip(r_t(θ), 1-ε, 1+ε)A_i)
+    - β D_KL[π_θ || π_ref]
+]
+```
+
+where
+
+```
+r_t(θ) = π_θ(o_{i,t} | q, o_{i,<t}) / π_{θ_old}(o_{i,t} | q, o_{i,<t})
+```
+
+**Definitions:**
+- `q ~ P(Q)`: question sampled from distribution P(Q)
+- `{o_i} ~ π_{θ_old}`: outputs sampled from the old policy
+- `G`: number of samples
+- `A_i`: advantage estimate for sample i
+- `ε`: clipping parameter
+- `β`: KL penalty coefficient
+- `D_KL[π_θ || π_ref]`: KL divergence between current and reference policy
+
+---
+
+*This file documents the mathematical formulation for the GRPO algorithm. For implementation, see the corresponding Python files.*
+
