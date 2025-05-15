@@ -48,9 +48,12 @@
 # Awesome list 
 
 https://github.com/atfortes/Awesome-LLM-Reasoning
+### Multimodal Reasoing 
 
+https://github.com/ADaM-BJTU/Mind_with_eyes_Awesome_MLLMs_Reasoning
 
-## Survey 
+## Survey
+
 https://arxiv.org/pdf/2505.04921
 https://arxiv.org/pdf/2501.09686
 
