@@ -1,0 +1,110 @@
+# Dataset Configuration
+dataset_name: "your_dataset"
+dataset_config: "your_config"
+dataset_train_split: "train"
+dataset_test_split: "test"
+output_dir: "./output"
+
+# Model Configuration
+model:
+  name: "deepseek-ai/deepseek-r1"
+  use_deepspeed: false
+  fp16: true
+  bf16: false
+
+# Training Parameters
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 1
+  learning_rate: 5e-5
+  max_steps: 1000
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  lr_scheduler_type: "cosine"
+  num_cycles: 1
+
+# Optimization Settings
+optimization:
+  use_amp: true
+  use_gradient_checkpointing: true
+  use_flash_attention: true
+  use_8bit_optimizer: false
+  use_cpu_offload: false
+  use_activation_checkpointing: true
+  use_attention_slicing: true
+  use_sequence_parallelism: false
+
+# Performance Settings
+performance:
+  use_cudnn_benchmark: true
+  use_tf32: true
+  use_channels_last: true
+  use_compile: true
+
+# DeepSpeed Configuration
+deepspeed:
+  use_deepspeed: false
+  zero_stage: 2
+  offload_optimizer: true
+  offload_param: false
+  gradient_clipping: 1.0
+
+# DeepSeek Specific Settings
+deepseek:
+  model_type: "deepseek"
+  max_position_embeddings: 8192
+  hidden_size: 4096
+  num_hidden_layers: 32
+  num_attention_heads: 32
+  intermediate_size: 11008
+  hidden_dropout_prob: 0.1
+  attention_dropout_prob: 0.1
+  layer_norm_eps: 1e-5
+  use_rotary_embeddings: true
+  use_alibi: false
+  use_flash_attention_2: true
+  use_sliding_window: true
+  sliding_window_size: 4096
+
+# Parallel Processing Settings
+parallel:
+  attention: true
+  mlp: true
+  layernorm: true
+  embedding: true
+  output: true
+  residual: true
+  ffn: true
+  attention_output: true
+  mlp_output: true
+  layernorm_output: true
+  embedding_output: true
+  residual_output: true
+  ffn_output: true
+  attention_input: true
+  mlp_input: true
+  layernorm_input: true
+  embedding_input: true
+  residual_input: true
+  ffn_input: true
+
+# Kalman Filter Settings
+kalman:
+  process_noise: 0.01
+  measurement_noise: 0.1
+  memory_size: 1000
+
+# Reward Functions
+reward_funcs:
+  - "accuracy"
+  - "format"
+  - "tag_count"
+
+# Distributed Training Settings
+distributed:
+  backend: "nccl"
+  world_size: -1
+  rank: -1
+  master_addr: "localhost"
+  master_port: "29500" 
