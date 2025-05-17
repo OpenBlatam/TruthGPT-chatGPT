@@ -19,6 +19,12 @@ From the root node n_r, MCTS iteratively selects the child node with the highest
 advantage: a more
 granular, token-level reward modeling framework.
 
+# Survey in Inference via search
+https://arxiv.org/pdf/2501.10069
+
+## Difference 
+
+https://arxiv.org/pdf/2503.10814
 
 # Code
 
