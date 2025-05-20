@@ -17,6 +17,8 @@ https://github.com/microsoft/autogen/tree/main
 
 https://github.com/FlowiseAI/Flowise
 
+https://github.com/crewAIInc/crewAI
+
 # Aplications 
 
 https://github.com/langchain-ai/langchain/tree/master
@@ -34,3 +36,8 @@ https://github.com/facebookresearch/habitat-lab
 https://github.com/facebookresearch/multimodal
 
 https://github.com/pipecat-ai/pipecat
+
+
+# Train 
+
+https://github.com/open-thought/reasoning-gym/tree/main

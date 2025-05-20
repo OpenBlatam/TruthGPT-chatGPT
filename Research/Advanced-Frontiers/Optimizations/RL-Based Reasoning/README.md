@@ -62,3 +62,6 @@ r_t(θ) = π_θ(o_{i,t} | q, o_{i,<t}) / π_{θ_old}(o_{i,t} | q, o_{i,<t})
 
 *This file documents the mathematical formulation for the GRPO algorithm. For implementation, see the corresponding Python files.*
 
+## Production Code 
+
+https://github.com/LLaVA-VL/LLaVA-NeXT
