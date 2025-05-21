@@ -1,3 +1,6 @@
+# How to seperate 
+# https://github.com/OpenGVLab/InternVL/tree/main/requirements
+
 appdirs>=1.4.4
 beautifulsoup4==4.8.2
 blake3==0.4.1
