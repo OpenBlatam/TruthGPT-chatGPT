@@ -112,3 +112,7 @@ https://github.com/huggingface/tokenizers
 ## Videos about use frameworks of transformers
 
 https://www.youtube.com/@SebastienBubeck/videos
+
+# Code production
+
+https://huggingface.co/docs/transformers/model_doc/t5
