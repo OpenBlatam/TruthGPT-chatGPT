@@ -43,18 +43,18 @@ class CommandManager:
             loaded_command = pickle.load(f)
             command.__dict__ = loaded_command.__dict__  # Update command state
 
-# Using it:
-command_manager = CommandManager()
-logging_observer = LoggingObserver()
-
-create_ticket_command = CommandFactory.create_command('create_ticket', {"system": "System1", "ticket_details": "details here"})
-update_status_command = CommandFactory.create_command('update_node_status', {"system": "System1", "node_id": "123", "new_status": "active"})
-
-create_ticket_command.subscribe(logging_observer)
-update_status_command.subscribe(logging_observer)
-
-command_manager.add_command(create_ticket_command)
-command_manager.add_command(update_status_command)
-
-command_manager.execute_commands()
-command_manager.undo_last_command()
+# Example usage (commented out to avoid import issues):
+# command_manager = CommandManager()
+# logging_observer = LoggingObserver()
+# 
+# create_ticket_command = CommandFactory.create_command('create_ticket', {"system": "System1", "ticket_details": "details here"})
+# update_status_command = CommandFactory.create_command('update_node_status', {"system": "System1", "node_id": "123", "new_status": "active"})
+# 
+# create_ticket_command.subscribe(logging_observer)
+# update_status_command.subscribe(logging_observer)
+# 
+# command_manager.add_command(create_ticket_command)
+# command_manager.add_command(update_status_command)
+# 
+# command_manager.execute_commands()
+# command_manager.undo_last_command()
