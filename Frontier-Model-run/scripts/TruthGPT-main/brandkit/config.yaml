@@ -1,0 +1,78 @@
+brandkit:
+  model_type: "brand_analyzer"
+  
+  website_analysis:
+    max_pages: 10
+    include_images: true
+    include_css: true
+    include_javascript: false
+    timeout: 30  # seconds
+    
+  scraping:
+    user_agent: "BrandKit-Analyzer/1.0"
+    respect_robots_txt: true
+    delay_between_requests: 1  # seconds
+    max_retries: 3
+    
+  brand_analyzer:
+    hidden_size: 768
+    num_layers: 8
+    num_attention_heads: 12
+    dropout: 0.1
+    max_sequence_length: 2048
+    
+    color_palette_size: 16
+    typography_features: 64
+    layout_features: 128
+    
+    tone_categories: 10  # formal, casual, friendly, professional, etc.
+    sentiment_dim: 32
+    style_dim: 64
+    
+  content_generator:
+    hidden_size: 768
+    num_layers: 6
+    num_attention_heads: 12
+    dropout: 0.1
+    max_sequence_length: 1024
+    
+    text_vocab_size: 50000
+    image_feature_dim: 512
+    layout_dim: 256
+    
+    brand_profile_dim: 768
+    style_conditioning_dim: 128
+    
+    content_types:
+      - "social_post"
+      - "blog_header"
+      - "advertisement"
+      - "logo_variant"
+      - "color_scheme"
+      - "typography_sample"
+      - "business_card"
+      - "letterhead"
+      - "presentation_template"
+      - "email_signature"
+    
+  output:
+    formats:
+      - "json"
+      - "css"
+      - "html"
+      - "png"
+      - "svg"
+    
+    brand_kit_components:
+      - "color_palette"
+      - "typography_guide"
+      - "logo_variations"
+      - "tone_guidelines"
+      - "visual_examples"
+      - "usage_guidelines"
+    
+  quality_thresholds:
+    min_consistency_score: 0.7
+    min_quality_score: 0.8
+    max_color_palette_size: 8
+    min_text_samples: 5

@@ -1,0 +1,39 @@
+viral_clipper:
+  model_type: "viral_detector"
+  
+  video:
+    max_duration: 3600  # Maximum video duration in seconds (1 hour)
+    clip_duration: 30   # Default clip duration in seconds
+    min_clip_duration: 10  # Minimum clip duration
+    max_clip_duration: 60  # Maximum clip duration
+    resolution: "720p"  # Output resolution
+    fps: 30            # Frames per second
+    
+  detection:
+    engagement_threshold: 0.8  # Engagement score threshold for viral content
+    view_velocity_threshold: 1000  # Views per hour threshold
+    comment_ratio_threshold: 0.05  # Comments to views ratio
+    like_ratio_threshold: 0.1     # Likes to views ratio
+    
+  model:
+    hidden_size: 512
+    num_layers: 6
+    num_attention_heads: 8
+    dropout: 0.1
+    
+  features:
+    visual_features: true
+    audio_features: true
+    text_features: true  # From captions/comments
+    engagement_features: true
+    
+  youtube:
+    api_key: null  # Set via environment variable
+    max_results: 50
+    quality: "720p"
+    
+  output:
+    format: "mp4"
+    codec: "h264"
+    audio_codec: "aac"
+    bitrate: "2M"

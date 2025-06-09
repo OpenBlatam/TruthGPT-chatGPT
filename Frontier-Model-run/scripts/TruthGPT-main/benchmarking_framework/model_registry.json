@@ -1,0 +1,261 @@
+{
+  "TruthGPT-DeepSeek-V3": {
+    "name": "TruthGPT-DeepSeek-V3",
+    "model_type": "truthgpt",
+    "category": "language_model",
+    "parameters": 1550312,
+    "context_length": 2048,
+    "provider": "TruthGPT",
+    "api_endpoint": null,
+    "local_path": "/home/ubuntu/TruthGPT/Frontier-Model-run/models/deepseek_v3.py",
+    "huggingface_id": null,
+    "description": "Native DeepSeek-V3 implementation with MLA and MoE optimizations",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "mcts_optimization"
+    ],
+    "license": "MIT"
+  },
+  "TruthGPT-Viral-Clipper": {
+    "name": "TruthGPT-Viral-Clipper",
+    "model_type": "truthgpt",
+    "category": "multimodal",
+    "parameters": 21430531,
+    "context_length": 1024,
+    "provider": "TruthGPT",
+    "api_endpoint": null,
+    "local_path": "/home/ubuntu/TruthGPT/variant/viral_clipper.py",
+    "huggingface_id": null,
+    "description": "Multi-modal viral video content detection and clipping",
+    "capabilities": [
+      "video_analysis",
+      "viral_detection",
+      "multimodal_fusion"
+    ],
+    "license": "MIT"
+  },
+  "TruthGPT-Brand-Analyzer": {
+    "name": "TruthGPT-Brand-Analyzer",
+    "model_type": "truthgpt",
+    "category": "multimodal",
+    "parameters": 9476347,
+    "context_length": 1024,
+    "provider": "TruthGPT",
+    "api_endpoint": null,
+    "local_path": "/home/ubuntu/TruthGPT/brandkit/brand_analyzer.py",
+    "huggingface_id": null,
+    "description": "Website brand analysis and content generation",
+    "capabilities": [
+      "brand_analysis",
+      "content_generation",
+      "web_scraping"
+    ],
+    "license": "MIT"
+  },
+  "TruthGPT-Qwen-Optimized": {
+    "name": "TruthGPT-Qwen-Optimized",
+    "model_type": "truthgpt",
+    "category": "reasoning",
+    "parameters": 1243820544,
+    "context_length": 32768,
+    "provider": "TruthGPT",
+    "api_endpoint": null,
+    "local_path": "/home/ubuntu/TruthGPT/qwen_variant/qwen_model.py",
+    "huggingface_id": null,
+    "description": "Optimized Qwen model with advanced reasoning capabilities",
+    "capabilities": [
+      "reasoning",
+      "math",
+      "code_generation",
+      "long_context"
+    ],
+    "license": "MIT"
+  },
+  "Llama-3.1-405B": {
+    "name": "Llama-3.1-405B",
+    "model_type": "open_source",
+    "category": "language_model",
+    "parameters": 405000000000,
+    "context_length": 128000,
+    "provider": "Meta",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "meta-llama/Llama-3.1-405B-Instruct",
+    "description": "Meta's largest open source language model",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "code_generation",
+      "multilingual"
+    ],
+    "license": "Llama 3.1 Community License"
+  },
+  "Qwen2.5-72B": {
+    "name": "Qwen2.5-72B",
+    "model_type": "open_source",
+    "category": "language_model",
+    "parameters": 72000000000,
+    "context_length": 32768,
+    "provider": "Alibaba",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "Qwen/Qwen2.5-72B-Instruct",
+    "description": "Alibaba's advanced multilingual model",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "math",
+      "code_generation"
+    ],
+    "license": "Apache 2.0"
+  },
+  "DeepSeek-V3": {
+    "name": "DeepSeek-V3",
+    "model_type": "open_source",
+    "category": "language_model",
+    "parameters": 671000000000,
+    "context_length": 64000,
+    "provider": "DeepSeek",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "deepseek-ai/deepseek-llm-67b-chat",
+    "description": "DeepSeek's flagship model with MoE architecture",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "math",
+      "code_generation"
+    ],
+    "license": "DeepSeek License"
+  },
+  "Mixtral-8x22B": {
+    "name": "Mixtral-8x22B",
+    "model_type": "open_source",
+    "category": "language_model",
+    "parameters": 141000000000,
+    "context_length": 65536,
+    "provider": "Mistral AI",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "mistralai/Mixtral-8x22B-Instruct-v0.1",
+    "description": "Mistral's sparse mixture of experts model",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "multilingual"
+    ],
+    "license": "Apache 2.0"
+  },
+  "Claude-3.5-Sonnet": {
+    "name": "Claude-3.5-Sonnet",
+    "model_type": "closed_source",
+    "category": "language_model",
+    "parameters": null,
+    "context_length": 200000,
+    "provider": "Anthropic",
+    "api_endpoint": "https://api.anthropic.com/v1/messages",
+    "local_path": null,
+    "huggingface_id": null,
+    "description": "Anthropic's most capable model",
+    "capabilities": [
+      "text_generation",
+      "reasoning",
+      "code_generation",
+      "analysis"
+    ],
+    "license": "Proprietary"
+  },
+  "GPT-4o": {
+    "name": "GPT-4o",
+    "model_type": "closed_source",
+    "category": "multimodal",
+    "parameters": null,
+    "context_length": 128000,
+    "provider": "OpenAI",
+    "api_endpoint": "https://api.openai.com/v1/chat/completions",
+    "local_path": null,
+    "huggingface_id": null,
+    "description": "OpenAI's flagship multimodal model",
+    "capabilities": [
+      "text_generation",
+      "vision",
+      "reasoning",
+      "code_generation"
+    ],
+    "license": "Proprietary"
+  },
+  "Gemini-1.5-Pro": {
+    "name": "Gemini-1.5-Pro",
+    "model_type": "closed_source",
+    "category": "multimodal",
+    "parameters": null,
+    "context_length": 2000000,
+    "provider": "Google",
+    "api_endpoint": "https://generativelanguage.googleapis.com/v1beta/models",
+    "local_path": null,
+    "huggingface_id": null,
+    "description": "Google's advanced multimodal model with massive context",
+    "capabilities": [
+      "text_generation",
+      "vision",
+      "reasoning",
+      "long_context"
+    ],
+    "license": "Proprietary"
+  },
+  "CodeLlama-70B": {
+    "name": "CodeLlama-70B",
+    "model_type": "open_source",
+    "category": "code_generation",
+    "parameters": 70000000000,
+    "context_length": 100000,
+    "provider": "Meta",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "codellama/CodeLlama-70b-Instruct-hf",
+    "description": "Meta's specialized code generation model",
+    "capabilities": [
+      "code_generation",
+      "code_completion",
+      "debugging"
+    ],
+    "license": "Llama 2 Community License"
+  },
+  "Qwen2.5-Math-72B": {
+    "name": "Qwen2.5-Math-72B",
+    "model_type": "open_source",
+    "category": "math",
+    "parameters": 72000000000,
+    "context_length": 32768,
+    "provider": "Alibaba",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "Qwen/Qwen2.5-Math-72B-Instruct",
+    "description": "Specialized mathematical reasoning model",
+    "capabilities": [
+      "math",
+      "reasoning",
+      "problem_solving"
+    ],
+    "license": "Apache 2.0"
+  },
+  "LLaVA-1.6-34B": {
+    "name": "LLaVA-1.6-34B",
+    "model_type": "open_source",
+    "category": "vision",
+    "parameters": 34000000000,
+    "context_length": 4096,
+    "provider": "Microsoft",
+    "api_endpoint": null,
+    "local_path": null,
+    "huggingface_id": "liuhaotian/llava-v1.6-34b",
+    "description": "Large Language and Vision Assistant",
+    "capabilities": [
+      "vision",
+      "multimodal",
+      "image_understanding"
+    ],
+    "license": "Apache 2.0"
+  }
+}

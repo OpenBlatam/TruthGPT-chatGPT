@@ -1,0 +1,109 @@
+{
+  "model_analysis": {
+    "total_parameters": 118493696,
+    "trainable_parameters": 118493696,
+    "total_parameters_millions": 118.493696,
+    "total_parameters_billions": 0.118493696,
+    "trainable_parameters_millions": 118.493696,
+    "trainable_parameters_billions": 0.118493696
+  },
+  "model_size": {
+    "parameter_size_mb": 452.017578125,
+    "buffer_size_mb": 0.00048828125,
+    "total_size_mb": 452.01806640625,
+    "total_size_gb": 0.4414238929748535
+  },
+  "moe_analysis": {
+    "total_experts": 32,
+    "active_experts_per_layer": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "expert_utilization": [],
+    "routing_efficiency": []
+  },
+  "performance": {
+    "batch_1_seq_512": {
+      "memory": {
+        "initial_memory_mb": 1859.6328125,
+        "peak_memory_mb": 1859.6328125,
+        "final_memory_mb": 1859.6328125,
+        "memory_increase_mb": 0.0
+      },
+      "latency": {
+        "mean_time_ms": 246.05957599999329,
+        "min_time_ms": 236.96804199994403,
+        "max_time_ms": 270.839920999947,
+        "std_time_ms": 12.648374517733314
+      },
+      "throughput": {
+        "tokens_per_second": 2133.821677095049,
+        "samples_per_second": 4.167620463076267,
+        "total_time_s": 2.399450739000031,
+        "time_per_sample_ms": 239.94507390000308
+      }
+    },
+    "batch_1_seq_1024": {
+      "memory": {
+        "initial_memory_mb": 1859.6328125,
+        "peak_memory_mb": 1859.6328125,
+        "final_memory_mb": 1859.6328125,
+        "memory_increase_mb": 0.0
+      },
+      "latency": {
+        "mean_time_ms": 448.5067226000183,
+        "min_time_ms": 440.79904600005193,
+        "max_time_ms": 463.7019860000464,
+        "std_time_ms": 8.074500132025026
+      },
+      "throughput": {
+        "tokens_per_second": 2286.311938372074,
+        "samples_per_second": 2.2327265023164786,
+        "total_time_s": 4.478828906999979,
+        "time_per_sample_ms": 447.8828906999979
+      }
+    },
+    "batch_2_seq_512": {
+      "memory": {
+        "initial_memory_mb": 1859.6328125,
+        "peak_memory_mb": 1859.6328125,
+        "final_memory_mb": 1859.6328125,
+        "memory_increase_mb": 0.0
+      },
+      "latency": {
+        "mean_time_ms": 431.3652112000227,
+        "min_time_ms": 429.3563930000346,
+        "max_time_ms": 435.7362619999776,
+        "std_time_ms": 2.4012562289776813
+      },
+      "throughput": {
+        "tokens_per_second": 2350.7796394535576,
+        "samples_per_second": 4.59136648330773,
+        "total_time_s": 4.356001655,
+        "time_per_sample_ms": 217.80008275
+      }
+    },
+    "batch_2_seq_1024": {
+      "memory": {
+        "initial_memory_mb": 1859.6328125,
+        "peak_memory_mb": 1859.6328125,
+        "final_memory_mb": 1859.6328125,
+        "memory_increase_mb": 0.0
+      },
+      "latency": {
+        "mean_time_ms": 888.5642321999967,
+        "min_time_ms": 849.9832620000234,
+        "max_time_ms": 933.8218970000298,
+        "std_time_ms": 31.171143514125717
+      },
+      "throughput": {
+        "tokens_per_second": 2356.6892283224392,
+        "samples_per_second": 2.301454324533632,
+        "total_time_s": 8.69015725700001,
+        "time_per_sample_ms": 434.5078628500005
+      }
+    }
+  }
+}
