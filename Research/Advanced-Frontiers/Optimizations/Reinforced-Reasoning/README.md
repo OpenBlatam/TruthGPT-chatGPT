@@ -66,6 +66,11 @@ https://cognition.ai/blog/kevin-32b
 
 ## Code 
 
+# Polaris and guru for now best models opensource 
+
+#Training frontier 
+https://arxiv.org/html/2505.00949v4
+
 ### Framework
 https://github.com/openreasoner/openr/tree/main
 
