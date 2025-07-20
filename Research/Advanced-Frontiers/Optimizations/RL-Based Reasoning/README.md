@@ -18,6 +18,9 @@
 
 # Suvey 
 https://arxiv.org/pdf/2504.21277
+ 
+#Frontiers 
+https://arxiv.org/abs/2507.02554
 
 # Awesome 
 https://github.com/yuanpinz/awesome-deep-multimodal-reasoning
@@ -63,5 +66,10 @@ r_t(θ) = π_θ(o_{i,t} | q, o_{i,<t}) / π_{θ_old}(o_{i,t} | q, o_{i,<t})
 *This file documents the mathematical formulation for the GRPO algorithm. For implementation, see the corresponding Python files.*
 
 ## Production Code 
+Last months 2025
+Polaris
+https://github.com/InternLM/POLAR?utm_source=chatgpt.com
+Guru
+https://github.com/probing-lab/polar
 
 https://github.com/LLaVA-VL/LLaVA-NeXT
