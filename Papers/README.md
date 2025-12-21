@@ -1,13 +1,8 @@
+# Paper
 
 
+The creation of truthGpt:
 
-# Papers
+Turn any idea in a custom agent IA model that compite with closed source.
 
-## Code
-
-https://github.com/GT-RIPL/Awesome-LLM-Robotics
-
-
-## Advancements
-
-https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10521640
+https://www.overleaf.com/read/fzrcqnkmrszc#098437
