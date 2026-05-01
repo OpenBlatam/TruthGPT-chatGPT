@@ -1,0 +1,69 @@
+# Preset: LoRA Fast Training (eficiente en memoria)
+seed: 42
+run_name: lora_fast
+output_dir: runs/lora_fast
+
+model:
+  name_or_path: gpt2
+  gradient_checkpointing: true
+  lora:
+    enabled: true
+    r: 8  # Bajo rank para velocidad
+    alpha: 16
+    dropout: 0.05
+
+training:
+  epochs: 3
+  train_batch_size: 16
+  eval_batch_size: 16
+  grad_accum_steps: 1
+  learning_rate: 1.0e-3  # LR más alto para LoRA
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  scheduler: cosine
+  mixed_precision: bf16
+  allow_tf32: true
+  torch_compile: false
+  fused_adamw: true
+  select_best_by: ppl
+
+optimizer:
+  type: adamw
+  fused: true
+
+data:
+  source: hf
+  dataset: wikitext
+  subset: wikitext-2-raw-v1
+  text_field: text
+  streaming: false
+  collate: lm
+  max_seq_len: 256  # Secuencias cortas para velocidad
+  bucket_by_length: true
+  num_workers: 4
+  prefetch_factor: 2
+  persistent_workers: true
+
+checkpoint:
+  interval_steps: 500
+  keep_last: 2
+
+ema:
+  enabled: false  # Desactivado para velocidad
+
+resume:
+  enabled: false
+
+eval:
+  metrics: [ppl]
+  select_best_by: ppl
+
+logging:
+  project: truthgpt
+  run_name: lora_fast
+  dir: runs
+
+hardware:
+  device: auto
+
+

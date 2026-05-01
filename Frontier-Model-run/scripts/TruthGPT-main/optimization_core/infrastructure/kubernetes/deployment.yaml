@@ -1,0 +1,248 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthgpt-optimization
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: api
+    version: v3.0.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: truthgpt-optimization
+      component: api
+  template:
+    metadata:
+      labels:
+        app: truthgpt-optimization
+        component: api
+        version: v3.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: truthgpt-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: truthgpt-api
+        image: truthgpt/optimization:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        - containerPort: 8001
+          name: metrics
+          protocol: TCP
+        env:
+        - name: PYTHONPATH
+          value: "/app"
+        - name: TRUTHGPT_CONFIG_PATH
+          value: "/app/config/framework.yaml"
+        - name: TRUTHGPT_LOG_LEVEL
+          value: "INFO"
+        - name: TRUTHGPT_ENVIRONMENT
+          value: "production"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: secret-key
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: jwt-secret
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: redis-password
+        - name: WANDB_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: wandb-api-key
+        - name: AZURE_STORAGE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: azure-storage-key
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+            nvidia.com/gpu: "1"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        - name: logs-volume
+          mountPath: /app/logs
+        - name: cache-volume
+          mountPath: /app/cache
+        - name: models-volume
+          mountPath: /app/models
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 10
+      volumes:
+      - name: config-volume
+        configMap:
+          name: truthgpt-config
+      - name: logs-volume
+        persistentVolumeClaim:
+          claimName: truthgpt-logs-pvc
+      - name: cache-volume
+        persistentVolumeClaim:
+          claimName: truthgpt-cache-pvc
+      - name: models-volume
+        persistentVolumeClaim:
+          claimName: truthgpt-models-pvc
+      nodeSelector:
+        node-type: gpu-enabled
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - truthgpt-optimization
+              topologyKey: kubernetes.io/hostname
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthgpt-worker
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: worker
+    version: v3.0.0
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: truthgpt-optimization
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: truthgpt-optimization
+        component: worker
+        version: v3.0.0
+    spec:
+      serviceAccountName: truthgpt-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: truthgpt-worker
+        image: truthgpt/optimization:latest
+        imagePullPolicy: Always
+        command: ["python", "-m", "refactored.worker"]
+        env:
+        - name: PYTHONPATH
+          value: "/app"
+        - name: TRUTHGPT_CONFIG_PATH
+          value: "/app/config/framework.yaml"
+        - name: TRUTHGPT_WORKER_MODE
+          value: "true"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: secret-key
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: truthgpt-secrets
+              key: redis-password
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "16Gi"
+            cpu: "8000m"
+            nvidia.com/gpu: "1"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        - name: models-volume
+          mountPath: /app/models
+        - name: cache-volume
+          mountPath: /app/cache
+      volumes:
+      - name: config-volume
+        configMap:
+          name: truthgpt-config
+      - name: models-volume
+        persistentVolumeClaim:
+          claimName: truthgpt-models-pvc
+      - name: cache-volume
+        persistentVolumeClaim:
+          claimName: truthgpt-cache-pvc
+      nodeSelector:
+        node-type: gpu-enabled
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+
+

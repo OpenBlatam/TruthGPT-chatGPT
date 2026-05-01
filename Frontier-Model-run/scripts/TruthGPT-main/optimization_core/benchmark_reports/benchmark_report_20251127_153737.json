@@ -1,0 +1,116 @@
+{
+  "timestamp": "2025-11-27T15:37:37.067269",
+  "polyglot_results": [
+    {
+      "name": "kv_cache_put",
+      "module": "kv_cache",
+      "backend": "python",
+      "latency_ms": 0.002864499998395331,
+      "throughput_tokens_per_sec": 349101.064953811,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": true,
+      "error": null,
+      "metadata": {
+        "operations": 1000
+      }
+    },
+    {
+      "name": "kv_cache_get",
+      "module": "kv_cache",
+      "backend": "python",
+      "latency_ms": 0.0006665999972028658,
+      "throughput_tokens_per_sec": 1500150.0212963112,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": true,
+      "error": null,
+      "metadata": {
+        "operations": 1000
+      }
+    },
+    {
+      "name": "compression_compress",
+      "module": "compression",
+      "backend": "python",
+      "latency_ms": 0.5210289999376982,
+      "throughput_tokens_per_sec": 45.75917638558914,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": true,
+      "error": null,
+      "metadata": {
+        "data_size_bytes": 25000,
+        "compressed_size_bytes": 25000,
+        "compression_ratio": 1.0
+      }
+    },
+    {
+      "name": "compression_decompress",
+      "module": "compression",
+      "backend": "python",
+      "latency_ms": 0.43389200000092387,
+      "throughput_tokens_per_sec": 54.94883037738766,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": true,
+      "error": null,
+      "metadata": {
+        "data_size_bytes": 25000
+      }
+    },
+    {
+      "name": "attention_forward",
+      "module": "attention",
+      "backend": "python",
+      "latency_ms": 188.55018000031123,
+      "throughput_tokens_per_sec": 10861.829991340339,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": true,
+      "error": null,
+      "metadata": {
+        "batch_size": 4,
+        "seq_len": 512,
+        "d_model": 768,
+        "n_heads": 12
+      }
+    }
+  ],
+  "closed_source_results": [],
+  "module_status": {
+    "polyglot_core": true,
+    "polyglot_inference": true,
+    "inference_engines": false,
+    "attention": true,
+    "compression": true,
+    "cache": true,
+    "rust": false,
+    "cpp": false,
+    "go": false
+  },
+  "summary": {
+    "total_polyglot_tests": 5,
+    "successful_polyglot_tests": 5,
+    "total_closed_source_tests": 0,
+    "successful_closed_source_tests": 0,
+    "module_performance": {
+      "kv_cache": {
+        "avg_latency_ms": 0.0017655499977990985,
+        "avg_throughput_tokens_per_sec": 924625.5431250611,
+        "test_count": 2
+      },
+      "compression": {
+        "avg_latency_ms": 0.47746049996931106,
+        "avg_throughput_tokens_per_sec": 50.3540033814884,
+        "test_count": 2
+      },
+      "attention": {
+        "avg_latency_ms": 188.55018000031123,
+        "avg_throughput_tokens_per_sec": 10861.829991340339,
+        "test_count": 1
+      }
+    },
+    "comparison": {}
+  }
+}

@@ -1,0 +1,59 @@
+Papers con IDs Pendientes
+============================================================
+
+Paper: paper_longrope
+Título: LongRoPE: Extending LLM Context Window Beyond 2 Million Tokens
+Autores: Long
+Año: 2024
+Archivo: papers/research/paper_longrope.py
+------------------------------------------------------------
+
+Paper: paper_longrope2
+Título: LongRoPE2: Near-Lossless LLM Context Window Scaling
+Autores: Long
+Año: 2025
+Archivo: papers/research/paper_longrope2.py
+------------------------------------------------------------
+
+Paper: paper_focusllm
+Título: FocusLLM: Scaling LLM's Context by Parallel Decoding
+Autores: Focus
+Año: 2024
+Archivo: papers/research/paper_focusllm.py
+------------------------------------------------------------
+
+Paper: paper_cepe
+Título: CEPE: Context Expansion with Parallel Encoding
+Autores: Context Expansion
+Año: 2024
+Archivo: papers/research/paper_cepe.py
+------------------------------------------------------------
+
+Paper: paper_lift
+Título: LIFT: Long Input Fine-Tuning
+Autores: Long Input Fine
+Año: 2025
+Archivo: papers/research/paper_lift.py
+------------------------------------------------------------
+
+Paper: paper_adagrope
+Título: AdaGroPE: Adaptive Grouped Positional Encoding
+Autores: Ada
+Año: 2048
+Archivo: papers/research/paper_adagrope.py
+------------------------------------------------------------
+
+Paper: paper_longreward
+Título: LongReward: Improving Long-context LLMs
+Autores: Long
+Año: Unknown
+Archivo: papers/research/paper_longreward.py
+------------------------------------------------------------
+
+Paper: paper_longembed
+Título: LongEmbed: Extending Embedding Models for Long Context Retrieval
+Autores: Long
+Año: 2024
+Archivo: papers/research/paper_longembed.py
+------------------------------------------------------------
+

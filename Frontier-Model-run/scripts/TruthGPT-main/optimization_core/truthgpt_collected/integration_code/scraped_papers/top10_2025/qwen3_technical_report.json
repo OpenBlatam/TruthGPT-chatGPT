@@ -1,0 +1,44 @@
+{
+  "paper_id": "qwen3_technical_report",
+  "arxiv_id": "2505.09388",
+  "title": "Qwen3 Technical Report",
+  "authors": [
+    "Alibaba Team"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2505.09388",
+  "contributions": [
+    "SOTA en 14/15 benchmarks",
+    "85.7% en AIME'24",
+    "70.7% en LiveCodeBench v5",
+    "Supera DeepSeek-V3 en multitarea"
+  ],
+  "key_techniques": [
+    "Modos de pensamiento integrados",
+    "Soporte multilingüe expandido (119 idiomas)",
+    "Arquitectura multimodal",
+    "Optimización de razonamiento"
+  ],
+  "benchmarks": [
+    "AIME'24: 85.7%",
+    "LiveCodeBench v5: 70.7%",
+    "MMLU",
+    "GSM8K",
+    "AIME",
+    "LiveCodeBench",
+    "MMMU"
+  ],
+  "improvements": "+5-20% en precisión en múltiples benchmarks",
+  "category": "multimodal_reasoning",
+  "technical_details": {
+    "model_family": "Qwen3",
+    "multilingual_support": 119,
+    "thinking_modes": [
+      "standard",
+      "thinking",
+      "multimodal"
+    ],
+    "architecture": "transformer_with_thinking",
+    "multimodal": true
+  }
+}

@@ -1,0 +1,459 @@
+# TruthGPT Optimization Framework - Helm Values
+# ==============================================
+# Default values for TruthGPT optimization framework deployment
+
+# Global configuration
+global:
+  imageRegistry: "truthgpt.azurecr.io"
+  imagePullSecrets: []
+  storageClass: "azurefile-csi"
+
+# Image configuration
+image:
+  repository: "truthgpt/optimization"
+  tag: "3.0.0"
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+# Application configuration
+app:
+  name: "truthgpt-optimization"
+  version: "3.0.0"
+  environment: "production"
+  debug: false
+  
+  # Resource configuration
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "1000m"
+      nvidia.com/gpu: "1"
+    limits:
+      memory: "8Gi"
+      cpu: "4000m"
+      nvidia.com/gpu: "1"
+  
+  # Scaling configuration
+  replicaCount: 3
+  workerReplicaCount: 5
+  
+  # Node configuration
+  nodeSelector:
+    node-type: gpu-enabled
+  
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Exists"
+      effect: "NoSchedule"
+  
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - truthgpt-optimization
+            topologyKey: kubernetes.io/hostname
+
+# Service configuration
+service:
+  type: LoadBalancer
+  ports:
+    http: 80
+    https: 443
+    metrics: 9090
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: "truthgpt-rg"
+  loadBalancerSourceRanges:
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: "truthgpt-api.example.com"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: "truthgpt-tls"
+      hosts:
+        - "truthgpt-api.example.com"
+  
+  # Nginx ingress controller
+  nginx:
+    enabled: true
+    controller:
+      service:
+        type: LoadBalancer
+      metrics:
+        enabled: true
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "100m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+
+# Autoscaling configuration
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+  
+  # Custom metrics
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Pods
+      pods:
+        metric:
+          name: http_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "100"
+
+# Vertical Pod Autoscaler
+vpa:
+  enabled: true
+  updatePolicy: "Auto"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: truthgpt-api
+        minAllowed:
+          cpu: "100m"
+          memory: "128Mi"
+        maxAllowed:
+          cpu: "8000m"
+          memory: "16Gi"
+        controlledResources: ["cpu", "memory"]
+
+# Configuration
+config:
+  # Framework configuration
+  framework:
+    name: "TruthGPT Optimization Framework"
+    version: "3.0.0"
+    debug: false
+    environment: "production"
+  
+  # Optimization configuration
+  optimization:
+    max_workers: 8
+    max_processes: 4
+    timeout: 600.0
+    retry_attempts: 3
+    batch_size: 32
+    learning_rate: 0.0001
+  
+  # Cache configuration
+  cache:
+    enabled: true
+    max_size: 10000
+    ttl: 7200
+    backend: "redis"
+    redis_host: "redis-service"
+    redis_port: 6379
+    redis_db: 0
+  
+  # Monitoring configuration
+  monitoring:
+    enabled: true
+    metrics_interval: 30
+    log_level: "INFO"
+    prometheus_enabled: true
+    grafana_enabled: true
+  
+  # API configuration
+  api:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8000
+    cors_enabled: true
+    rate_limit: 1000
+    timeout: 300
+  
+  # Security configuration
+  security:
+    secret_key: ""  # Will be set from secret
+    encryption_enabled: true
+    max_request_size: 10485760
+    jwt_expiry: 3600
+  
+  # Plugins configuration
+  plugins:
+    enabled: true
+    path: "/app/plugins"
+    auto_load: true
+
+# Secrets configuration
+secrets:
+  create: true
+  data:
+    secret-key: ""  # Will be generated or provided
+    jwt-secret: ""  # Will be generated or provided
+    redis-password: ""  # Will be generated or provided
+    wandb-api-key: ""  # Will be provided
+    azure-storage-key: ""  # Will be provided
+
+# Persistent volumes
+persistence:
+  enabled: true
+  storageClass: "azurefile-csi"
+  accessMode: "ReadWriteMany"
+  
+  # Logs volume
+  logs:
+    size: "10Gi"
+    mountPath: "/app/logs"
+  
+  # Cache volume
+  cache:
+    size: "50Gi"
+    mountPath: "/app/cache"
+  
+  # Models volume
+  models:
+    size: "100Gi"
+    mountPath: "/app/models"
+  
+  # Data volume
+  data:
+    size: "200Gi"
+    mountPath: "/app/data"
+
+# Redis configuration
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: ""  # Will be generated
+  master:
+    persistence:
+      enabled: true
+      size: "8Gi"
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "500m"
+      limits:
+        memory: "4Gi"
+        cpu: "1000m"
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: true
+      size: "8Gi"
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "500m"
+      limits:
+        memory: "4Gi"
+        cpu: "1000m"
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  
+  # Prometheus configuration
+  prometheus:
+    enabled: true
+    server:
+      persistentVolume:
+        enabled: true
+        size: "20Gi"
+      resources:
+        requests:
+          memory: "2Gi"
+          cpu: "500m"
+        limits:
+          memory: "4Gi"
+          cpu: "1000m"
+    alertmanager:
+      enabled: true
+      persistentVolume:
+        enabled: true
+        size: "2Gi"
+    pushgateway:
+      enabled: true
+      persistentVolume:
+        enabled: true
+        size: "1Gi"
+  
+  # Grafana configuration
+  grafana:
+    enabled: true
+    adminPassword: ""  # Will be generated
+    persistence:
+      enabled: true
+      size: "5Gi"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    dashboards:
+      default:
+        truthgpt-dashboard:
+          gnetId: 1860
+          revision: 1
+          datasource: Prometheus
+
+# Network policies
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
+        - protocol: TCP
+          port: 8001
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+      ports:
+        - protocol: TCP
+          port: 8001
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 53
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 443
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 80
+
+# RBAC configuration
+rbac:
+  create: true
+  serviceAccount:
+    create: true
+    name: "truthgpt-service-account"
+    annotations:
+      azure.workload.identity/client-id: ""  # Will be set
+
+# Pod security policy
+podSecurityPolicy:
+  enabled: false
+
+# Service monitor for Prometheus
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  scrapeTimeout: 10s
+  labels:
+    app: truthgpt-optimization
+    component: monitoring
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+# Pod security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+# Health checks
+healthChecks:
+  liveness:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readiness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+  startup:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 10
+
+# Environment variables
+env:
+  - name: PYTHONPATH
+    value: "/app"
+  - name: TRUTHGPT_CONFIG_PATH
+    value: "/app/config/framework.yaml"
+  - name: TRUTHGPT_LOG_LEVEL
+    value: "INFO"
+  - name: TRUTHGPT_ENVIRONMENT
+    value: "production"
+
+# Labels and annotations
+labels:
+  app: truthgpt-optimization
+  component: api
+  version: "3.0.0"
+  environment: "production"
+  team: "ml-engineering"
+  cost-center: "ai-research"
+
+annotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8001"
+  prometheus.io/path: "/metrics"
+
+

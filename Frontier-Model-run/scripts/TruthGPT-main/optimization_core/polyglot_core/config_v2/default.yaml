@@ -1,0 +1,72 @@
+# Polyglot Core Default Configuration
+
+# Environment settings
+environment: development
+debug: true
+log_level: INFO
+
+# Backend preferences (auto-select if not specified)
+preferred_backends:
+  kv_cache: rust      # Best: Rust (50x faster)
+  attention: cpp      # Best: C++ (10-100x faster)
+  compression: rust   # Best: Rust (5GB/s)
+  inference: cpp      # Best: C++ (10x faster)
+  tokenization: rust  # Best: Rust (5x faster)
+  quantization: cpp  # Best: C++ (SIMD optimized)
+
+# Performance settings
+performance:
+  enable_profiling: false
+  enable_metrics: true
+  enable_benchmarking: false
+  profiling_interval: 1.0
+  metrics_retention_hours: 24
+
+# Cache settings
+cache:
+  default_max_size: 100000
+  default_memory_gb: 8
+  enable_compression: true
+  compression_threshold: 4096
+  eviction_strategy: lru
+  num_shards: 32
+
+# Attention settings
+attention:
+  default_d_model: 768
+  default_n_heads: 12
+  use_flash: true
+  block_size: 64
+  use_causal_mask: false
+
+# Compression settings
+compression:
+  default_algorithm: lz4
+  default_level: 3
+  chunk_size: 65536
+
+# Inference settings
+inference:
+  default_seed: 42
+  default_max_tokens: 100
+  default_temperature: 1.0
+  default_top_p: 0.9
+  default_top_k: 50
+
+# Resource limits
+resources:
+  max_memory_gb: 32
+  max_cache_size_gb: 16
+  max_concurrent_operations: 10
+
+
+
+
+
+
+
+
+
+
+
+

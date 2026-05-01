@@ -1,0 +1,475 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthgpt-optimizer
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimizer
+    version: v1.0.0
+    optimization: ultra-speed
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: truthgpt-optimizer
+  template:
+    metadata:
+      labels:
+        app: truthgpt-optimizer
+        version: v1.0.0
+        optimization: ultra-speed
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: truthgpt-optimizer
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: truthgpt-optimizer
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/ultra-speed-truthgpt:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: OPTIMIZATION_LEVEL
+          value: "ultra_ultimate"
+        - name: AWS_REGION
+          value: "us-west-2"
+        - name: EKS_CLUSTER_NAME
+          value: "truthgpt-cluster"
+        - name: NAMESPACE
+          value: "truthgpt-optimization"
+        - name: USE_WANDB
+          value: "true"
+        - name: USE_TENSORBOARD
+          value: "true"
+        - name: USE_MIXED_PRECISION
+          value: "true"
+        - name: GPU_ENABLED
+          value: "true"
+        - name: DISTRIBUTED_TRAINING
+          value: "true"
+        - name: QUANTIZATION_ENABLED
+          value: "true"
+        - name: GRADIO_ENABLED
+          value: "true"
+        envFrom:
+        - configMapRef:
+            name: truthgpt-config
+        - secretRef:
+            name: truthgpt-secrets
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+            nvidia.com/gpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 10
+        volumeMounts:
+        - name: model-storage
+          mountPath: /app/models
+        - name: cache-storage
+          mountPath: /app/cache
+        - name: logs-storage
+          mountPath: /app/logs
+        - name: config-volume
+          mountPath: /app/config
+        - name: tmp-storage
+          mountPath: /tmp
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-model-pvc
+      - name: cache-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-cache-pvc
+      - name: logs-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-logs-pvc
+      - name: config-volume
+        configMap:
+          name: truthgpt-config
+      - name: tmp-storage
+        emptyDir:
+          sizeLimit: 1Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: "m5.2xlarge"
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.kubernetes.io/instance-type
+                operator: In
+                values:
+                - "m5.2xlarge"
+                - "m5.4xlarge"
+                - "m5.8xlarge"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - truthgpt-optimizer
+              topologyKey: kubernetes.io/hostname
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthgpt-worker
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-worker
+    version: v1.0.0
+    optimization: ultra-speed
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: truthgpt-worker
+  template:
+    metadata:
+      labels:
+        app: truthgpt-worker
+        version: v1.0.0
+        optimization: ultra-speed
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: truthgpt-worker
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: truthgpt-worker
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/ultra-speed-truthgpt:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: WORKER_MODE
+          value: "true"
+        - name: OPTIMIZATION_LEVEL
+          value: "ultra_ultimate"
+        - name: AWS_REGION
+          value: "us-west-2"
+        - name: EKS_CLUSTER_NAME
+          value: "truthgpt-cluster"
+        - name: NAMESPACE
+          value: "truthgpt-optimization"
+        - name: USE_WANDB
+          value: "true"
+        - name: USE_TENSORBOARD
+          value: "true"
+        - name: USE_MIXED_PRECISION
+          value: "true"
+        - name: GPU_ENABLED
+          value: "true"
+        - name: DISTRIBUTED_TRAINING
+          value: "true"
+        - name: QUANTIZATION_ENABLED
+          value: "true"
+        envFrom:
+        - configMapRef:
+            name: truthgpt-config
+        - secretRef:
+            name: truthgpt-secrets
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+            nvidia.com/gpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 10
+        volumeMounts:
+        - name: model-storage
+          mountPath: /app/models
+        - name: cache-storage
+          mountPath: /app/cache
+        - name: logs-storage
+          mountPath: /app/logs
+        - name: config-volume
+          mountPath: /app/config
+        - name: tmp-storage
+          mountPath: /tmp
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-model-pvc
+      - name: cache-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-cache-pvc
+      - name: logs-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-logs-pvc
+      - name: config-volume
+        configMap:
+          name: truthgpt-config
+      - name: tmp-storage
+        emptyDir:
+          sizeLimit: 1Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: "m5.2xlarge"
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.kubernetes.io/instance-type
+                operator: In
+                values:
+                - "m5.2xlarge"
+                - "m5.4xlarge"
+                - "m5.8xlarge"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - truthgpt-worker
+              topologyKey: kubernetes.io/hostname
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: truthgpt-monitor
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-monitor
+    version: v1.0.0
+    optimization: ultra-speed
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: truthgpt-monitor
+  template:
+    metadata:
+      labels:
+        app: truthgpt-monitor
+        version: v1.0.0
+        optimization: ultra-speed
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: truthgpt-monitor
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: truthgpt-monitor
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/ultra-speed-truthgpt:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: MONITOR_MODE
+          value: "true"
+        - name: OPTIMIZATION_LEVEL
+          value: "ultra_ultimate"
+        - name: AWS_REGION
+          value: "us-west-2"
+        - name: EKS_CLUSTER_NAME
+          value: "truthgpt-cluster"
+        - name: NAMESPACE
+          value: "truthgpt-optimization"
+        - name: USE_WANDB
+          value: "true"
+        - name: USE_TENSORBOARD
+          value: "true"
+        - name: USE_MIXED_PRECISION
+          value: "true"
+        - name: GPU_ENABLED
+          value: "true"
+        - name: DISTRIBUTED_TRAINING
+          value: "true"
+        - name: QUANTIZATION_ENABLED
+          value: "true"
+        envFrom:
+        - configMapRef:
+            name: truthgpt-config
+        - secretRef:
+            name: truthgpt-secrets
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 10
+        volumeMounts:
+        - name: logs-storage
+          mountPath: /app/logs
+        - name: config-volume
+          mountPath: /app/config
+        - name: tmp-storage
+          mountPath: /tmp
+      volumes:
+      - name: logs-storage
+        persistentVolumeClaim:
+          claimName: truthgpt-logs-pvc
+      - name: config-volume
+        configMap:
+          name: truthgpt-config
+      - name: tmp-storage
+        emptyDir:
+          sizeLimit: 1Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: "m5.large"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.kubernetes.io/instance-type
+                operator: In
+                values:
+                - "m5.large"
+                - "m5.xlarge"
+                - "m5.2xlarge"
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+
+
+
+
+
+
+
+

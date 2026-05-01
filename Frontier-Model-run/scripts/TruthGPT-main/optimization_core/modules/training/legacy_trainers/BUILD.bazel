@@ -1,0 +1,30 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Trainers Module - BUILD                                                     ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "trainers",
+    srcs = glob(["**/*.py"]),
+    deps = [
+        "//factories:factories",
+        "@pip//torch",
+        "@pip//transformers",
+        "@pip//accelerate",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

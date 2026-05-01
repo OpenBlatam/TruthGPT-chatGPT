@@ -1,0 +1,100 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Core Module - BUILD                                                         ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "core",
+    srcs = glob(["*.py"], exclude = ["**/__pycache__/**"]),
+    deps = [
+        "//core/common_runtime:common_runtime",
+        "//core/data:data",
+        "//core/distributed_runtime:distributed_runtime",
+        "//core/framework:framework",
+        "//core/kernels:kernels",
+        "//core/lib:lib",
+        "//core/ops:ops",
+        "//core/platform:platform",
+        "//core/runtime_fallback:runtime_fallback",
+        "//core/util:util",
+        "@pip//numpy",
+        "@pip//torch",
+    ],
+)
+
+py_library(
+    name = "common_runtime",
+    srcs = glob(["common_runtime/**/*.py"]),
+    deps = [
+        "@pip//numpy",
+    ],
+)
+
+py_library(
+    name = "data",
+    srcs = glob(["data/**/*.py"]),
+    deps = [
+        "@pip//numpy",
+        "@pip//pandas",
+    ],
+)
+
+py_library(
+    name = "distributed_runtime",
+    srcs = glob(["distributed_runtime/**/*.py"]),
+    deps = [
+        "@pip//torch",
+    ],
+)
+
+py_library(
+    name = "framework",
+    srcs = glob(["framework/**/*.py"]),
+    deps = [
+        "@pip//torch",
+        "@pip//numpy",
+    ],
+)
+
+py_library(
+    name = "kernels",
+    srcs = glob(["kernels/**/*.py"]),
+    deps = [
+        "@pip//torch",
+    ],
+)
+
+py_library(
+    name = "lib",
+    srcs = glob(["lib/**/*.py"]),
+)
+
+py_library(
+    name = "ops",
+    srcs = glob(["ops/**/*.py"]),
+    deps = [
+        "@pip//torch",
+    ],
+)
+
+py_library(
+    name = "platform",
+    srcs = glob(["platform/**/*.py"]),
+)
+
+py_library(
+    name = "runtime_fallback",
+    srcs = glob(["runtime_fallback/**/*.py"]),
+)
+
+py_library(
+    name = "util",
+    srcs = glob(["util/**/*.py"]),
+    deps = [
+        "@pip//torch",
+    ],
+)
+

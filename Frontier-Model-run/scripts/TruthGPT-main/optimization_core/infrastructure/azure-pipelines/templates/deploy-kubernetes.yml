@@ -1,0 +1,543 @@
+# Kubernetes Deployment Template
+# ==============================
+# Reusable template for deploying TruthGPT to Kubernetes
+
+parameters:
+- name: environment
+  type: string
+  default: 'development'
+- name: namespace
+  type: string
+  default: 'truthgpt-optimization'
+- name: imageTag
+  type: string
+  default: 'latest'
+- name: replicaCount
+  type: number
+  default: 3
+- name: resourceLimits
+  type: object
+  default:
+    cpu: '2000m'
+    memory: '4Gi'
+- name: resourceRequests
+  type: object
+  default:
+    cpu: '1000m'
+    memory: '2Gi'
+- name: enableHPA
+  type: boolean
+  default: false
+- name: enableVPA
+  type: boolean
+  default: false
+- name: enableMonitoring
+  type: boolean
+  default: false
+
+steps:
+- task: Kubernetes@1
+  displayName: 'Create Namespace'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: $(namespace)
+        labels:
+          name: $(namespace)
+          environment: $(environment)
+
+- task: Kubernetes@1
+  displayName: 'Apply RBAC Configuration'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: truthgpt-service-account
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: rbac
+      ---
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        name: truthgpt-role
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: rbac
+      rules:
+      - apiGroups: [""]
+        resources: ["configmaps", "secrets", "pods", "services"]
+        verbs: ["get", "list", "watch"]
+      ---
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: truthgpt-role-binding
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: rbac
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: Role
+        name: truthgpt-role
+      subjects:
+      - kind: ServiceAccount
+        name: truthgpt-service-account
+        namespace: $(namespace)
+
+- task: Kubernetes@1
+  displayName: 'Apply ConfigMaps and Secrets'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: truthgpt-config
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: config
+      data:
+        framework.yaml: |
+          framework:
+            name: "TruthGPT Optimization Framework"
+            version: "3.0.0"
+            debug: false
+            environment: $(environment)
+          optimization:
+            max_workers: 8
+            max_processes: 4
+            timeout: 600.0
+          cache:
+            enabled: true
+            max_size: 10000
+            ttl: 7200
+            backend: "redis"
+          monitoring:
+            enabled: true
+            metrics_interval: 30
+            log_level: "INFO"
+          api:
+            enabled: true
+            host: "0.0.0.0"
+            port: 8000
+            cors_enabled: true
+            rate_limit: 1000
+      ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: truthgpt-secrets
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: secrets
+      type: Opaque
+      data:
+        secret-key: $(SECRET_KEY_B64)
+        jwt-secret: $(JWT_SECRET_B64)
+        redis-password: $(REDIS_PASSWORD_B64)
+        wandb-api-key: $(WANDB_API_KEY_B64)
+
+- task: Kubernetes@1
+  displayName: 'Apply Persistent Volume Claims'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: truthgpt-logs-pvc
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: logs
+      spec:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: azurefile-csi
+      ---
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: truthgpt-cache-pvc
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: cache
+      spec:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 50Gi
+        storageClassName: azurefile-csi
+      ---
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: truthgpt-models-pvc
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: models
+      spec:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 100Gi
+        storageClassName: azurefile-csi
+
+- task: Kubernetes@1
+  displayName: 'Deploy Application'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: truthgpt-optimization
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: api
+          version: $(imageTag)
+      spec:
+        replicas: $(replicaCount)
+        strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+        selector:
+          matchLabels:
+            app: truthgpt-optimization
+            component: api
+        template:
+          metadata:
+            labels:
+              app: truthgpt-optimization
+              component: api
+              version: $(imageTag)
+          spec:
+            serviceAccountName: truthgpt-service-account
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+              fsGroup: 1000
+            containers:
+            - name: truthgpt-api
+              image: $(containerRegistry)/$(imageRepository):$(imageTag)
+              imagePullPolicy: Always
+              ports:
+              - containerPort: 8000
+                name: http
+                protocol: TCP
+              - containerPort: 8001
+                name: metrics
+                protocol: TCP
+              env:
+              - name: PYTHONPATH
+                value: "/app"
+              - name: TRUTHGPT_CONFIG_PATH
+                value: "/app/config/framework.yaml"
+              - name: TRUTHGPT_LOG_LEVEL
+                value: "INFO"
+              - name: TRUTHGPT_ENVIRONMENT
+                value: "$(environment)"
+              - name: SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: truthgpt-secrets
+                    key: secret-key
+              - name: JWT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: truthgpt-secrets
+                    key: jwt-secret
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: truthgpt-secrets
+                    key: redis-password
+              - name: WANDB_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: truthgpt-secrets
+                    key: wandb-api-key
+              resources:
+                requests:
+                  memory: "$(resourceRequests.memory)"
+                  cpu: "$(resourceRequests.cpu)"
+                  nvidia.com/gpu: "1"
+                limits:
+                  memory: "$(resourceLimits.memory)"
+                  cpu: "$(resourceLimits.cpu)"
+                  nvidia.com/gpu: "1"
+              volumeMounts:
+              - name: config-volume
+                mountPath: /app/config
+                readOnly: true
+              - name: logs-volume
+                mountPath: /app/logs
+              - name: cache-volume
+                mountPath: /app/cache
+              - name: models-volume
+                mountPath: /app/models
+              livenessProbe:
+                httpGet:
+                  path: /health
+                  port: 8000
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 3
+              readinessProbe:
+                httpGet:
+                  path: /health
+                  port: 8000
+                initialDelaySeconds: 5
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 3
+              startupProbe:
+                httpGet:
+                  path: /health
+                  port: 8000
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 10
+            volumes:
+            - name: config-volume
+              configMap:
+                name: truthgpt-config
+            - name: logs-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-logs-pvc
+            - name: cache-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-cache-pvc
+            - name: models-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-models-pvc
+            nodeSelector:
+              node-type: gpu-enabled
+            tolerations:
+            - key: "nvidia.com/gpu"
+              operator: "Exists"
+              effect: "NoSchedule"
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                        - truthgpt-optimization
+                    topologyKey: kubernetes.io/hostname
+
+- task: Kubernetes@1
+  displayName: 'Deploy Services'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: truthgpt-api-service
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: api
+      spec:
+        type: LoadBalancer
+        ports:
+        - name: http
+          port: 80
+          targetPort: 8000
+          protocol: TCP
+        - name: https
+          port: 443
+          targetPort: 8000
+          protocol: TCP
+        - name: metrics
+          port: 9090
+          targetPort: 8001
+          protocol: TCP
+        selector:
+          app: truthgpt-optimization
+          component: api
+        loadBalancerSourceRanges:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+
+- task: Kubernetes@1
+  displayName: 'Deploy HPA (if enabled)'
+  condition: eq('${{ parameters.enableHPA }}', true)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: autoscaling/v2
+      kind: HorizontalPodAutoscaler
+      metadata:
+        name: truthgpt-api-hpa
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: api
+      spec:
+        scaleTargetRef:
+          apiVersion: apps/v1
+          kind: Deployment
+          name: truthgpt-optimization
+        minReplicas: 3
+        maxReplicas: 20
+        metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+
+- task: Kubernetes@1
+  displayName: 'Deploy Network Policies'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(AZURE_SUBSCRIPTION_ID)'
+    azureResourceGroup: '$(AZURE_RESOURCE_GROUP)'
+    kubernetesCluster: '$(AKS_CLUSTER_NAME)'
+    command: 'apply'
+    useConfigurationFile: true
+    inline: |
+      apiVersion: networking.k8s.io/v1
+      kind: NetworkPolicy
+      metadata:
+        name: truthgpt-network-policy
+        namespace: $(namespace)
+        labels:
+          app: truthgpt-optimization
+          component: security
+      spec:
+        podSelector:
+          matchLabels:
+            app: truthgpt-optimization
+        policyTypes:
+        - Ingress
+        - Egress
+        ingress:
+        - from:
+          - namespaceSelector:
+              matchLabels:
+                name: ingress-nginx
+          ports:
+          - protocol: TCP
+            port: 8000
+          - protocol: TCP
+            port: 8001
+        - from:
+          - namespaceSelector:
+              matchLabels:
+                name: $(namespace)
+          ports:
+          - protocol: TCP
+            port: 8000
+          - protocol: TCP
+            port: 8001
+        egress:
+        - to:
+          - podSelector:
+              matchLabels:
+                app: redis
+          ports:
+          - protocol: TCP
+            port: 6379
+        - to: []
+          ports:
+          - protocol: UDP
+            port: 53
+        - to: []
+          ports:
+          - protocol: TCP
+            port: 443
+        - to: []
+          ports:
+          - protocol: TCP
+            port: 80
+
+- script: |
+    echo "Waiting for deployment to be ready..."
+    kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-optimization -n $(namespace)
+    echo "Deployment is ready!"
+  displayName: 'Wait for Deployment'
+  continueOnError: false
+
+- script: |
+    echo "Running post-deployment health checks..."
+    kubectl get pods -n $(namespace) -l app=truthgpt-optimization
+    kubectl get services -n $(namespace) -l app=truthgpt-optimization
+    echo "Health checks completed successfully!"
+  displayName: 'Post-Deployment Health Checks'
+  continueOnError: false
+
+

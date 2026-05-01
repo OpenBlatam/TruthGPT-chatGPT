@@ -1,0 +1,361 @@
+{
+  "qwen3_technical_report": {
+    "paper_id": "qwen3_technical_report",
+    "arxiv_id": "2505.09388",
+    "title": "Qwen3 Technical Report",
+    "authors": [
+      "Alibaba Team"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2505.09388",
+    "contributions": [
+      "SOTA en 14/15 benchmarks",
+      "85.7% en AIME'24",
+      "70.7% en LiveCodeBench v5",
+      "Supera DeepSeek-V3 en multitarea"
+    ],
+    "key_techniques": [
+      "Modos de pensamiento integrados",
+      "Soporte multilingüe expandido (119 idiomas)",
+      "Arquitectura multimodal",
+      "Optimización de razonamiento"
+    ],
+    "benchmarks": [
+      "AIME'24: 85.7%",
+      "LiveCodeBench v5: 70.7%",
+      "MMLU",
+      "GSM8K",
+      "AIME",
+      "LiveCodeBench",
+      "MMMU"
+    ],
+    "improvements": "+5-20% en precisión en múltiples benchmarks",
+    "category": "multimodal_reasoning",
+    "technical_details": {
+      "model_family": "Qwen3",
+      "multilingual_support": 119,
+      "thinking_modes": [
+        "standard",
+        "thinking",
+        "multimodal"
+      ],
+      "architecture": "transformer_with_thinking",
+      "multimodal": true
+    }
+  },
+  "absolute_zero_azr": {
+    "paper_id": "absolute_zero_azr",
+    "arxiv_id": "2505.03335",
+    "title": "Absolute Zero: Reinforced Self-play Reasoning with Zero Data",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2505.03335",
+    "contributions": [
+      "SOTA en codificación y matemáticas",
+      "AZR-Coder-7B: 50.4% promedio (+1.8 puntos vs. previos)",
+      "Ganancias escalables (+13.2% en 14B)"
+    ],
+    "key_techniques": [
+      "RLVR (Reinforcement Learning from Verifier Rewards)",
+      "Self-play sin datos humanos",
+      "Generación y resolución de tareas de razonamiento",
+      "Paradigma de aprendizaje autónomo"
+    ],
+    "benchmarks": [
+      "Codificación: +1.8 puntos",
+      "Matemáticas: mejoras significativas",
+      "Escalabilidad: +13.2% en 14B"
+    ],
+    "improvements": "+1.8 puntos en promedio, +13.2% escalable",
+    "category": "reinforcement_learning",
+    "technical_details": {
+      "method": "RLVR",
+      "self_play": true,
+      "zero_data": true,
+      "verifier_rewards": true,
+      "model_sizes": [
+        "7B",
+        "14B"
+      ],
+      "scalability": true
+    }
+  },
+  "seed1_5_vl": {
+    "paper_id": "seed1_5_vl",
+    "arxiv_id": "2505.07062",
+    "title": "Seed1.5-VL Technical Report",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2505.07062",
+    "contributions": [
+      "SOTA en 38/60 benchmarks",
+      "77.9% en MMMU con modo thinking",
+      "Excelso en documentos y tareas agenticas"
+    ],
+    "key_techniques": [
+      "Modelo multimodal compacto",
+      "Comprensión y razonamiento general",
+      "Modo thinking integrado",
+      "Procesamiento de documentos"
+    ],
+    "benchmarks": [
+      "MMMU: 77.9% (con modo thinking)",
+      "38/60 benchmarks: SOTA",
+      "Tareas agenticas: excelente rendimiento"
+    ],
+    "improvements": "SOTA en 38/60 benchmarks",
+    "category": "multimodal",
+    "technical_details": {
+      "model_type": "multimodal",
+      "compact": true,
+      "thinking_mode": true,
+      "document_processing": true,
+      "agentic_tasks": true
+    }
+  },
+  "mixture_of_reasonings": {
+    "paper_id": "mixture_of_reasonings",
+    "arxiv_id": "2507.00606",
+    "title": "Mixture of Reasonings: Teach Large Language Models to Reason with Adaptive Strategies",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2507.00606",
+    "contributions": [
+      "Mejora razonamiento task-specific (+10-15% en benchmarks de multiturn)",
+      "Elimina prompts frágiles",
+      "Estrategias adaptativas"
+    ],
+    "key_techniques": [
+      "Framework MoR (Mixture of Reasonings)",
+      "Estrategias adaptativas",
+      "Templates diversos",
+      "Entrenamiento en múltiples estrategias"
+    ],
+    "benchmarks": [
+      "Multiturn reasoning: +10-15%",
+      "Task-specific reasoning: mejoras significativas"
+    ],
+    "improvements": "+10-15% en benchmarks de multiturn",
+    "category": "reasoning",
+    "technical_details": {
+      "framework": "MoR",
+      "adaptive_strategies": true,
+      "multiple_templates": true,
+      "task_specific": true,
+      "eliminates_fragile_prompts": true
+    }
+  },
+  "crft_critical_representation": {
+    "paper_id": "crft_critical_representation",
+    "arxiv_id": "2507.10085",
+    "title": "Enhancing Chain-of-Thought Reasoning with Critical Representation Fine-tuning",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2507.10085",
+    "contributions": [
+      "+16.4% en tareas de razonamiento one-shot",
+      "Usa solo 0.016% de parámetros",
+      "Supera PEFT tradicional"
+    ],
+    "key_techniques": [
+      "CRFT (Critical Representation Fine-tuning)",
+      "Fine-tuning ligero",
+      "Enfoque en paths influyentes",
+      "Optimización de representaciones críticas"
+    ],
+    "benchmarks": [
+      "Razonamiento one-shot: +16.4%",
+      "Eficiencia: 0.016% de parámetros"
+    ],
+    "improvements": "+16.4% en razonamiento one-shot",
+    "category": "fine_tuning",
+    "technical_details": {
+      "method": "CRFT",
+      "parameter_efficiency": 0.00016,
+      "critical_paths": true,
+      "lightweight_finetuning": true,
+      "one_shot_reasoning": true
+    }
+  },
+  "meta_cot_system2": {
+    "paper_id": "meta_cot_system2",
+    "arxiv_id": "2501.04682",
+    "title": "Towards System 2 Reasoning in LLMs: Learning How to Think With Meta Chain-of-Thought (Meta-CoT)",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://huggingface.co/papers/2501.04682",
+    "contributions": [
+      "Modelos RL superan instruction-tuned en problemas complejos",
+      "+5-10% en razonamiento",
+      "Enfatiza RL en 2025"
+    ],
+    "key_techniques": [
+      "Framework para razonamiento iterativo y verificado",
+      "MDPs (Markov Decision Processes)",
+      "Meta-RL",
+      "System 2 reasoning"
+    ],
+    "benchmarks": [
+      "Razonamiento complejo: +5-10%",
+      "Problemas complejos: mejoras significativas"
+    ],
+    "improvements": "+5-10% en razonamiento",
+    "category": "reinforcement_learning",
+    "technical_details": {
+      "framework": "Meta-CoT",
+      "system2_reasoning": true,
+      "mdp_based": true,
+      "meta_rl": true,
+      "iterative_verification": true
+    }
+  },
+  "sft_rl_generalization": {
+    "paper_id": "sft_rl_generalization",
+    "arxiv_id": "2501.17161",
+    "title": "SFT Memorizes, RL Generalizes: A Comparative Study of Foundation Model Post-training",
+    "authors": [
+      "Autores no especificados"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2501.17161",
+    "contributions": [
+      "RL mejora OOD y reconocimiento visual",
+      "+8-12% en tareas de razonamiento textual/visual vs. SFT"
+    ],
+    "key_techniques": [
+      "Estudio empírico comparando SFT y RL",
+      "Generalización OOD",
+      "Reconocimiento visual mejorado",
+      "Post-training con RL"
+    ],
+    "benchmarks": [
+      "Razonamiento textual/visual: +8-12% vs. SFT",
+      "OOD: mejoras significativas",
+      "Reconocimiento visual: mejoras"
+    ],
+    "improvements": "+8-12% en razonamiento textual/visual",
+    "category": "training",
+    "technical_details": {
+      "comparison": "SFT vs RL",
+      "ood_generalization": true,
+      "visual_recognition": true,
+      "post_training": true,
+      "empirical_study": true
+    }
+  },
+  "learning_dynamics_finetuning": {
+    "paper_id": "learning_dynamics_finetuning",
+    "arxiv_id": "tPNHOoZFl9",
+    "title": "Learning Dynamics of LLM Finetuning",
+    "authors": [
+      "Yi Ren",
+      "Danica Sutherland"
+    ],
+    "year": 2025,
+    "url": "https://openreview.net/forum?id=tPNHOoZFl9",
+    "contributions": [
+      "Reduce alucinaciones",
+      "Reduce 'squeezing effect'",
+      "+5-10% en precisión de respuestas correctas en benchmarks de QA"
+    ],
+    "key_techniques": [
+      "Trackear cambios en probabilidades durante fine-tuning",
+      "Análisis de dinámicas de aprendizaje",
+      "Detección de alucinaciones",
+      "Mitigación de squeezing effect"
+    ],
+    "benchmarks": [
+      "QA benchmarks: +5-10% en precisión",
+      "Reducción de alucinaciones: significativa"
+    ],
+    "improvements": "+5-10% en precisión de QA",
+    "category": "fine_tuning",
+    "technical_details": {
+      "method": "Learning Dynamics Analysis",
+      "probability_tracking": true,
+      "hallucination_reduction": true,
+      "squeezing_effect_mitigation": true,
+      "qa_optimization": true
+    }
+  },
+  "faster_cascades_speculative": {
+    "paper_id": "faster_cascades_speculative",
+    "arxiv_id": "vo9t20wsmd",
+    "title": "Faster Cascades via Speculative Decoding",
+    "authors": [
+      "Harikrishna Narasimhan",
+      "et al."
+    ],
+    "year": 2025,
+    "url": "https://openreview.net/forum?id=vo9t20wsmd",
+    "contributions": [
+      "Acelera respuestas",
+      "Reduce costos computacionales",
+      "Mantiene calidad",
+      "+15-20% en velocidad en benchmarks de inferencia"
+    ],
+    "key_techniques": [
+      "Combina cascades y decoding especulativo",
+      "Optimización de inferencia",
+      "Reducción de latencia",
+      "Eficiencia computacional"
+    ],
+    "benchmarks": [
+      "Velocidad de inferencia: +15-20%",
+      "Reducción de costos: significativa"
+    ],
+    "improvements": "+15-20% en velocidad de inferencia",
+    "category": "inference",
+    "technical_details": {
+      "method": "Cascades + Speculative Decoding",
+      "inference_optimization": true,
+      "latency_reduction": true,
+      "cost_reduction": true,
+      "quality_preservation": true
+    }
+  },
+  "deepseek_v3_insights": {
+    "paper_id": "deepseek_v3_insights",
+    "arxiv_id": "2505.09343",
+    "title": "Insights into DeepSeek-V3: Scaling Challenges and Reflections on Hardware for AI Architectures",
+    "authors": [
+      "DeepSeek Team"
+    ],
+    "year": 2025,
+    "url": "https://arxiv.org/abs/2505.09343",
+    "contributions": [
+      "Mejora eficiencia en memoria y cómputo",
+      "MLA y MoE",
+      "+10-15% en benchmarks de modelos masivos como GSM8K"
+    ],
+    "key_techniques": [
+      "Co-diseño hardware-modelo",
+      "MLA (Multi-head Latent Attention)",
+      "MoE (Mixture of Experts)",
+      "Escalado eficiente"
+    ],
+    "benchmarks": [
+      "GSM8K: +10-15%",
+      "Modelos masivos: mejoras significativas"
+    ],
+    "improvements": "+10-15% en benchmarks de modelos masivos",
+    "category": "architecture",
+    "technical_details": {
+      "architecture": "MLA + MoE",
+      "hardware_co_design": true,
+      "memory_efficiency": true,
+      "computation_efficiency": true,
+      "scaling": true
+    }
+  }
+}

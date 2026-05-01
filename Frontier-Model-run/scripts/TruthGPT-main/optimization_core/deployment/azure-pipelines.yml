@@ -1,0 +1,347 @@
+# Enterprise TruthGPT Azure DevOps Pipeline
+# Complete CI/CD pipeline with enterprise features
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+  paths:
+    include:
+    - optimization_core/**
+    - deployment/**
+
+variables:
+  # Azure Configuration
+  azureSubscription: 'Azure Service Connection'
+  resourceGroupName: 'truthgpt-enterprise-rg'
+  location: 'East US'
+  aksClusterName: 'truthgpt-enterprise-cluster'
+  acrName: 'truthgptacr'
+  namespace: 'truthgpt-enterprise'
+  
+  # Build Configuration
+  buildConfiguration: 'Release'
+  dockerRegistryServiceConnection: 'ACR Service Connection'
+  imageRepository: 'enterprise-truthgpt'
+  containerRegistry: 'truthgptacr.azurecr.io'
+  dockerfilePath: 'deployment/Dockerfile'
+  tag: '$(Build.BuildId)'
+  
+  # Security Configuration
+  securityScanEnabled: true
+  vulnerabilityScanEnabled: true
+  complianceCheckEnabled: true
+  
+  # Performance Configuration
+  performanceTestEnabled: true
+  loadTestEnabled: true
+  stressTestEnabled: true
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: Build
+    displayName: 'Build Application'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.11'
+        displayName: 'Use Python 3.11'
+    
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r deployment/requirements.txt
+        pip install pytest pytest-cov black flake8 mypy bandit safety
+      displayName: 'Install Dependencies'
+    
+    - script: |
+        black --check optimization_core/
+        isort --check-only optimization_core/
+      displayName: 'Code Formatting Check'
+    
+    - script: |
+        flake8 optimization_core/
+        mypy optimization_core/
+      displayName: 'Linting and Type Checking'
+    
+    - script: |
+        bandit -r optimization_core/ -f json -o bandit-report.json
+      displayName: 'Security Linting'
+      continueOnError: true
+    
+    - script: |
+        safety check --json --output safety-report.json
+      displayName: 'Dependency Vulnerability Check'
+      continueOnError: true
+    
+    - script: |
+        pytest optimization_core/tests/ -v --cov=optimization_core --cov-report=xml --cov-report=html
+      displayName: 'Run Tests'
+    
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'pytest'
+        testResultsFiles: '**/test-results.xml'
+        mergeTestResults: true
+      displayName: 'Publish Test Results'
+    
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '**/coverage.xml'
+        reportDirectory: '**/htmlcov'
+      displayName: 'Publish Code Coverage'
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(System.DefaultWorkingDirectory)'
+        artifactName: 'drop'
+      displayName: 'Publish Build Artifacts'
+
+- stage: Security
+  displayName: 'Security Scan'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - job: SecurityScan
+    displayName: 'Security Analysis'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.DefaultWorkingDirectory)'
+    
+    - script: |
+        # Run Trivy vulnerability scanner
+        wget -qO- https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+        trivy fs --format sarif --output trivy-results.sarif .
+      displayName: 'Vulnerability Scan'
+    
+    - task: PublishSecurityAnalysisResults@1
+      inputs:
+        toolName: 'Trivy'
+        toolResults: 'trivy-results.sarif'
+      displayName: 'Publish Security Results'
+    
+    - script: |
+        # Run OWASP ZAP security scan
+        docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080
+      displayName: 'OWASP ZAP Scan'
+      continueOnError: true
+
+- stage: BuildImage
+  displayName: 'Build and Push Docker Image'
+  dependsOn: Security
+  condition: succeeded()
+  jobs:
+  - job: BuildImage
+    displayName: 'Build Docker Image'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.DefaultWorkingDirectory)'
+    
+    - task: Docker@2
+      inputs:
+        command: 'buildAndPush'
+        repository: '$(imageRepository)'
+        dockerfile: '$(dockerfilePath)'
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        tags: |
+          $(tag)
+          latest
+    
+    - task: Docker@2
+      inputs:
+        command: 'scan'
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        tags: '$(tag)'
+      displayName: 'Scan Docker Image'
+
+- stage: DeployStaging
+  displayName: 'Deploy to Staging'
+  dependsOn: BuildImage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  jobs:
+  - deployment: DeployStaging
+    displayName: 'Deploy to Staging Environment'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Get AKS credentials
+                az aks get-credentials --resource-group $(resourceGroupName) --name $(aksClusterName) --overwrite-existing
+                
+                # Deploy application
+                chmod +x deployment/azure-deploy.sh
+                ./deployment/azure-deploy.sh
+              displayName: 'Deploy to AKS'
+          
+          - script: |
+              # Run smoke tests
+              kubectl get pods -n $(namespace)
+              kubectl get services -n $(namespace)
+              kubectl get ingress -n $(namespace)
+            displayName: 'Smoke Tests'
+          
+          - script: |
+              # Run integration tests
+              pytest optimization_core/tests/integration/ -v
+            displayName: 'Integration Tests'
+
+- stage: PerformanceTest
+  displayName: 'Performance Testing'
+  dependsOn: DeployStaging
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  jobs:
+  - job: PerformanceTest
+    displayName: 'Performance Testing'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        # Install performance testing tools
+        pip install locust k6-utils
+      displayName: 'Install Performance Tools'
+    
+    - script: |
+        # Run load tests
+        locust -f optimization_core/tests/performance/load_test.py --headless -u 100 -r 10 -t 60s
+      displayName: 'Load Testing'
+    
+    - script: |
+        # Run stress tests
+        k6 run optimization_core/tests/performance/stress_test.js
+      displayName: 'Stress Testing'
+    
+    - script: |
+        # Run performance benchmarks
+        python optimization_core/tests/performance/benchmark.py
+      displayName: 'Performance Benchmarks'
+
+- stage: DeployProduction
+  displayName: 'Deploy to Production'
+  dependsOn: PerformanceTest
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: DeployProduction
+    displayName: 'Deploy to Production Environment'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Get AKS credentials
+                az aks get-credentials --resource-group $(resourceGroupName) --name $(aksClusterName) --overwrite-existing
+                
+                # Deploy application
+                chmod +x deployment/azure-deploy.sh
+                ./deployment/azure-deploy.sh
+              displayName: 'Deploy to AKS'
+          
+          - script: |
+              # Run comprehensive tests
+              kubectl get pods -n $(namespace)
+              kubectl get services -n $(namespace)
+              kubectl get ingress -n $(namespace)
+              kubectl get hpa -n $(namespace)
+            displayName: 'Production Verification'
+          
+          - script: |
+              # Run health checks
+              kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-enterprise-optimizer -n $(namespace)
+              kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-enterprise-worker -n $(namespace)
+              kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-enterprise-monitor -n $(namespace)
+            displayName: 'Health Checks'
+
+- stage: Monitoring
+  displayName: 'Setup Monitoring'
+  dependsOn: DeployProduction
+  condition: succeeded()
+  jobs:
+  - job: SetupMonitoring
+    displayName: 'Setup Monitoring and Alerting'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: '$(azureSubscription)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          # Get AKS credentials
+          az aks get-credentials --resource-group $(resourceGroupName) --name $(aksClusterName) --overwrite-existing
+          
+          # Setup monitoring
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
+          
+          # Setup logging
+          helm repo add elastic https://helm.elastic.co
+          helm repo update
+          helm install elasticsearch elastic/elasticsearch --namespace logging --create-namespace
+          helm install kibana elastic/kibana --namespace logging
+        displayName: 'Setup Monitoring Stack'
+
+- stage: Cleanup
+  displayName: 'Cleanup'
+  dependsOn: Monitoring
+  condition: always()
+  jobs:
+  - job: Cleanup
+    displayName: 'Cleanup Resources'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        # Cleanup old images
+        az acr repository show-tags --name $(acrName) --repository $(imageRepository) --orderby time_created --output table
+      displayName: 'List Images'
+    
+    - script: |
+        # Cleanup old logs
+        az monitor log-analytics workspace list --resource-group $(resourceGroupName) --query '[].name' --output tsv | xargs -I {} az monitor log-analytics workspace delete --resource-group $(resourceGroupName) --workspace-name {}
+      displayName: 'Cleanup Logs'
+      continueOnError: true
+
+
+
+
+
+
+
+
+

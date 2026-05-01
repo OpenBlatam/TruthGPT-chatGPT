@@ -1,0 +1,34 @@
+{
+  "paper_id": "crft_critical_representation",
+  "arxiv_id": "2507.10085",
+  "title": "Enhancing Chain-of-Thought Reasoning with Critical Representation Fine-tuning",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2507.10085",
+  "contributions": [
+    "+16.4% en tareas de razonamiento one-shot",
+    "Usa solo 0.016% de parámetros",
+    "Supera PEFT tradicional"
+  ],
+  "key_techniques": [
+    "CRFT (Critical Representation Fine-tuning)",
+    "Fine-tuning ligero",
+    "Enfoque en paths influyentes",
+    "Optimización de representaciones críticas"
+  ],
+  "benchmarks": [
+    "Razonamiento one-shot: +16.4%",
+    "Eficiencia: 0.016% de parámetros"
+  ],
+  "improvements": "+16.4% en razonamiento one-shot",
+  "category": "fine_tuning",
+  "technical_details": {
+    "method": "CRFT",
+    "parameter_efficiency": 0.00016,
+    "critical_paths": true,
+    "lightweight_finetuning": true,
+    "one_shot_reasoning": true
+  }
+}

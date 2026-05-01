@@ -1,0 +1,25 @@
+# BUILD file for pybind11 (header-only library)
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "pybind11",
+    hdrs = glob(["include/pybind11/**/*.h"]),
+    includes = ["include"],
+    strip_include_prefix = "include",
+    deps = [],
+)
+
+
+
+
+
+
+
+
+
+
+
+

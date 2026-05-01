@@ -1,0 +1,338 @@
+{
+  "2505-05315v2": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2505-05315v2-elastic-reasoning": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2505-11140v1": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2510-26788v1": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "absolute-zero": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "adagrope": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "adaptive-got": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "advanced-math-benchmark": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "am-thinking": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "blackbox-distillation": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "cepe": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "crft": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "dynaact": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "efficient-long-context": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "enigmata": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "focusllm": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "hybrid-quantum-transformer": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "k2think": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "ladder": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "learning-dynamics": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "lift": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "llm-ensemble": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "longembed": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "longreward": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "longrope": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "longrope2": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "meta-cot": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "mixture-of-reasonings": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "planu": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "qwen3": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "rdolt": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "rl-of-thoughts": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "seed1-5-vl": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "semantic-compression": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "sft-rl-generalization": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "solar": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "spoc": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "deepseek-v3": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "faster-cascades": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2506-15841v2": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2509-04439v1": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2510-00071": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2503-00735v3": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2506-10987v1": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2506-10987v1-chain-of-draft": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2508-06471": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2506-10848v2": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2510-04871v1": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-01001": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-02002": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-03003": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-04004": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-05005": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-06006": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-07007": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  },
+  "2511-08008": {
+    "usage_count": 0,
+    "load_count": 0,
+    "error_count": 0,
+    "last_used": null
+  }
+}

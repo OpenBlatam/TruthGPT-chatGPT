@@ -1,0 +1,31 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Polyglot Core Module - BUILD                                                 ║
+# ║  Unified interface for Rust, C++, Go backends                                ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "polyglot_core",
+    srcs = glob(["**/*.py"]),
+    deps = [
+        "//rust_core:rust_core_py",
+        "//cpp_core:cpp_core_py",
+        "//go_core:go_core_py",
+        "@pip//numpy",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

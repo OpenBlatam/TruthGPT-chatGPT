@@ -1,0 +1,51 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Rust Core Module - BUILD                                                     ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_rust//rust:defs.bzl", "rust_library", "rust_binary")
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RUST LIBRARY
+# ═══════════════════════════════════════════════════════════════════════════════
+
+rust_library(
+    name = "rust_core",
+    srcs = glob(["src/**/*.rs"]),
+    crate_root = "src/lib.rs",
+    edition = "2021",
+    deps = [
+        # Dependencies from Cargo.toml would be added here
+        # For now, we'll use genrule to build with Cargo
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON BINDINGS (via PyO3)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Note: PyO3 bindings require special handling
+# We'll use a genrule to build the Python extension with maturin or pyo3-pack
+
+# Note: Rust Python bindings are complex - using genrule as placeholder
+# In production, use maturin or rules_rust with proper PyO3 setup
+# Note: Rust Python bindings are complex - using genrule as placeholder
+# In production, use maturin or rules_rust with proper PyO3 setup
+genrule(
+    name = "rust_core_so",
+    srcs = glob(["src/**/*.rs"]) + ["Cargo.toml"],
+    outs = ["_rust_core.so"],
+    cmd = "echo 'Rust bindings need proper setup with maturin or rules_rust PyO3' && touch $@",
+)
+
+py_library(
+    name = "rust_core_py",
+    srcs = glob(["**/*.py"]),
+    deps = [
+        "@pip//numpy",
+    ],
+    data = [":rust_core_so"],
+)
+

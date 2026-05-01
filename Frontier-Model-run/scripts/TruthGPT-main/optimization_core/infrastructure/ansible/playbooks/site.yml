@@ -1,0 +1,22 @@
+---
+# TruthGPT Infrastructure Playbook
+# =================================
+# Main playbook for deploying TruthGPT infrastructure
+
+- name: "Deploy TruthGPT Infrastructure"
+  hosts: all
+  become: yes
+  vars:
+    truthgpt_version: "3.0.0"
+    truthgpt_namespace: "truthgpt-optimization"
+    truthgpt_replicas: 3
+    
+  roles:
+    - common
+    - docker
+    - kubernetes
+    - monitoring
+    - security
+    - truthgpt
+
+

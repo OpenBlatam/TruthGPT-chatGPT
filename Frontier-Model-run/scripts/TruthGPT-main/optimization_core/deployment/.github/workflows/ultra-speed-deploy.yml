@@ -1,0 +1,333 @@
+name: Ultra Speed TruthGPT AWS Deployment
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'optimization_core/**'
+      - 'deployment/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'optimization_core/**'
+      - 'deployment/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+      optimization_level:
+        description: 'Optimization level'
+        required: true
+        default: 'ultra_ultimate'
+        type: choice
+        options:
+        - ultra_basic
+        - ultra_advanced
+        - ultra_master
+        - ultra_legendary
+        - ultra_transcendent
+        - ultra_divine
+        - ultra_omnipotent
+        - ultra_infinite
+        - ultra_ultimate
+
+env:
+  AWS_REGION: us-west-2
+  EKS_CLUSTER_NAME: truthgpt-cluster
+  NAMESPACE: truthgpt-optimization
+  DOCKER_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+  IMAGE_NAME: ultra-speed-truthgpt
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  # Job 1: Code Quality and Testing
+  quality-check:
+    name: Code Quality and Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r deployment/requirements.txt
+        pip install pytest pytest-cov black flake8 mypy
+
+    - name: Code formatting check
+      run: |
+        black --check optimization_core/
+        isort --check-only optimization_core/
+
+    - name: Linting
+      run: |
+        flake8 optimization_core/
+        mypy optimization_core/
+
+    - name: Run tests
+      run: |
+        pytest optimization_core/tests/ -v --cov=optimization_core --cov-report=xml
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  # Job 2: Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+    - name: Run Bandit security linter
+      run: |
+        pip install bandit
+        bandit -r optimization_core/ -f json -o bandit-report.json
+
+    - name: Upload Bandit results
+      uses: actions/upload-artifact@v3
+      with:
+        name: bandit-report
+        path: bandit-report.json
+
+  # Job 3: Build and Push Docker Image
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    needs: [quality-check, security-scan]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.IMAGE_NAME }}
+        IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f deployment/Dockerfile .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+    - name: Scan image for vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        format: 'sarif'
+        output: 'trivy-image-results.sarif'
+
+    - name: Upload Trivy image scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-image-results.sarif'
+
+  # Job 4: Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    environment: staging
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Install eksctl
+      run: |
+        curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        sudo mv /tmp/eksctl /usr/local/bin
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.0'
+
+    - name: Deploy to EKS
+      run: |
+        chmod +x deployment/aws-deploy.sh
+        ./deployment/aws-deploy.sh
+
+    - name: Run smoke tests
+      run: |
+        kubectl get pods -n ${{ env.NAMESPACE }}
+        kubectl get services -n ${{ env.NAMESPACE }}
+        kubectl get ingress -n ${{ env.NAMESPACE }}
+
+    - name: Notify deployment
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+      if: always()
+
+  # Job 5: Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment: production
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Install eksctl
+      run: |
+        curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        sudo mv /tmp/eksctl /usr/local/bin
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.0'
+
+    - name: Deploy to EKS
+      run: |
+        chmod +x deployment/aws-deploy.sh
+        ./deployment/aws-deploy.sh
+
+    - name: Run comprehensive tests
+      run: |
+        kubectl get pods -n ${{ env.NAMESPACE }}
+        kubectl get services -n ${{ env.NAMESPACE }}
+        kubectl get ingress -n ${{ env.NAMESPACE }}
+        kubectl get hpa -n ${{ env.NAMESPACE }}
+
+    - name: Verify deployment health
+      run: |
+        kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-optimizer -n ${{ env.NAMESPACE }}
+        kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-worker -n ${{ env.NAMESPACE }}
+        kubectl wait --for=condition=available --timeout=300s deployment/truthgpt-monitor -n ${{ env.NAMESPACE }}
+
+    - name: Notify deployment
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#deployments'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+      if: always()
+
+  # Job 6: Performance Testing
+  performance-test:
+    name: Performance Testing
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always() && (needs.deploy-staging.result == 'success' || needs.deploy-production.result == 'success')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install performance testing tools
+      run: |
+        pip install locust k6-utils
+
+    - name: Run performance tests
+      run: |
+        # Add performance testing logic here
+        echo "Running performance tests..."
+
+    - name: Upload performance results
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-results
+        path: performance-results/
+
+  # Job 7: Cleanup
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production, performance-test]
+    if: always() && (needs.deploy-staging.result == 'success' || needs.deploy-production.result == 'success')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Cleanup old images
+      run: |
+        # Cleanup old ECR images (keep last 10)
+        aws ecr list-images --repository-name ${{ env.IMAGE_NAME }} --filter tagStatus=TAGGED --query 'imageIds[?imageTag!=`latest`]' --output json | jq '.[] | select(.imageTag | startswith("sha-"))' | head -n -10 | jq -r '.imageDigest' | xargs -I {} aws ecr batch-delete-image --repository-name ${{ env.IMAGE_NAME }} --image-ids imageDigest={}
+
+    - name: Cleanup old logs
+      run: |
+        # Cleanup old CloudWatch logs
+        aws logs describe-log-groups --log-group-name-prefix "/aws/eks/${{ env.EKS_CLUSTER_NAME }}" --query 'logGroups[?creationTime<`'$(date -d '7 days ago' +%s)000'`].logGroupName' --output text | xargs -I {} aws logs delete-log-group --log-group-name {}
+
+
+
+
+
+
+
+
+

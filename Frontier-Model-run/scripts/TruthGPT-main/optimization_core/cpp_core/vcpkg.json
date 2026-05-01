@@ -1,0 +1,218 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "optimization-core-cpp",
+    "version": "1.1.0",
+    "description": "High-performance C++ extensions for TruthGPT optimization core",
+    "homepage": "https://github.com/truthgpt/optimization_core",
+    "license": "MIT",
+    "supports": "!uwp",
+    "dependencies": [
+        {
+            "name": "eigen3",
+            "version>=": "3.4.0"
+        },
+        {
+            "name": "pybind11",
+            "version>=": "2.12.0"
+        }
+    ],
+    "default-features": [
+        "eigen",
+        "pybind11",
+        "parallel",
+        "compression"
+    ],
+    "features": {
+        "eigen": {
+            "description": "Eigen linear algebra library for CPU vectorization",
+            "dependencies": [
+                {
+                    "name": "eigen3",
+                    "version>=": "3.4.0"
+                }
+            ]
+        },
+        "pybind11": {
+            "description": "Python bindings via PyBind11",
+            "dependencies": [
+                {
+                    "name": "pybind11",
+                    "version>=": "2.12.0"
+                }
+            ]
+        },
+        "parallel": {
+            "description": "Parallel processing support (TBB + OpenMP)",
+            "dependencies": [
+                {
+                    "name": "tbb",
+                    "version>=": "2021.10.0"
+                }
+            ]
+        },
+        "simd": {
+            "description": "Portable SIMD via xsimd",
+            "dependencies": [
+                {
+                    "name": "xsimd",
+                    "version>=": "12.0.0"
+                }
+            ]
+        },
+        "allocator": {
+            "description": "High-performance memory allocator (mimalloc)",
+            "dependencies": [
+                {
+                    "name": "mimalloc",
+                    "version>=": "2.1.0"
+                }
+            ]
+        },
+        "compression": {
+            "description": "LZ4 and ZSTD compression libraries",
+            "dependencies": [
+                {
+                    "name": "lz4",
+                    "version>=": "1.9.4"
+                },
+                {
+                    "name": "zstd",
+                    "version>=": "1.5.5"
+                }
+            ]
+        },
+        "logging": {
+            "description": "Fast logging with spdlog",
+            "dependencies": [
+                {
+                    "name": "spdlog",
+                    "version>=": "1.13.0"
+                }
+            ]
+        },
+        "formatting": {
+            "description": "Modern formatting with fmt",
+            "dependencies": [
+                {
+                    "name": "fmt",
+                    "version>=": "10.2.0"
+                }
+            ]
+        },
+        "onednn": {
+            "description": "Intel oneDNN for deep learning primitives",
+            "dependencies": [
+                {
+                    "name": "onednn",
+                    "version>=": "3.3.0"
+                }
+            ]
+        },
+        "testing": {
+            "description": "Unit testing with Google Test",
+            "dependencies": [
+                {
+                    "name": "gtest",
+                    "version>=": "1.14.0"
+                }
+            ]
+        },
+        "benchmark": {
+            "description": "Performance testing with Google Benchmark",
+            "dependencies": [
+                {
+                    "name": "benchmark",
+                    "version>=": "1.8.0"
+                }
+            ]
+        },
+        "json": {
+            "description": "JSON parsing with nlohmann-json",
+            "dependencies": [
+                {
+                    "name": "nlohmann-json",
+                    "version>=": "3.11.0"
+                }
+            ]
+        },
+        "crypto": {
+            "description": "Cryptographic primitives with OpenSSL",
+            "dependencies": [
+                {
+                    "name": "openssl",
+                    "version>=": "3.2.0"
+                }
+            ]
+        },
+        "http": {
+            "description": "HTTP client with cpp-httplib",
+            "dependencies": [
+                {
+                    "name": "cpp-httplib",
+                    "version>=": "0.15.0"
+                }
+            ]
+        },
+        "ml": {
+            "description": "Machine learning libraries (xtensor, ensmallen)",
+            "dependencies": [
+                {
+                    "name": "xtensor",
+                    "version>=": "0.24.7"
+                },
+                {
+                    "name": "ensmallen",
+                    "version>=": "2.21.0"
+                }
+            ]
+        },
+        "full": {
+            "description": "All optional dependencies for maximum performance",
+            "dependencies": [
+                {
+                    "name": "optimization-core-cpp",
+                    "default-features": false,
+                    "features": [
+                        "eigen",
+                        "pybind11",
+                        "parallel",
+                        "simd",
+                        "allocator",
+                        "compression",
+                        "logging",
+                        "formatting",
+                        "onednn",
+                        "testing",
+                        "benchmark",
+                        "json"
+                    ]
+                }
+            ]
+        },
+        "dev": {
+            "description": "Development dependencies (testing + benchmark)",
+            "dependencies": [
+                {
+                    "name": "optimization-core-cpp",
+                    "default-features": false,
+                    "features": [
+                        "testing",
+                        "benchmark",
+                        "logging"
+                    ]
+                }
+            ]
+        }
+    },
+    "builtin-baseline": "2024.06.15",
+    "overrides": [
+        {
+            "name": "eigen3",
+            "version": "3.4.0"
+        },
+        {
+            "name": "pybind11",
+            "version": "2.12.0"
+        }
+    ]
+}

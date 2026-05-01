@@ -1,0 +1,238 @@
+{
+  "timestamp": "2025-11-27T23:58:20.423807",
+  "summary": {
+    "total_tests": 15,
+    "successful_tests": 15,
+    "failed_tests": 0,
+    "success_rate": 1.0,
+    "total_duration_ms": 2995.6575999967754,
+    "by_module": {
+      "kv": {
+        "total": 3,
+        "successful": 3,
+        "failed": 0
+      },
+      "stress": {
+        "total": 2,
+        "successful": 2,
+        "failed": 0
+      },
+      "compression": {
+        "total": 3,
+        "successful": 3,
+        "failed": 0
+      },
+      "attention": {
+        "total": 3,
+        "successful": 3,
+        "failed": 0
+      },
+      "tokenization": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0
+      },
+      "inference": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0
+      },
+      "integration": {
+        "total": 2,
+        "successful": 2,
+        "failed": 0
+      }
+    },
+    "results": [
+      {
+        "name": "kv_cache_basic",
+        "success": true,
+        "duration_ms": 30.23859999666456,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.459521"
+      },
+      {
+        "name": "kv_cache_eviction",
+        "success": true,
+        "duration_ms": 3.123499991488643,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.462954"
+      },
+      {
+        "name": "kv_cache_concurrent",
+        "success": true,
+        "duration_ms": 3.250499998102896,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.466600"
+      },
+      {
+        "name": "stress_cache",
+        "success": true,
+        "duration_ms": 4.391800001030788,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.471902"
+      },
+      {
+        "name": "compression_basic",
+        "success": true,
+        "duration_ms": 3.874099988024682,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.476394"
+      },
+      {
+        "name": "compression_algorithms",
+        "success": true,
+        "duration_ms": 2.8064000071026385,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.479529"
+      },
+      {
+        "name": "compression_large_data",
+        "success": true,
+        "duration_ms": 3.0589999951189384,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.483013"
+      },
+      {
+        "name": "stress_compression",
+        "success": true,
+        "duration_ms": 4.216100001940504,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:17.487720"
+      },
+      {
+        "name": "attention_basic",
+        "success": true,
+        "duration_ms": 50.16020000039134,
+        "error": null,
+        "metadata": {
+          "batch_size": 2,
+          "seq_len": 128,
+          "d_model": 768,
+          "output_shape": [
+            256,
+            768
+          ]
+        },
+        "timestamp": "2025-11-27T23:58:17.538814"
+      },
+      {
+        "name": "attention_different_configs",
+        "success": true,
+        "duration_ms": 19.05849999457132,
+        "error": null,
+        "metadata": {
+          "d256_h4": {
+            "success": true,
+            "output_shape": [
+              128,
+              256
+            ]
+          },
+          "d512_h8": {
+            "success": true,
+            "output_shape": [
+              128,
+              512
+            ]
+          },
+          "d768_h12": {
+            "success": true,
+            "output_shape": [
+              128,
+              768
+            ]
+          }
+        },
+        "timestamp": "2025-11-27T23:58:17.558541"
+      },
+      {
+        "name": "attention_performance",
+        "success": true,
+        "duration_ms": 2852.901699996437,
+        "error": null,
+        "metadata": {
+          "avg_latency_ms": 203.91860000090674,
+          "throughput_tokens_per_sec": 10043.223129184358,
+          "iterations": 10
+        },
+        "timestamp": "2025-11-27T23:58:20.412212"
+      },
+      {
+        "name": "tokenization_basic",
+        "success": true,
+        "duration_ms": 0.6439999997382984,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "Failed to load tokenizer: No module named 'transformers'"
+        },
+        "timestamp": "2025-11-27T23:58:20.413540"
+      },
+      {
+        "name": "inference_basic",
+        "success": true,
+        "duration_ms": 0.15400000847876072,
+        "error": null,
+        "metadata": {
+          "engine_created": true
+        },
+        "timestamp": "2025-11-27T23:58:20.414055"
+      },
+      {
+        "name": "integration_cache_compression",
+        "success": true,
+        "duration_ms": 2.352800001972355,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:20.416826"
+      },
+      {
+        "name": "integration_attention_cache",
+        "success": true,
+        "duration_ms": 2.321699997992255,
+        "error": null,
+        "metadata": {
+          "skipped": true,
+          "reason": "No module named 'optimization_core'"
+        },
+        "timestamp": "2025-11-27T23:58:20.419429"
+      }
+    ]
+  }
+}

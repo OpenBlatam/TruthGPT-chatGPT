@@ -1,0 +1,135 @@
+# ════════════════════════════════════════════════════════════════════════════════
+# TruthGPT Go Core - Default Configuration
+# ════════════════════════════════════════════════════════════════════════════════
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Server Configuration
+# ────────────────────────────────────────────────────────────────────────────────
+server:
+  http:
+    port: 8080
+    read_timeout: 30s
+    write_timeout: 30s
+    idle_timeout: 120s
+    prefork: false
+    enable_cors: true
+    enable_compress: true
+  
+  grpc:
+    port: 50051
+    max_recv_msg_size: 104857600  # 100MB
+    max_send_msg_size: 104857600  # 100MB
+    keepalive_time: 30s
+    keepalive_timeout: 10s
+  
+  metrics:
+    port: 9090
+    path: /metrics
+    enabled: true
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Cache Configuration
+# ────────────────────────────────────────────────────────────────────────────────
+cache:
+  badger:
+    path: /data/kv_cache
+    sync_writes: false
+    value_log_file_size: 1073741824  # 1GB
+    compression: snappy
+    gc_interval: 5m
+  
+  fastcache:
+    max_bytes: 34359738368  # 32GB
+  
+  ristretto:
+    max_cost: 1073741824  # 1GB
+    num_counters: 10000000  # 10M
+  
+  default_ttl: 24h
+  enable_compression: true
+  compression_threshold: 1024
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Messaging Configuration (NATS)
+# ────────────────────────────────────────────────────────────────────────────────
+messaging:
+  nats:
+    urls:
+      - nats://localhost:4222
+    cluster_id: truthgpt-cluster
+    client_id: truthgpt-go-core
+    connect_timeout: 10s
+    reconnect_wait: 1s
+    max_reconnects: -1  # Unlimited
+  
+  topics:
+    training_batch: training.batch
+    training_gradient: training.gradient
+    training_checkpoint: training.checkpoint
+    training_metrics: training.metrics
+    inference_request: inference.request
+    inference_response: inference.response
+    cache_invalidate: cache.invalidate
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Compression Configuration
+# ────────────────────────────────────────────────────────────────────────────────
+compression:
+  default_algorithm: lz4
+  zstd_level: 3
+  min_size_to_compress: 1024
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Logging Configuration
+# ────────────────────────────────────────────────────────────────────────────────
+logging:
+  level: info  # debug, info, warn, error
+  format: json  # json, console
+  output: stdout  # stdout, stderr, file
+  file:
+    path: /var/log/truthgpt/go-core.log
+    max_size: 100  # MB
+    max_backups: 3
+    max_age: 28  # days
+    compress: true
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Tracing Configuration (OpenTelemetry)
+# ────────────────────────────────────────────────────────────────────────────────
+tracing:
+  enabled: true
+  service_name: truthgpt-go-core
+  exporter: otlp
+  endpoint: localhost:4317
+  sample_rate: 0.1
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Resource Limits
+# ────────────────────────────────────────────────────────────────────────────────
+resources:
+  max_goroutines: 10000
+  worker_pool_size: 100
+  request_timeout: 60s
+  shutdown_timeout: 30s
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Feature Flags
+# ────────────────────────────────────────────────────────────────────────────────
+features:
+  enable_streaming: true
+  enable_batching: true
+  enable_caching: true
+  enable_metrics: true
+  enable_tracing: true
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,273 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  TruthGPT Optimization Core - Bazel Workspace                               ║
+# ║  Polyglot Architecture: Python, C++, Rust, Go, Julia, Scala, Elixir          ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+workspace(name = "optimization_core")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BAZEL VERSION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Minimum Bazel version: 7.0.0
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Python for Python dependencies
+maybe(
+    http_archive,
+    name = "rules_python",
+    sha256 = "9d04041ac92a0985e344235f5d946f71ac543f1b1565f2cdbc9a2aaee8adf55b",
+    strip_prefix = "rules_python-0.26.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.26.0/rules_python-0.26.0.tar.gz",
+)
+
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
+load("@rules_python//python:repositories.bzl", "pip_parse")
+
+py_repositories()
+
+python_register_toolchains(
+    name = "python3_10",
+    python_version = "3.10",
+)
+
+python_register_toolchains(
+    name = "python3_11",
+    python_version = "3.11",
+)
+
+python_register_toolchains(
+    name = "python3_12",
+    python_version = "3.12",
+)
+
+# Python pip dependencies
+pip_parse(
+    name = "pip",
+    requirements_lock = "//:requirements_lock.txt",
+)
+
+load("@pip//:requirements.bzl", "install_deps")
+install_deps()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# C++ RULES & DEPENDENCIES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules C++ (built-in, but we can add external C++ dependencies)
+
+# Eigen (header-only linear algebra)
+# Note: SHA256 will be calculated on first download
+maybe(
+    http_archive,
+    name = "eigen",
+    build_file = "@//cpp_core:BUILD.eigen",
+    strip_prefix = "eigen-3.4.0",
+    url = "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz",
+)
+
+# PyBind11 (Python bindings for C++)
+maybe(
+    http_archive,
+    name = "pybind11",
+    sha256 = "8ff2fff22df038f6cdb5a7ae51c8bd8cd56a589761ec2e84f4b36ab2a3eb4cfe",
+    strip_prefix = "pybind11-2.11.1",
+    url = "https://github.com/pybind/pybind11/archive/v2.11.1.tar.gz",
+    build_file = "@//cpp_core:BUILD.pybind11",
+)
+
+# fmt (formatting library)
+maybe(
+    http_archive,
+    name = "com_github_fmtlib_fmt",
+    sha256 = "5cae7072042b3041e680a66c2a32938e2b0e08db8d0e363de81fc3d4d2607b02",
+    strip_prefix = "fmt-10.1.1",
+    url = "https://github.com/fmtlib/fmt/archive/10.1.1.tar.gz",
+    build_file = "@//cpp_core:BUILD.fmt",
+)
+
+# spdlog (fast logging)
+# Note: SHA256 will be calculated on first download
+maybe(
+    http_archive,
+    name = "com_github_gabime_spdlog",
+    strip_prefix = "spdlog-1.12.0",
+    url = "https://github.com/gabime/spdlog/archive/v1.12.0.tar.gz",
+    build_file = "@//cpp_core:BUILD.spdlog",
+)
+
+# LZ4 (compression)
+maybe(
+    http_archive,
+    name = "lz4",
+    build_file = "@//cpp_core:BUILD.lz4",
+    sha256 = "030644df4611007ff7dc962d981f390361e6c97a34e5cbc393ddfbe019ffe2c1",
+    strip_prefix = "lz4-1.9.4",
+    url = "https://github.com/lz4/lz4/archive/v1.9.4.tar.gz",
+)
+
+# Zstandard (compression)
+maybe(
+    http_archive,
+    name = "zstd",
+    build_file = "@//cpp_core:BUILD.zstd",
+    sha256 = "9c4396cc829cfae319a6e301520262ab943c1ca5aec5a5d3c1a1e2801e2c5052",
+    strip_prefix = "zstd-1.5.5",
+    url = "https://github.com/facebook/zstd/archive/v1.5.5.tar.gz",
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RUST RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Rust
+# Note: SHA256 will be calculated on first download
+maybe(
+    http_archive,
+    name = "rules_rust",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.40.0/rules_rust-0.40.0.tar.gz"],
+)
+
+load("@rules_rust//rust:repositories.bzl", "rust_repositories", "rust_register_toolchains")
+rust_repositories()
+
+# Register default Rust toolchain
+rust_register_toolchains(
+    edition = "2021",
+    versions = ["1.76.0"],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GO RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Go
+maybe(
+    http_archive,
+    name = "io_bazel_rules_go",
+    sha256 = "278b7ff5a826f3dc10f04feaf0b70d48b68748ccd512d7f98bf442077f043fe3",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.43.0/rules_go-v0.43.0.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.43.0/rules_go-v0.43.0.zip",
+    ],
+)
+
+load("@io_bazel_rules_go//go:repositories.bzl", "go_download_sdk", "go_register_toolchains")
+load("@io_bazel_rules_go//go:repositories.bzl", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_download_sdk(
+    name = "go_sdk",
+    version = "1.22.0",
+)
+
+go_register_toolchains(version = "1.22.0")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# JULIA RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Julia (if available, otherwise we'll use genrule)
+# Note: There's no official Bazel rules for Julia, so we'll use genrule for now
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCALA RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Scala
+# Note: SHA256 will be calculated on first download
+maybe(
+    http_archive,
+    name = "io_bazel_rules_scala",
+    strip_prefix = "rules_scala-20240101",
+    url = "https://github.com/bazelbuild/rules_scala/archive/20240101.tar.gz",
+)
+
+load("@io_bazel_rules_scala//:scala.bzl", "scala_repositories")
+scala_repositories()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ELIXIR RULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Elixir (if available, otherwise we'll use genrule)
+# Note: There's no official Bazel rules for Elixir, so we'll use genrule for now
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PROTOBUF & gRPC
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rules Proto
+maybe(
+    http_archive,
+    name = "rules_proto",
+    sha256 = "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd",
+    strip_prefix = "rules_proto-5.3.0-21.7",
+    url = "https://github.com/bazelbuild/rules_proto/archive/refs/tags/v5.3.0-21.7.tar.gz",
+)
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
+# gRPC (commented out - very large, add when needed)
+# maybe(
+#     http_archive,
+#     name = "com_github_grpc_grpc",
+#     sha256 = "8b9c33034be8b5ab1e26a66c3a4e693fa3c3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+#     strip_prefix = "grpc-1.60.0",
+#     url = "https://github.com/grpc/grpc/archive/v1.60.0.tar.gz",
+# )
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TESTING FRAMEWORKS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Google Test (C++)
+maybe(
+    http_archive,
+    name = "com_google_googletest",
+    sha256 = "b4870bf121ff7795ba20d20bcdd8627b8e088f2d1dab299a031c1034eddc93d5",
+    strip_prefix = "googletest-1.14.0",
+    url = "https://github.com/google/googletest/archive/v1.14.0.tar.gz",
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DOCKER RULES (for containerization)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+maybe(
+    http_archive,
+    name = "io_bazel_rules_docker",
+    sha256 = "b1e80761a8a8243d03ebca8845e9cc1ba6c82b7c6de8d5ec4c4223327e94e5e5",
+    strip_prefix = "rules_docker-0.27.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.27.0/rules_docker-v0.27.0.tar.gz"],
+)
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    "repositories",
+)
+repositories()
+
+load(
+    "@io_bazel_rules_docker//python3:image.bzl",
+    _py3_image_repos = "repositories",
+)
+_py3_image_repos()
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PLATFORM DETECTION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+# Platform-specific dependencies can be added here
+

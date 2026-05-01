@@ -1,0 +1,71 @@
+# Preset: Maximum Performance (GPU optimizado)
+seed: 42
+run_name: perf_max
+output_dir: runs/perf_max
+
+model:
+  name_or_path: gpt2
+  gradient_checkpointing: true
+  attention:
+    backend: sdpa
+  memory:
+    policy: adaptive
+
+training:
+  epochs: 3
+  train_batch_size: 32
+  eval_batch_size: 32
+  grad_accum_steps: 1
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.06
+  scheduler: cosine
+  mixed_precision: bf16
+  allow_tf32: true
+  torch_compile: true
+  compile_mode: max-autotune
+  fused_adamw: true
+  select_best_by: ppl
+
+optimizer:
+  type: adamw
+  fused: true
+
+data:
+  source: hf
+  dataset: wikitext
+  subset: wikitext-2-raw-v1
+  text_field: text
+  streaming: false
+  collate: lm
+  max_seq_len: 512
+  bucket_by_length: true
+  bucket_bins: [64, 128, 256, 512]
+  num_workers: 8
+  prefetch_factor: 4
+  persistent_workers: true
+
+checkpoint:
+  interval_steps: 1000
+  keep_last: 3
+
+ema:
+  enabled: true
+  decay: 0.999
+
+resume:
+  enabled: false
+
+eval:
+  metrics: [ppl]
+  select_best_by: ppl
+
+logging:
+  project: truthgpt
+  run_name: perf_max
+  dir: runs
+
+hardware:
+  device: auto
+
+

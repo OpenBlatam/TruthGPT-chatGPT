@@ -1,0 +1,100 @@
+# Refactored TruthGPT Optimization Framework Requirements
+# =====================================================
+
+# Core PyTorch and Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Transformers and LLM Libraries
+transformers>=4.30.0
+tokenizers>=0.13.0
+accelerate>=0.20.0
+datasets>=2.12.0
+
+# Diffusion Models
+diffusers>=0.20.0
+xformers>=0.0.20
+
+# Optimization and Training
+optimum>=1.12.0
+peft>=0.4.0
+bitsandbytes>=0.39.0
+
+# API and Web Framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+websockets>=11.0.0
+pydantic>=2.0.0
+
+# Monitoring and Logging
+wandb>=0.15.0
+tensorboard>=2.13.0
+tqdm>=4.65.0
+psutil>=5.9.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+pillow>=10.0.0
+
+# Configuration and Utilities
+pyyaml>=6.0
+python-dotenv>=1.0.0
+watchdog>=3.0.0
+click>=8.1.0
+
+# Caching and Storage
+redis>=4.6.0
+sqlalchemy>=2.0.0
+alembic>=1.11.0
+
+# Testing and Quality
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
+
+# Development Tools
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Performance and Optimization
+numba>=0.57.0
+cython>=0.29.0
+joblib>=1.3.0
+
+# Security
+cryptography>=41.0.0
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# Additional ML Libraries
+scipy>=1.11.0
+scikit-image>=0.21.0
+opencv-python>=4.8.0
+
+# Quantum Computing (Optional)
+qiskit>=0.44.0
+cirq>=1.2.0
+
+# Distributed Computing
+ray>=2.6.0
+dask>=2023.6.0
+
+# Model Serving
+torchserve>=0.8.0
+bentoml>=1.1.0
+
+# Documentation
+sphinx>=7.0.0
+sphinx-rtd-theme>=1.3.0
+mkdocs>=1.5.0
+mkdocs-material>=9.2.0
+
+

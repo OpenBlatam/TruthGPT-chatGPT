@@ -1,0 +1,45 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Elixir Core Module - BUILD                                                  ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ELIXIR MODULE (via genrule)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Note: Elixir doesn't have official Bazel rules
+# We'll use genrule to build with mix
+
+genrule(
+    name = "elixir_core_release",
+    srcs = glob(["**/*.ex", "mix.exs", "mix.lock"]),
+    outs = ["elixir_core.tar.gz"],
+    cmd = """
+        cd $(location :mix.exs)/.. && \
+        mix deps.get && \
+        mix compile && \
+        mix release && \
+        tar czf $@ _build
+    """,
+)
+
+py_library(
+    name = "elixir_core_py",
+    srcs = glob(["**/*.py"]),
+    data = [":elixir_core_release"],
+)
+
+
+
+
+
+
+
+
+
+
+
+

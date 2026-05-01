@@ -1,0 +1,34 @@
+{
+  "paper_id": "mixture_of_reasonings",
+  "arxiv_id": "2507.00606",
+  "title": "Mixture of Reasonings: Teach Large Language Models to Reason with Adaptive Strategies",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2507.00606",
+  "contributions": [
+    "Mejora razonamiento task-specific (+10-15% en benchmarks de multiturn)",
+    "Elimina prompts frágiles",
+    "Estrategias adaptativas"
+  ],
+  "key_techniques": [
+    "Framework MoR (Mixture of Reasonings)",
+    "Estrategias adaptativas",
+    "Templates diversos",
+    "Entrenamiento en múltiples estrategias"
+  ],
+  "benchmarks": [
+    "Multiturn reasoning: +10-15%",
+    "Task-specific reasoning: mejoras significativas"
+  ],
+  "improvements": "+10-15% en benchmarks de multiturn",
+  "category": "reasoning",
+  "technical_details": {
+    "framework": "MoR",
+    "adaptive_strategies": true,
+    "multiple_templates": true,
+    "task_specific": true,
+    "eliminates_fragile_prompts": true
+  }
+}

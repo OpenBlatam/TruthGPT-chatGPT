@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-11-28T00:02:55.040580",
+  "individual_results": [
+    {
+      "name": "attention_individual",
+      "module": "attention",
+      "latency_ms": 0.0,
+      "throughput": 0.0,
+      "operations": 0,
+      "memory_mb": 0.0,
+      "metadata": {
+        "error": "No module named 'optimization_core'"
+      }
+    },
+    {
+      "name": "compression_individual",
+      "module": "compression",
+      "latency_ms": 0.0,
+      "throughput": 0.0,
+      "operations": 0,
+      "memory_mb": 0.0,
+      "metadata": {
+        "error": "No module named 'optimization_core'"
+      }
+    }
+  ],
+  "integrated_results": [
+    {
+      "name": "attention_cache_integrated",
+      "module": "integration",
+      "latency_ms": 0.0,
+      "throughput": 0.0,
+      "operations": 0,
+      "memory_mb": 0.0,
+      "metadata": {
+        "error": "No module named 'optimization_core'"
+      }
+    },
+    {
+      "name": "compression_cache_integrated",
+      "module": "integration",
+      "latency_ms": 0.0,
+      "throughput": 0.0,
+      "operations": 0,
+      "memory_mb": 0.0,
+      "metadata": {
+        "error": "No module named 'optimization_core'"
+      }
+    },
+    {
+      "name": "full_pipeline",
+      "module": "integration",
+      "latency_ms": 0.0,
+      "throughput": 0.0,
+      "operations": 0,
+      "memory_mb": 0.0,
+      "metadata": {
+        "error": "No module named 'optimization_core'"
+      }
+    }
+  ],
+  "comparisons": [],
+  "summary": {}
+}

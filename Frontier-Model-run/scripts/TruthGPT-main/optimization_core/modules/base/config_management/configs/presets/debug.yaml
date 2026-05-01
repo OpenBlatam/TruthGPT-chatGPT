@@ -1,0 +1,70 @@
+# Preset: Debug Mode (detección de anomalías, logging detallado)
+seed: 42
+run_name: debug
+output_dir: runs/debug
+
+model:
+  name_or_path: gpt2
+  gradient_checkpointing: false  # Desactivado para debug
+  attention:
+    backend: sdpa
+
+training:
+  epochs: 1
+  train_batch_size: 2
+  eval_batch_size: 2
+  grad_accum_steps: 1
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  scheduler: cosine
+  mixed_precision: none  # Desactivado para debug
+  allow_tf32: false
+  torch_compile: false
+  fused_adamw: false
+  detect_anomaly: true  # Activado
+  use_profiler: false
+  select_best_by: loss
+  log_interval: 1  # Log cada step
+  eval_interval: 10
+
+optimizer:
+  type: adamw
+  fused: false
+
+data:
+  source: hf
+  dataset: wikitext
+  subset: wikitext-2-raw-v1
+  text_field: text
+  streaming: false
+  collate: lm
+  max_seq_len: 128
+  bucket_by_length: false
+  num_workers: 0  # Single-threaded para debug
+  prefetch_factor: 1
+  persistent_workers: false
+
+checkpoint:
+  interval_steps: 50
+  keep_last: 1
+
+ema:
+  enabled: false
+
+resume:
+  enabled: false
+
+eval:
+  metrics: [loss]
+  select_best_by: loss
+
+logging:
+  project: truthgpt-debug
+  run_name: debug_run
+  dir: runs
+
+hardware:
+  device: auto
+
+

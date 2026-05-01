@@ -1,0 +1,132 @@
+groups:
+  - name: inference_api_alerts
+    interval: 30s
+    rules:
+      # High latency alert
+      - alert: HighInferenceLatency
+        expr: histogram_quantile(0.95, sum(rate(inference_request_duration_ms_bucket[5m])) by (le)) > 600
+        for: 5m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High inference latency detected"
+          description: "p95 latency is {{ $value }}ms (threshold: 600ms) for more than 5 minutes"
+
+      # Critical latency alert
+      - alert: CriticalInferenceLatency
+        expr: histogram_quantile(0.95, sum(rate(inference_request_duration_ms_bucket[5m])) by (le)) > 1000
+        for: 3m
+        labels:
+          severity: critical
+          component: inference-api
+        annotations:
+          summary: "Critical inference latency"
+          description: "p95 latency is {{ $value }}ms (threshold: 1000ms) for more than 3 minutes"
+
+      # High error rate
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(inference_errors_5xx_total[5m])) / 
+          sum(rate(inference_requests_total[5m])) > 0.02
+        for: 5m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 2%)"
+
+      # Critical error rate
+      - alert: CriticalErrorRate
+        expr: |
+          sum(rate(inference_errors_5xx_total[5m])) / 
+          sum(rate(inference_requests_total[5m])) > 0.05
+        for: 3m
+        labels:
+          severity: critical
+          component: inference-api
+        annotations:
+          summary: "Critical error rate"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+      # Circuit breaker open
+      - alert: CircuitBreakerOpen
+        expr: circuit_breaker_open_total > 0
+        for: 1m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "Circuit breaker is open"
+          description: "Circuit breaker has been open for 1 minute or more"
+
+      # High queue depth
+      - alert: HighQueueDepth
+        expr: inference_queue_depth > 100
+        for: 5m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High queue depth detected"
+          description: "Queue depth is {{ $value }} (threshold: 100) for more than 5 minutes"
+
+      # Low cache hit rate
+      - alert: LowCacheHitRate
+        expr: |
+          rate(inference_cache_hits_total[5m]) / 
+          (rate(inference_cache_hits_total[5m]) + rate(inference_cache_misses_total[5m])) < 0.3
+        for: 10m
+        labels:
+          severity: info
+          component: inference-api
+        annotations:
+          summary: "Low cache hit rate"
+          description: "Cache hit rate is {{ $value | humanizePercentage }} (threshold: 30%)"
+
+      # High rate limit hits
+      - alert: HighRateLimitHits
+        expr: rate(rate_limit_hits_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High rate limit hits"
+          description: "Rate limit is being hit {{ $value }} times per second"
+
+      # API down
+      - alert: APIDown
+        expr: up{job="inference-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: inference-api
+        annotations:
+          summary: "Inference API is down"
+          description: "Inference API has been down for more than 1 minute"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: process_memory_bytes / 1024 / 1024 / 1024 > 8
+        for: 5m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value }} GB (threshold: 8 GB)"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: process_cpu_percent > 80
+        for: 10m
+        labels:
+          severity: warning
+          component: inference-api
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value }}% (threshold: 80%)"
+
+

@@ -1,0 +1,162 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: truthgpt-config
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: config
+data:
+  # Framework Configuration
+  framework.yaml: |
+    framework:
+      name: "TruthGPT Optimization Framework"
+      version: "3.0.0"
+      debug: false
+      environment: production
+    
+    optimization:
+      max_workers: 8
+      max_processes: 4
+      timeout: 600.0
+      retry_attempts: 3
+      batch_size: 32
+      learning_rate: 0.0001
+    
+    cache:
+      enabled: true
+      max_size: 10000
+      ttl: 7200
+      backend: "redis"
+      redis_host: "redis-service"
+      redis_port: "6379"
+      redis_db: 0
+    
+    monitoring:
+      enabled: true
+      metrics_interval: 30
+      log_level: "INFO"
+      prometheus_enabled: true
+      grafana_enabled: true
+    
+    api:
+      enabled: true
+      host: "0.0.0.0"
+      port: 8000
+      cors_enabled: true
+      rate_limit: 1000
+      timeout: 300
+    
+    security:
+      secret_key: "${SECRET_KEY}"
+      encryption_enabled: true
+      max_request_size: 10485760
+      jwt_expiry: 3600
+    
+    plugins:
+      enabled: true
+      path: "/app/plugins"
+      auto_load: true
+  
+  # Logging Configuration
+  logging.yaml: |
+    version: 1
+    disable_existing_loggers: false
+    
+    formatters:
+      standard:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+      detailed:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s'
+    
+    handlers:
+      console:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: standard
+        stream: ext://sys.stdout
+      
+      file:
+        class: logging.handlers.RotatingFileHandler
+        level: DEBUG
+        formatter: detailed
+        filename: /app/logs/truthgpt.log
+        maxBytes: 10485760
+        backupCount: 5
+      
+      error_file:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: detailed
+        filename: /app/logs/truthgpt_error.log
+        maxBytes: 10485760
+        backupCount: 5
+    
+    loggers:
+      truthgpt:
+        level: DEBUG
+        handlers: [console, file, error_file]
+        propagate: false
+      
+      uvicorn:
+        level: INFO
+        handlers: [console, file]
+        propagate: false
+    
+    root:
+      level: INFO
+      handlers: [console, file]
+  
+  # Model Configuration
+  model_config.yaml: |
+    transformer:
+      d_model: 512
+      n_heads: 8
+      n_layers: 6
+      d_ff: 2048
+      dropout: 0.1
+      activation: "relu"
+      attention_type: "multihead"
+      use_flash_attention: true
+      attention_dropout: 0.1
+      max_seq_length: 1024
+      use_rotary_embeddings: true
+      use_lora: true
+      lora_rank: 16
+      lora_alpha: 32.0
+      lora_dropout: 0.1
+    
+    diffusion:
+      scheduler: "DDIMScheduler"
+      num_inference_steps: 50
+      guidance_scale: 7.5
+      use_safety_checker: true
+    
+    quantum:
+      quantum_circuit: "default"
+      shots: 1024
+      backend: "qasm_simulator"
+  
+  # Training Configuration
+  training_config.yaml: |
+    epochs: 100
+    batch_size: 32
+    learning_rate: 0.0001
+    weight_decay: 0.00001
+    mixed_precision: true
+    gradient_accumulation_steps: 2
+    optimizer: "adamw"
+    scheduler: "cosine"
+    warmup_epochs: 5
+    early_stopping_patience: 10
+    early_stopping_min_delta: 0.0001
+    gradient_clip_norm: 1.0
+    save_best_model: true
+    save_every_n_epochs: 10
+    validate_every_n_epochs: 1
+    log_every_n_steps: 10
+    use_wandb: true
+    wandb_project: "truthgpt-optimization"
+
+

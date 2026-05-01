@@ -1,0 +1,29 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Optimizers - BUILD                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "optimizers",
+    srcs = glob(["**/*.py"], exclude = ["**/__pycache__/**", "**/tests/**"]),
+    deps = [
+        "//core:core",
+        "@pip//torch",
+        "@pip//numpy",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

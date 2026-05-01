@@ -1,0 +1,72 @@
+{
+  "qwen3_technical_report": {
+    "module_name": "Qwen3Module",
+    "config_name": "Qwen3Config",
+    "file_path": "papers/research/paper_qwen3.py",
+    "integration_point": "multimodal_reasoning",
+    "dependencies": []
+  },
+  "absolute_zero_azr": {
+    "module_name": "AbsoluteZeroModule",
+    "config_name": "AbsoluteZeroConfig",
+    "file_path": "papers/research/paper_absolute_zero.py",
+    "integration_point": "reinforcement_learning",
+    "dependencies": []
+  },
+  "seed1_5_vl": {
+    "module_name": "Seed1_5VLModule",
+    "config_name": "Seed1_5VLConfig",
+    "file_path": "papers/research/paper_seed1_5_vl.py",
+    "integration_point": "multimodal",
+    "dependencies": []
+  },
+  "mixture_of_reasonings": {
+    "module_name": "MixtureOfReasoningsModule",
+    "config_name": "MixtureOfReasoningsConfig",
+    "file_path": "papers/research/paper_mixture_of_reasonings.py",
+    "integration_point": "reasoning",
+    "dependencies": []
+  },
+  "crft_critical_representation": {
+    "module_name": "CRFTModule",
+    "config_name": "CRFTConfig",
+    "file_path": "papers/research/paper_crft.py",
+    "integration_point": "fine_tuning",
+    "dependencies": []
+  },
+  "meta_cot_system2": {
+    "module_name": "MetaCoTModule",
+    "config_name": "MetaCoTConfig",
+    "file_path": "papers/research/paper_meta_cot.py",
+    "integration_point": "reinforcement_learning",
+    "dependencies": []
+  },
+  "sft_rl_generalization": {
+    "module_name": "SFTRLGeneralizationModule",
+    "config_name": "SFTRLGeneralizationConfig",
+    "file_path": "papers/research/paper_sft_rl_generalization.py",
+    "integration_point": "training",
+    "dependencies": []
+  },
+  "learning_dynamics_finetuning": {
+    "module_name": "LearningDynamicsModule",
+    "config_name": "LearningDynamicsConfig",
+    "file_path": "papers/research/paper_learning_dynamics.py",
+    "integration_point": "fine_tuning",
+    "dependencies": []
+  },
+  "faster_cascades_speculative": {
+    "module_name": "FasterCascadesModule",
+    "config_name": "FasterCascadesConfig",
+    "file_path": "papers/inference/paper_faster_cascades.py",
+    "integration_point": "inference",
+    "dependencies": []
+  },
+  "deepseek_v3_insights": {
+    "module_name": "DeepSeekV3Module",
+    "config_name": "DeepSeekV3Config",
+    "file_path": "papers/architecture/paper_deepseek_v3.py",
+    "integration_point": "architecture",
+    "dependencies": []
+  }
+}

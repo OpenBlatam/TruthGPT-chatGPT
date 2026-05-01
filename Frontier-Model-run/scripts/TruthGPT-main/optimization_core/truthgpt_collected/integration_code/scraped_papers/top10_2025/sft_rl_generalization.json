@@ -1,0 +1,34 @@
+{
+  "paper_id": "sft_rl_generalization",
+  "arxiv_id": "2501.17161",
+  "title": "SFT Memorizes, RL Generalizes: A Comparative Study of Foundation Model Post-training",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2501.17161",
+  "contributions": [
+    "RL mejora OOD y reconocimiento visual",
+    "+8-12% en tareas de razonamiento textual/visual vs. SFT"
+  ],
+  "key_techniques": [
+    "Estudio empírico comparando SFT y RL",
+    "Generalización OOD",
+    "Reconocimiento visual mejorado",
+    "Post-training con RL"
+  ],
+  "benchmarks": [
+    "Razonamiento textual/visual: +8-12% vs. SFT",
+    "OOD: mejoras significativas",
+    "Reconocimiento visual: mejoras"
+  ],
+  "improvements": "+8-12% en razonamiento textual/visual",
+  "category": "training",
+  "technical_details": {
+    "comparison": "SFT vs RL",
+    "ood_generalization": true,
+    "visual_recognition": true,
+    "post_training": true,
+    "empirical_study": true
+  }
+}

@@ -1,0 +1,163 @@
+"""
+Bazel BUILD file for TruthGPT Optimization Core
+
+Unified build system for Python, Rust, Go, C++, and Julia modules.
+"""
+
+load("@rules_python//python:defs.bzl", "py_binary", "py_library", "py_test")
+load("@rules_rust//rust:defs.bzl", "rust_library", "rust_binary", "rust_test")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON MODULES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+py_library(
+    name = "polyglot",
+    srcs = glob(["polyglot/**/*.py"]),
+    deps = [
+        ":core",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "inference",
+    srcs = glob(["inference/**/*.py"]),
+    deps = [
+        ":core",
+        ":polyglot",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "core",
+    srcs = glob(["core/**/*.py"]),
+    visibility = ["//visibility:public"],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RUST CORE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+rust_library(
+    name = "rust_core",
+    srcs = glob(["rust_core/src/**/*.rs"]),
+    crate_root = "rust_core/src/lib.rs",
+    edition = "2021",
+    deps = [
+        "@crates//:pyo3",
+        "@crates//:rayon",
+        "@crates//:lz4-flex",
+        "@crates//:zstd",
+        "@crates//:tokenizers",
+        "@crates//:ndarray",
+        "@crates//:parking-lot",
+    ],
+    proc_macro_deps = [
+        "@crates//:pyo3-macros",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# C++ CORE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+cc_library(
+    name = "cpp_core",
+    srcs = glob(["cpp_core/src/**/*.cpp"]),
+    hdrs = glob(["cpp_core/include/**/*.hpp"]),
+    includes = ["cpp_core/include"],
+    deps = [
+        "@pybind11//:pybind11",
+        "@eigen//:eigen",
+    ],
+    copts = [
+        "-std=c++17",
+        "-O3",
+        "-march=native",
+    ],
+    linkopts = [
+        "-fopenmp",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON BINDINGS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+pybind_extension(
+    name = "_cpp_core",
+    srcs = ["cpp_core/python/bindings_refactored.cpp"],
+    deps = [
+        ":cpp_core",
+        "@pybind11//:pybind11",
+    ],
+    copts = [
+        "-std=c++17",
+        "-O3",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TESTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+py_test(
+    name = "polyglot_test",
+    srcs = ["polyglot/test_polyglot.py"],
+    deps = [
+        ":polyglot",
+    ],
+)
+
+rust_test(
+    name = "rust_core_test",
+    crate = ":rust_core",
+    deps = [
+        "@crates//:criterion",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BENCHMARKS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+rust_binary(
+    name = "kv_cache_bench",
+    srcs = ["rust_core/benches/kv_cache_bench.rs"],
+    deps = [
+        ":rust_core",
+        "@crates//:criterion",
+    ],
+)
+
+rust_binary(
+    name = "attention_bench",
+    srcs = ["rust_core/benches/attention_bench.rs"],
+    deps = [
+        ":rust_core",
+        "@crates//:criterion",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# WORKSPACE CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Note: Add to WORKSPACE file:
+# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+# 
+# http_archive(
+#     name = "rules_python",
+#     sha256 = "...",
+#     url = "https://github.com/bazelbuild/rules_python/releases/download/...",
+# )
+# 
+# http_archive(
+#     name = "rules_rust",
+#     sha256 = "...",
+#     url = "https://github.com/bazelbuild/rules_rust/releases/download/...",
+# )

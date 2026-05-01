@@ -1,0 +1,17 @@
+{
+    "user_name": "as",
+    "preferred_engine": "deepseek",
+    "theme": "blue",
+    "continuous_mode": true,
+    "mcp_servers": [
+        "http://localhost:8000"
+    ],
+    "api_keys": {
+        "telegram": "",
+        "discord": "",
+        "slack": "",
+        "whatsapp": "",
+        "openai": "",
+        "deepseek": ""
+    }
+}

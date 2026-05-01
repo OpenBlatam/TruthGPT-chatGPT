@@ -1,0 +1,81 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Go Core Module - BUILD                                                       ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_python//python:defs.bzl", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GO LIBRARIES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+go_library(
+    name = "go_core_lib",
+    srcs = glob([
+        "internal/**/*.go",
+        "pkg/**/*.go",
+    ]),
+    importpath = "github.com/truthgpt/optimization_core/go_core",
+    deps = [
+        # Go dependencies would be managed via go.mod
+        # Bazel will automatically resolve them
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GO BINARIES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+go_binary(
+    name = "inference_server",
+    srcs = ["cmd/inference-server/main.go"],
+    deps = [":go_core_lib"],
+)
+
+go_binary(
+    name = "cache_service",
+    srcs = ["cmd/cache-service/main.go"],
+    deps = [":go_core_lib"],
+)
+
+go_binary(
+    name = "data_pipeline",
+    srcs = ["cmd/data-pipeline/main.go"],
+    deps = [":go_core_lib"],
+)
+
+go_binary(
+    name = "coordinator",
+    srcs = ["cmd/coordinator/main.go"],
+    deps = [":go_core_lib"],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON BINDINGS (via gRPC or ctypes)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+py_library(
+    name = "go_core_py",
+    srcs = glob(["pkg/client/*.py"]),
+    deps = [
+        "@pip//grpcio",
+    ],
+    data = [
+        ":inference_server",
+        ":cache_service",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

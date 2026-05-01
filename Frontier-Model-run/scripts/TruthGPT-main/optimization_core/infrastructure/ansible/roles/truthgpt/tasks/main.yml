@@ -1,0 +1,209 @@
+---
+# TruthGPT Application Deployment Tasks
+# =====================================
+
+- name: "Create TruthGPT namespace"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ truthgpt_namespace }}"
+        labels:
+          name: "{{ truthgpt_namespace }}"
+          environment: "{{ environment }}"
+
+- name: "Deploy TruthGPT ConfigMap"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: truthgpt-config
+        namespace: "{{ truthgpt_namespace }}"
+      data:
+        framework.yaml: |
+          framework:
+            name: "TruthGPT Optimization Framework"
+            version: "{{ truthgpt_version }}"
+            environment: "{{ environment }}"
+          optimization:
+            max_workers: 8
+            max_processes: 4
+            timeout: 600.0
+          cache:
+            enabled: true
+            max_size: 10000
+            ttl: 7200
+            backend: "redis"
+          monitoring:
+            enabled: true
+            metrics_interval: 30
+            log_level: "INFO"
+
+- name: "Deploy TruthGPT Secrets"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: truthgpt-secrets
+        namespace: "{{ truthgpt_namespace }}"
+      type: Opaque
+      data:
+        secret-key: "{{ truthgpt_secret_key | b64encode }}"
+        jwt-secret: "{{ truthgpt_jwt_secret | b64encode }}"
+        redis-password: "{{ redis_password | b64encode }}"
+        wandb-api-key: "{{ wandb_api_key | b64encode }}"
+
+- name: "Deploy TruthGPT Persistent Volume Claims"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: "{{ item.name }}"
+        namespace: "{{ truthgpt_namespace }}"
+      spec:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: "{{ item.size }}"
+        storageClassName: azurefile-csi
+  loop:
+    - { name: "truthgpt-logs-pvc", size: "10Gi" }
+    - { name: "truthgpt-cache-pvc", size: "50Gi" }
+    - { name: "truthgpt-models-pvc", size: "100Gi" }
+
+- name: "Deploy TruthGPT Application"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: truthgpt-optimization
+        namespace: "{{ truthgpt_namespace }}"
+      spec:
+        replicas: "{{ truthgpt_replicas }}"
+        selector:
+          matchLabels:
+            app: truthgpt-optimization
+        template:
+          metadata:
+            labels:
+              app: truthgpt-optimization
+          spec:
+            containers:
+            - name: truthgpt-api
+              image: "{{ truthgpt_image }}:{{ truthgpt_version }}"
+              ports:
+              - containerPort: 8000
+              - containerPort: 8001
+              env:
+              - name: TRUTHGPT_CONFIG_PATH
+                value: "/app/config/framework.yaml"
+              - name: TRUTHGPT_ENVIRONMENT
+                value: "{{ environment }}"
+              resources:
+                requests:
+                  memory: "2Gi"
+                  cpu: "1000m"
+                limits:
+                  memory: "8Gi"
+                  cpu: "4000m"
+              volumeMounts:
+              - name: config-volume
+                mountPath: /app/config
+              - name: logs-volume
+                mountPath: /app/logs
+              - name: cache-volume
+                mountPath: /app/cache
+              - name: models-volume
+                mountPath: /app/models
+            volumes:
+            - name: config-volume
+              configMap:
+                name: truthgpt-config
+            - name: logs-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-logs-pvc
+            - name: cache-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-cache-pvc
+            - name: models-volume
+              persistentVolumeClaim:
+                claimName: truthgpt-models-pvc
+
+- name: "Deploy TruthGPT Service"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: truthgpt-api-service
+        namespace: "{{ truthgpt_namespace }}"
+      spec:
+        type: LoadBalancer
+        ports:
+        - name: http
+          port: 80
+          targetPort: 8000
+        - name: https
+          port: 443
+          targetPort: 8000
+        - name: metrics
+          port: 9090
+          targetPort: 8001
+        selector:
+          app: truthgpt-optimization
+
+- name: "Deploy TruthGPT HPA"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: autoscaling/v2
+      kind: HorizontalPodAutoscaler
+      metadata:
+        name: truthgpt-api-hpa
+        namespace: "{{ truthgpt_namespace }}"
+      spec:
+        scaleTargetRef:
+          apiVersion: apps/v1
+          kind: Deployment
+          name: truthgpt-optimization
+        minReplicas: 3
+        maxReplicas: 20
+        metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 80
+
+- name: "Wait for TruthGPT deployment"
+  kubernetes.core.k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    name: truthgpt-optimization
+    namespace: "{{ truthgpt_namespace }}"
+    wait: true
+    wait_condition:
+      type: Available
+      status: "True"
+    wait_timeout: 300
+
+

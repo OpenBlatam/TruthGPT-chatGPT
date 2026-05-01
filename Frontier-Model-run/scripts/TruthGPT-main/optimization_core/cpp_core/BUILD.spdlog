@@ -1,0 +1,28 @@
+# BUILD file for spdlog library
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "spdlog",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/spdlog/**/*.h"]),
+    includes = ["include"],
+    strip_include_prefix = "include",
+    deps = [
+        "@com_github_fmtlib_fmt//:fmt",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

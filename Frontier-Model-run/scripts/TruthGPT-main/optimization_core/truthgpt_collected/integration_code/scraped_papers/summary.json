@@ -1,0 +1,62 @@
+{
+  "papers": {
+    "2505.05315v2": {
+      "title": "Scalable Chain of Thoughts via Elastic Reasoning",
+      "url": "https://arxiv.org/html/2505.05315v2"
+    },
+    "2505.11140v1": {
+      "title": "Scaling Reasoning can Improve Factuality inLarge Language Models",
+      "url": "https://arxiv.org/html/2505.11140v1"
+    },
+    "2503.00735v3": {
+      "title": "LADDER: Self-Improving LLMs Through Recursive Problem Decomposition",
+      "url": "https://arxiv.org/html/2503.00735v3"
+    },
+    "2506.10987v1": {
+      "title": "Chain of Draft for Software Engineering:Challenges in Applying Concise Reasoning to Code Tasks",
+      "url": "https://arxiv.org/html/2506.10987v1"
+    },
+    "2509.04439v1": {
+      "title": "ArcMemo: Abstract Reasoning Composition with Lifelong LLM Memory",
+      "url": "https://arxiv.org/html/2509.04439v1"
+    },
+    "2506.15841v2": {
+      "title": "MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents",
+      "url": "https://arxiv.org/html/2506.15841v2"
+    },
+    "2508.06471": {
+      "title": "Unknown",
+      "url": "https://arxiv.org/html/2508.06471"
+    },
+    "2510.04871v1": {
+      "title": "Less is More: Recursive Reasoning with Tiny Networks",
+      "url": "https://arxiv.org/html/2510.04871v1"
+    },
+    "2506.10848v2": {
+      "title": "Accelerating Diffusion Large Language Models with SlowFast Sampling: The Three Golden Principles",
+      "url": "https://arxiv.org/html/2506.10848v2"
+    },
+    "2510.00071": {
+      "title": "ARS: Adaptive Reasoning Suppression for Efficient Large Reasoning Language Models",
+      "url": "https://arxiv.org/html/2510.00071"
+    },
+    "2510.26788v1": {
+      "title": "Defeating the Training-Inference Mismatch via FP16",
+      "url": "https://arxiv.org/html/2510.26788v1"
+    }
+  },
+  "repos": {
+    "OLMoE": {
+      "url": "https://github.com/allenai/OLMoE",
+      "type": "html_content"
+    },
+    "MEM1": {
+      "url": "https://github.com/MIT-MI/MEM1/blob/main/Mem1/inference/amem/memory_system.py",
+      "type": "python_code"
+    },
+    "SAM2": {
+      "url": "https://github.com/facebookresearch/sam2/blob/main/sam2/modeling/backbones/hieradet.py",
+      "type": "python_code"
+    }
+  }
+}

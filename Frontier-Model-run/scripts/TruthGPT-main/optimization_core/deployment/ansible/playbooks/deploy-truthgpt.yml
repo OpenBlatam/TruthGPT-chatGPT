@@ -1,0 +1,79 @@
+---
+# Enterprise TruthGPT Ansible Playbook
+# Deploys TruthGPT optimization system with enterprise features
+
+- name: Deploy Enterprise TruthGPT Optimization System
+  hosts: all
+  become: yes
+  gather_facts: yes
+  vars:
+    truthgpt_version: "1.0.0"
+    optimization_level: "enterprise_enterprise"
+    namespace: "truthgpt-enterprise"
+    docker_registry: "truthgptacr.azurecr.io"
+    image_tag: "latest"
+    
+  tasks:
+    - name: Include system preparation tasks
+      include_tasks: tasks/prepare-system.yml
+      tags: [prepare, system]
+    
+    - name: Include Docker installation tasks
+      include_tasks: tasks/install-docker.yml
+      tags: [docker, install]
+    
+    - name: Include Kubernetes installation tasks
+      include_tasks: tasks/install-kubernetes.yml
+      tags: [kubernetes, install]
+    
+    - name: Include Azure CLI installation tasks
+      include_tasks: tasks/install-azure-cli.yml
+      tags: [azure, install]
+    
+    - name: Include Python environment setup tasks
+      include_tasks: tasks/setup-python.yml
+      tags: [python, setup]
+    
+    - name: Include TruthGPT deployment tasks
+      include_tasks: tasks/deploy-truthgpt.yml
+      tags: [deploy, truthgpt]
+    
+    - name: Include monitoring setup tasks
+      include_tasks: tasks/setup-monitoring.yml
+      tags: [monitoring, setup]
+    
+    - name: Include security setup tasks
+      include_tasks: tasks/setup-security.yml
+      tags: [security, setup]
+    
+    - name: Include backup setup tasks
+      include_tasks: tasks/setup-backup.yml
+      tags: [backup, setup]
+
+  handlers:
+    - name: restart docker
+      systemd:
+        name: docker
+        state: restarted
+        enabled: yes
+    
+    - name: restart kubelet
+      systemd:
+        name: kubelet
+        state: restarted
+        enabled: yes
+    
+    - name: restart containerd
+      systemd:
+        name: containerd
+        state: restarted
+        enabled: yes
+
+
+
+
+
+
+
+
+

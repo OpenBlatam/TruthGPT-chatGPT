@@ -1,0 +1,71 @@
+# Polyglot Core Production Configuration
+
+environment: production
+debug: false
+log_level: WARNING
+
+# Backend preferences
+preferred_backends:
+  kv_cache: rust
+  attention: cpp
+  compression: rust
+  inference: cpp
+  tokenization: rust
+  quantization: cpp
+
+# Performance settings
+performance:
+  enable_profiling: true
+  enable_metrics: true
+  enable_benchmarking: false
+  profiling_interval: 5.0
+  metrics_retention_hours: 168  # 7 days
+
+# Cache settings
+cache:
+  default_max_size: 1000000
+  default_memory_gb: 32
+  enable_compression: true
+  compression_threshold: 8192
+  eviction_strategy: s3fifo
+  num_shards: 128
+
+# Attention settings
+attention:
+  default_d_model: 4096
+  default_n_heads: 32
+  use_flash: true
+  block_size: 128
+  use_causal_mask: true
+
+# Compression settings
+compression:
+  default_algorithm: lz4
+  default_level: 1  # Fastest for production
+  chunk_size: 131072
+
+# Inference settings
+inference:
+  default_seed: 42
+  default_max_tokens: 512
+  default_temperature: 0.7
+  default_top_p: 0.9
+  default_top_k: 50
+
+# Resource limits
+resources:
+  max_memory_gb: 128
+  max_cache_size_gb: 64
+  max_concurrent_operations: 50
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,91 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  C++ Core Module - BUILD                                                      ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+load("@rules_python//python:defs.bzl", "py_library", "py_extension")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# C++ LIBRARY
+# ═══════════════════════════════════════════════════════════════════════════════
+
+cc_library(
+    name = "cpp_core",
+    srcs = glob([
+        "src/**/*.cpp",
+    ]),
+    hdrs = glob([
+        "include/**/*.hpp",
+    ]),
+    includes = ["include"],
+    deps = [
+        "@eigen//:eigen",
+        "@com_github_fmtlib_fmt//:fmt",
+        "@com_github_gabime_spdlog//:spdlog",
+        "@lz4//:lz4",
+        "@zstd//:zstd",
+    ],
+    copts = [
+        "-std=c++20",
+        "-O3",
+        "-march=native",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON BINDINGS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Note: PyBind11 bindings require special setup
+# For now, we'll create a placeholder that can be built with pybind11 manually
+# or use a genrule to build with pybind11
+
+cc_library(
+    name = "_cpp_core_cc",
+    srcs = glob(["python/*.cpp"]),
+    hdrs = glob(["python/*.h", "include/**/*.hpp"]),
+    includes = ["include", "python"],
+    deps = [
+        ":cpp_core",
+        "@pybind11//:pybind11",
+    ],
+    copts = [
+        "-std=c++20",
+        "-fvisibility=hidden",
+    ],
+    linkopts = [
+        "-pthread",
+    ],
+)
+
+# Python wrapper module
+
+py_library(
+    name = "cpp_core_py",
+    srcs = glob(["python/*.py"]),
+    deps = [
+        ":_cpp_core_cc",
+        "@pip//numpy",
+    ],
+    data = [":cpp_core"],
+)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TESTS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+cc_binary(
+    name = "test_attention",
+    srcs = ["tests/test_attention.cpp"],
+    deps = [
+        ":cpp_core",
+        "@com_google_googletest//:gtest",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+

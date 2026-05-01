@@ -1,0 +1,35 @@
+{
+  "paper_id": "learning_dynamics_finetuning",
+  "arxiv_id": "tPNHOoZFl9",
+  "title": "Learning Dynamics of LLM Finetuning",
+  "authors": [
+    "Yi Ren",
+    "Danica Sutherland"
+  ],
+  "year": 2025,
+  "url": "https://openreview.net/forum?id=tPNHOoZFl9",
+  "contributions": [
+    "Reduce alucinaciones",
+    "Reduce 'squeezing effect'",
+    "+5-10% en precisión de respuestas correctas en benchmarks de QA"
+  ],
+  "key_techniques": [
+    "Trackear cambios en probabilidades durante fine-tuning",
+    "Análisis de dinámicas de aprendizaje",
+    "Detección de alucinaciones",
+    "Mitigación de squeezing effect"
+  ],
+  "benchmarks": [
+    "QA benchmarks: +5-10% en precisión",
+    "Reducción de alucinaciones: significativa"
+  ],
+  "improvements": "+5-10% en precisión de QA",
+  "category": "fine_tuning",
+  "technical_details": {
+    "method": "Learning Dynamics Analysis",
+    "probability_tracking": true,
+    "hallucination_reduction": true,
+    "squeezing_effect_mitigation": true,
+    "qa_optimization": true
+  }
+}

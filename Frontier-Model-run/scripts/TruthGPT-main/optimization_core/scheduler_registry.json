@@ -1,0 +1,24 @@
+{
+  "persistent_1777656204": {
+    "task_id": "persistent_1777656204",
+    "user_id": "cli_user",
+    "prompt": "busca archivos que podria borras",
+    "interval_seconds": 1.0,
+    "repeat": true,
+    "max_runs": 0,
+    "last_run_time": null,
+    "run_count": 0,
+    "cancelled": false
+  },
+  "task_1777656262": {
+    "task_id": "task_1777656262",
+    "user_id": "cli_user",
+    "prompt": "manda emails",
+    "interval_seconds": 1.0,
+    "repeat": false,
+    "max_runs": 1,
+    "last_run_time": null,
+    "run_count": 0,
+    "cancelled": false
+  }
+}

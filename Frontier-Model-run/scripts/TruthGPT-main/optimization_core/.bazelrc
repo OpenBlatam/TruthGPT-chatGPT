@@ -1,0 +1,116 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  TruthGPT Optimization Core - Bazel Configuration                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# COMMON OPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Use Python 3.10 by default
+build --python_version=3.10
+
+# Enable remote caching (if configured)
+# build --remote_cache=...
+
+# Enable remote execution (if configured)
+# build --remote_executor=...
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# BUILD MODES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Debug build
+build:debug --compilation_mode=dbg
+build:debug --copt=-g
+build:debug --strip=never
+
+# Release build (default)
+build:release --compilation_mode=opt
+build:release --copt=-O3
+build:release --copt=-march=native
+build:release --strip=always
+
+# Fast build (for development)
+build:fast --compilation_mode=fastbuild
+build:fast --copt=-O2
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# C++ OPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# C++ standard
+build --cxxopt=-std=c++20
+
+# Enable all warnings
+build --cxxopt=-Wall
+build --cxxopt=-Wextra
+build --cxxopt=-Wpedantic
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PYTHON OPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Python build options
+build --incompatible_use_python_toolchains=true
+build --python_native_rules_allowlist=@rules_python//python/...
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RUST OPTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Rust edition
+build --rust_edition=2021
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TESTING
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Test output
+test --test_output=errors
+test --test_summary=detailed
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PLATFORM-SPECIFIC
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Linux
+build:linux --copt=-fPIC
+build:linux --linkopt=-fuse-ld=gold
+
+# macOS
+build:macos --copt=-fPIC
+build:macos --linkopt=-Wl,-dead_strip
+
+# Windows
+build:windows --copt=/W4
+build:windows --linkopt=/DEBUG
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GPU SUPPORT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# CUDA (if available)
+build:cuda --action_env=CUDA_PATH
+build:cuda --copt=-DHAVE_CUDA
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FEATURES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Enable all features
+build:full --features=python,cuda,metal,distributed
+
+# Minimal build
+build:minimal --features=python
+
+
+
+
+
+
+
+
+
+
+
+

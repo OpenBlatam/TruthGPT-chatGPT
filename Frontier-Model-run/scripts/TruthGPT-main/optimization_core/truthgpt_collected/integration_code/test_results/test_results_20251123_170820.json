@@ -1,0 +1,3069 @@
+{
+  "timestamp": "2025-11-23T17:08:20.550590",
+  "results": [
+    {
+      "test_name": "Baseline (No Papers)",
+      "papers_enabled": [],
+      "forward_time": 0.14351892471313477,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 111005196,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 24.180633544921875,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.148245334625244,
+          "min_activation_value": 3.1679098810855066e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 15,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Qwen3",
+      "papers_enabled": [
+        "Qwen3"
+      ],
+      "forward_time": 0.07301187515258789,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 116481030,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 24.014631271362305,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.114924907684326,
+          "min_activation_value": 4.876211733062519e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 14,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "qwen3": {
+          "avg_thinking_mode_quality": 0.5199999809265137,
+          "multilingual_usage": 0.0,
+          "benchmark_score": 0.0,
+          "num_languages": 119
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Absolute Zero",
+      "papers_enabled": [
+        "Absolute Zero"
+      ],
+      "forward_time": 0.17405319213867188,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 115368974,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 23.900890350341797,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.75496244430542,
+          "min_activation_value": 3.157023513722379e-07,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 12,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "absolute_zero": {
+          "avg_reward": 0.049997728317976,
+          "self_play_quality": 0.5,
+          "verification_accuracy": 0.49999770522117615,
+          "zero_data": true
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Seed1.5-VL",
+      "papers_enabled": [
+        "Seed1.5-VL"
+      ],
+      "forward_time": 0.07322287559509277,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 116713356,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8999999761581421,
+          "activation_norm": 24.13875961303711,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 1,
+          "max_activation_value": 4.386918067932129,
+          "min_activation_value": 2.589053565316135e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 14,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "seed1_5_vl": {
+          "mmmu_score": 0.7789999842643738,
+          "benchmark_sota_rate": 0.6333333253860474,
+          "thinking_quality": 0.527899980545044,
+          "compact": true
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Mixture of Reasonings",
+      "papers_enabled": [
+        "Mixture of Reasonings"
+      ],
+      "forward_time": 0.0908660888671875,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 118292502,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8999999761581421,
+          "activation_norm": 24.00641632080078,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 1,
+          "max_activation_value": 4.2682085037231445,
+          "min_activation_value": 1.388072860208922e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 8,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "mixture_of_reasonings": {
+          "strategy_usage": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "reasoning_quality": 0.4999716877937317,
+          "adaptive_selection_rate": 0.0,
+          "num_strategies": 5
+        }
+      }
+    },
+    {
+      "test_name": "Individual: CRFT",
+      "papers_enabled": [
+        "CRFT"
+      ],
+      "forward_time": 0.07245397567749023,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 111356209,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8999999761581421,
+          "activation_norm": 23.63637924194336,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 1,
+          "max_activation_value": 4.2863922119140625,
+          "min_activation_value": 1.2572791092679836e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 14,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "crft": {
+          "parameter_efficiency": 0.00015999999595806003,
+          "critical_path_usage": 0.0,
+          "reasoning_improvement": 0.0,
+          "adapter_dim": 8,
+          "total_params_ratio": 0.00016
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Meta-CoT",
+      "papers_enabled": [
+        "Meta-CoT"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "The size of tensor a (2) must match the size of tensor b (32) at non-singleton dimension 1",
+      "metrics": {}
+    },
+    {
+      "test_name": "Individual: SFT vs RL",
+      "papers_enabled": [
+        "SFT vs RL"
+      ],
+      "forward_time": 0.07025885581970215,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 115139342,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 24.19851303100586,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.300148010253906,
+          "min_activation_value": 4.617522336047841e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 13,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "sft_rl_generalization": {
+          "generalization_score": 0.5030171871185303,
+          "ood_detection_rate": 0.0,
+          "rl_advantage": 0.009764066897332668,
+          "use_rl_training": true
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Learning Dynamics",
+      "papers_enabled": [
+        "Learning Dynamics"
+      ],
+      "forward_time": 0.07624483108520508,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 115139342,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 24.117544174194336,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.45702600479126,
+          "min_activation_value": 6.102018232923001e-07,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 7,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "learning_dynamics": {
+          "hallucination_rate": 0.10000000149011612,
+          "squeezing_rate": 0.09733109176158905,
+          "qa_accuracy": 0.5,
+          "probability_tracking": true
+        }
+      }
+    },
+    {
+      "test_name": "Individual: Faster Cascades",
+      "papers_enabled": [
+        "Faster Cascades"
+      ],
+      "forward_time": 0.11553311347961426,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 114846928,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 23.905441284179688,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.093165874481201,
+          "min_activation_value": 1.0731897646110156e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 17,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "faster_cascades": {
+          "inference_speedup": 1.0,
+          "cascade_usage": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "speculative_acceptance": 0.04726305231451988,
+          "latency_reduction_percent": 0
+        }
+      }
+    },
+    {
+      "test_name": "Individual: DeepSeek-V3",
+      "papers_enabled": [
+        "DeepSeek-V3"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "Expected size for first two dimensions of batch2 tensor to be: [16, 96] but got: [16, 48].",
+      "metrics": {}
+    },
+    {
+      "test_name": "Combination: Reasoning Papers",
+      "papers_enabled": [
+        "Mixture of Reasonings",
+        "Meta-CoT",
+        "CRFT"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "The size of tensor a (2) must match the size of tensor b (32) at non-singleton dimension 1",
+      "metrics": {}
+    },
+    {
+      "test_name": "Combination: RL Papers",
+      "papers_enabled": [
+        "Absolute Zero",
+        "SFT vs RL",
+        "Meta-CoT"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "The size of tensor a (2) must match the size of tensor b (32) at non-singleton dimension 1",
+      "metrics": {}
+    },
+    {
+      "test_name": "Combination: Multimodal Papers",
+      "papers_enabled": [
+        "Qwen3",
+        "Seed1.5-VL"
+      ],
+      "forward_time": 0.33704495429992676,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 122189190,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8189999461174011,
+          "activation_norm": 24.029983520507812,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 2,
+          "max_activation_value": 4.439466953277588,
+          "min_activation_value": 3.4266563488927204e-06,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 14,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "qwen3": {
+          "avg_thinking_mode_quality": 0.5199999809265137,
+          "multilingual_usage": 0.0,
+          "benchmark_score": 0.0,
+          "num_languages": 119
+        },
+        "seed1_5_vl": {
+          "mmmu_score": 0.7789999842643738,
+          "benchmark_sota_rate": 0.6333333253860474,
+          "thinking_quality": 0.527899980545044,
+          "compact": true
+        }
+      }
+    },
+    {
+      "test_name": "Combination: Efficiency Papers",
+      "papers_enabled": [
+        "Faster Cascades",
+        "DeepSeek-V3",
+        "CRFT"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "Expected size for first two dimensions of batch2 tensor to be: [16, 96] but got: [16, 48].",
+      "metrics": {}
+    },
+    {
+      "test_name": "Combination: Training Papers",
+      "papers_enabled": [
+        "Learning Dynamics",
+        "SFT vs RL"
+      ],
+      "forward_time": 0.15989422798156738,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 119273488,
+      "output_shape": [
+        2,
+        32,
+        1000
+      ],
+      "error": null,
+      "metrics": {
+        "performance": {
+          "training_loss": [],
+          "validation_loss": [],
+          "attention_entropy": [],
+          "memory_usage": [],
+          "fp16_stability": {},
+          "olmoe_metrics": {},
+          "dynaact_metrics": {},
+          "planu_metrics": {},
+          "llm_ensemble_metrics": {}
+        },
+        "fp16_stability": {
+          "stability_score": 0.8999999761581421,
+          "activation_norm": 23.961402893066406,
+          "gradient_norm": 0.0,
+          "nan_count": 0,
+          "inf_count": 0,
+          "correction_count": 1,
+          "max_activation_value": 4.261584281921387,
+          "min_activation_value": 1.923619129229337e-05,
+          "fp16_overflow_count": 0,
+          "fp16_underflow_count": 4,
+          "loss_scale": 65536.0,
+          "fp16_safety": {
+            "max_safe": 65504.0,
+            "min_safe": 6.1e-05,
+            "is_max_safe": true,
+            "is_min_safe": false
+          },
+          "fp16_exp_bits": 5,
+          "fp16_mantissa_bits": 10,
+          "bf16_exp_bits": 8,
+          "bf16_mantissa_bits": 7,
+          "fp16_precision": 1.0009765625,
+          "bf16_precision": 1.0078125,
+          "fp16_min_positive": 6.1e-05,
+          "fp16_max_value": 65504.0,
+          "bf16_min_positive": 1.2e-38,
+          "bf16_max_value": 3.4e+38,
+          "precision_ratio": 8.0,
+          "fp16_min_positive_notation": "\u22486.1\u00d710^-5",
+          "fp16_max_value_notation": "\u22486.6\u00d710^4",
+          "bf16_min_positive_notation": "\u22481.2\u00d710^-38",
+          "bf16_max_value_notation": "\u22483.4\u00d710^38",
+          "fp16_precision_notation": "1+2^-10 \u2248 1.000977",
+          "bf16_precision_notation": "1+2^-7 \u2248 1.007812",
+          "amc23_8k_bf16": 50.38,
+          "amc23_8k_fp16": 50.6,
+          "amc23_32k_bf16": 62.35,
+          "amc23_32k_fp16": 63.1,
+          "aime24_8k_bf16": 22.6,
+          "aime24_8k_fp16": 20.1,
+          "aime24_32k_bf16": 29.9,
+          "aime24_32k_fp16": 30.94,
+          "experimental_setup": {
+            "model": "DeepSeek-R1-Distill-Qwen-1.5B",
+            "context_length": 8000,
+            "batch_size_questions": 64,
+            "rollouts_per_question": 8,
+            "gradient_steps": 4,
+            "clip_higher": 0.28,
+            "clipping_threshold_C": 3.0,
+            "gpus": "8 NVIDIA A100 80G",
+            "perfectible_dataset_size": 1460,
+            "sanity_test_threshold": 0.95,
+            "sampling_responses_per_question": 40,
+            "initial_accuracy_range": [
+              0.2,
+              0.8
+            ]
+          },
+          "lora_setup": {
+            "rank": 32,
+            "alpha": 64,
+            "learning_rate": 4e-05,
+            "model": "Qwen2.5-Math-1.5B",
+            "dataset": "MATH",
+            "bf16_collapse_steps": 600,
+            "algorithm": "GRPO-Token-TIS"
+          },
+          "moe_setup": {
+            "model": "Qwen3-30B-A3B-Base",
+            "train_batch_size": 512,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 0.6,
+            "val_top_p": 1.0,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "betas": [
+              0.9,
+              0.95
+            ],
+            "eps": 1e-15,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "loss_agg_mode": "seq-mean-token-sum-norm"
+          },
+          "large_dense_setup": {
+            "model": "Qwen3-14B-Base",
+            "train_batch_size": 512,
+            "gen_batch_size": 1536,
+            "max_prompt_length": 2048,
+            "max_response_length": 20480,
+            "rollout_n": 16,
+            "rollout_temperature": 1.0,
+            "rollout_top_p": 1.0,
+            "val_temperature": 1.0,
+            "val_top_p": 0.7,
+            "ppo_mini_batch_size": 32,
+            "ppo_max_token_len_per_gpu": 22528,
+            "learning_rate": 1e-06,
+            "lr_warmup_steps": 10,
+            "weight_decay": 0.1,
+            "betas": [
+              0.9,
+              0.999
+            ],
+            "eps": 1e-08,
+            "clip_ratio_high": 0.28,
+            "clip_ratio_low": 0.2,
+            "clip_ratio_c": 10.0,
+            "loss_agg_mode": "token-mean",
+            "training_samples": 54400,
+            "evaluation_metric": "avg@8"
+          },
+          "other_models": {
+            "octothinker_3b": {
+              "base": "Llama3.2-3B",
+              "bf16_collapse_steps": 150,
+              "algorithm": "GRPO"
+            }
+          },
+          "decoding_settings": {
+            "offline_analysis": {
+              "responses_per_question": 32,
+              "temperature": 0.6,
+              "top_p": 0.95,
+              "token_budget": 32000,
+              "datasets": [
+                "AMC",
+                "AIME"
+              ]
+            },
+            "mismatch_evaluation": {
+              "temperature": 1.0,
+              "top_p": null,
+              "responses_per_question": 32
+            }
+          },
+          "frameworks": {
+            "verl": {
+              "name": "VeRL",
+              "optimization": "https://github.com/sail-sg/odc",
+              "bug_fix": "Dr.GRPO implementation corrected"
+            },
+            "oat": {
+              "name": "Oat",
+              "reference": "Liu et al., 2025b"
+            },
+            "vllm": {
+              "version": "0.10.0",
+              "use": "Inference"
+            },
+            "pytorch_fsdp": {
+              "use": "Training"
+            }
+          },
+          "collapse_results": {
+            "vanilla_grpo_bf16": {
+              "verl_peak": 0.73,
+              "oat_peak": 0.84
+            },
+            "token_tis_bf16": {
+              "verl_peak": 0.82,
+              "oat_peak": 0.88
+            },
+            "gspo_bf16": {
+              "verl_nan_steps": 1200,
+              "note": "Gradient norm became NaN after 1200 steps"
+            },
+            "lora_bf16": {
+              "collapse_steps": 600
+            }
+          },
+          "fp32_inference": {
+            "speed_ratio": 3.0,
+            "stability": "Fully stable with no signs of collapse",
+            "practical": false
+          },
+          "loss_scaling_algorithm": {
+            "procedure": [
+              "1. The loss is multiplied by a large scaling factor S before backpropagation",
+              "2. This scales up all gradients by S, shifting small gradient values out of the underflow region and into the representable range of FP16, thus preserving them",
+              "3. Before updating the weights, the gradients are scaled back by dividing S"
+            ],
+            "dynamic_improvement": {
+              "description": "The scaling factor S is automatically adjusted during training",
+              "increase_condition": "If no overflows (infinity values in gradients) are detected for a number of steps",
+              "decrease_condition": "Decreased immediately if an overflow occurs"
+            },
+            "framework_support": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020",
+              "implementation": "Only a single configuration change or a few lines of code"
+            }
+          },
+          "hardware_support": {
+            "bf16_introduction": {
+              "google_tpus": "First introduced",
+              "nvidia_gpus": "Starting with Ampere architecture",
+              "advantage": "Drop-in replacement for FP32 that obviates meticulous loss scaling"
+            }
+          },
+          "repository": {
+            "url": "https://github.com/sail-sg/Precision-RL",
+            "organization": "Sea AI Lab"
+          },
+          "references": {
+            "fp16_standard": "IEEE 754 half-precision",
+            "bf16_introduction": "Introduced by Google",
+            "loss_scaling_paper": "Micikevicius et al., 2017",
+            "bf16_papers": [
+              "Dean et al., 2012",
+              "Kalamkar et al., 2019"
+            ],
+            "frameworks": {
+              "pytorch": "Paszke et al., 2019",
+              "megatron": "Shoeybi et al., 2019",
+              "deepspeed": "Rasley et al., 2020"
+            }
+          },
+          "key_observations": {
+            "bf16_issue": "Even if both are configured to use BF16, subtle differences in their implementation (e.g., CUDA kernel optimizations, parallel strategies) can lead to different rounding errors on BF16",
+            "accumulation": "When these small discrepancies accumulate over a sequence of tokens during autoregressive sampling, the resulting probability distributions for \u03c0 and \u03bc can diverge significantly",
+            "fp16_solution": "With its 10 mantissa bits, FP16 offers 8 times more precision (2^10 values vs. 2^7 values) than BF16. This higher fidelity means that the outputs of the training and inference engines are much more likely to be numerically identical",
+            "buffer_effect": "The increased precision creates a buffer that absorbs the minor implementation differences between the two engines, preventing rounding errors from accumulating and causing a policy divergence",
+            "rl_finetuning_advantage": "For RL fine-tuning, the dynamic range of the model's weights and activations has already been established during pre-training. Therefore, the extreme range of BF16 is less critical, while the precision it sacrifices becomes a dominant drawback"
+          }
+        },
+        "sft_rl_generalization": {
+          "generalization_score": 0.4995509088039398,
+          "ood_detection_rate": 0.05000000074505806,
+          "rl_advantage": 0.004721570760011673,
+          "use_rl_training": true
+        },
+        "learning_dynamics": {
+          "hallucination_rate": 0.10000000149011612,
+          "squeezing_rate": 0.09725208580493927,
+          "qa_accuracy": 0.5,
+          "probability_tracking": true
+        }
+      }
+    },
+    {
+      "test_name": "All Papers Together",
+      "papers_enabled": [
+        "Qwen3",
+        "Absolute Zero",
+        "Seed1.5-VL",
+        "Mixture of Reasonings",
+        "CRFT",
+        "Meta-CoT",
+        "SFT vs RL",
+        "Learning Dynamics",
+        "Faster Cascades",
+        "DeepSeek-V3"
+      ],
+      "forward_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "num_parameters": 0,
+      "output_shape": [
+        0
+      ],
+      "error": "The size of tensor a (2) must match the size of tensor b (32) at non-singleton dimension 1",
+      "metrics": {}
+    }
+  ]
+}

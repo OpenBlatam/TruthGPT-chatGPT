@@ -1,0 +1,38 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Scala Core Module - BUILD                                                    ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@io_bazel_rules_scala//scala:scala.bzl", "scala_library", "scala_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCALA LIBRARY
+# ═══════════════════════════════════════════════════════════════════════════════
+
+scala_library(
+    name = "scala_core",
+    srcs = glob(["src/main/scala/**/*.scala"]),
+    deps = [
+        # Scala dependencies from build.sbt
+        # Bazel will resolve them via rules_scala
+    ],
+)
+
+scala_binary(
+    name = "inference_service",
+    main_class = "truthgpt.InferenceService",
+    deps = [":scala_core"],
+)
+
+
+
+
+
+
+
+
+
+
+
+

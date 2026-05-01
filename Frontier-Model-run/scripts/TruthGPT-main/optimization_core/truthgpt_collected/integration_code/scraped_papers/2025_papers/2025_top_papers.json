@@ -1,0 +1,239 @@
+{
+  "papers": {
+    "adaptive_got": {
+      "title": "Adaptive Graph of Thoughts: Test-Time Adaptive Reasoning Unifying Chain, Tree, and Graph Structures",
+      "authors": ["Pandey", "Ghukasyan", "Goktas", "Radha"],
+      "date": "Feb 2025",
+      "url": "https://arxiv.org/abs/2502.XXXXX",
+      "key_techniques": [
+        "Dynamic inference with graph structures",
+        "Subproblem decomposition",
+        "Adaptive structure selection (chain/tree/graph)",
+        "Knowledge propagation"
+      ],
+      "benchmarks": ["Scientific reasoning", "Mathematical reasoning", "Multi-hop QA"],
+      "technical_details": {
+        "reasoning_structures": ["chain", "tree", "graph", "adaptive"],
+        "subproblem_decomposition": true,
+        "max_subproblems": 10,
+        "graph_attention": true,
+        "knowledge_propagation": true,
+        "structure_selection": "adaptive",
+        "decomposition_method": "dynamic",
+        "use_importance_scoring": true
+      }
+    },
+    "solar": {
+      "title": "SOLAR: Scalable Optimization of Large-scale Architecture for Reasoning",
+      "authors": ["Li", "Luo", "Bolimera", "Ahmed", "Srinivasan", "Gokhale", "Savvides"],
+      "date": "Mar 2025",
+      "url": "https://arxiv.org/abs/2503.XXXXX",
+      "key_techniques": [
+        "Dynamic structure optimization",
+        "Curriculum learning",
+        "Structure selector (chain/tree/graph)",
+        "Adaptive reasoning layers"
+      ],
+      "benchmarks": ["MATH", "GSM8K"],
+      "technical_details": {
+        "structure_types": ["chain", "tree", "graph"],
+        "curriculum_learning": true,
+        "dynamic_structure": true,
+        "structure_selector": true,
+        "reasoning_layers": 3,
+        "curriculum_schedule": "linear",
+        "use_confidence_weighting": true
+      }
+    },
+    "rl_of_thoughts": {
+      "title": "RL of Thoughts: Navigating LLM Reasoning with Inference-time Reinforcement Learning",
+      "authors": ["Hao", "Li", "Yuan", "Li"],
+      "date": "May 2025",
+      "url": "https://arxiv.org/abs/2505.XXXXX",
+      "key_techniques": [
+        "Lightweight RL navigator",
+        "Dynamic reasoning block selection",
+        "Value function estimation",
+        "Policy network for block selection"
+      ],
+      "benchmarks": ["AIME", "MATH", "GPQA"],
+      "improvements": "+13.4% on benchmarks",
+      "technical_details": {
+        "num_reasoning_blocks": 4,
+        "rl_navigator": true,
+        "value_function": true,
+        "advantage_estimation": true,
+        "exploration_rate": 0.1,
+        "discount_factor": 0.99,
+        "navigator_dim": 128,
+        "use_ppo_style": true
+      }
+    },
+    "rdolt": {
+      "title": "Recursive Decomposition of Logical Thoughts: Framework for Superior Reasoning and Knowledge Propagation",
+      "authors": ["Qasim", "Zhang", "Alsahfi", "Butt"],
+      "date": "Jan 2025",
+      "url": "https://arxiv.org/abs/2501.XXXXX",
+      "key_techniques": [
+        "Recursive decomposition",
+        "Knowledge propagation",
+        "Subproblem generation",
+        "Thought quality scoring"
+      ],
+      "benchmarks": ["GSM8K", "SVAMP", "Gaokao Math"],
+      "technical_details": {
+        "max_decomposition_depth": 5,
+        "knowledge_propagation": true,
+        "recursive_refinement": true,
+        "thought_quality_scoring": true,
+        "propagation_strength": 0.5,
+        "use_quality_weighting": true
+      }
+    },
+    "am_thinking": {
+      "title": "AM-Thinking-v1: Advancing the Frontier of Reasoning at 32B Scale",
+      "authors": ["Ji", "Tian", "Zhao", "Wang", "Chen", "Peng", "Zhao", "Li"],
+      "date": "May 2025",
+      "url": "https://arxiv.org/abs/2505.XXXXX",
+      "key_techniques": [
+        "32B dense model",
+        "SFT + RL pipeline",
+        "Reasoning heads",
+        "Quality scoring"
+      ],
+      "benchmarks": ["AIME 2024", "AIME 2025", "LiveCodeBench"],
+      "technical_details": {
+        "model_size": "32B",
+        "architecture": "dense",
+        "training_pipeline": ["SFT", "RL"],
+        "reasoning_heads": true,
+        "num_layers": 24,
+        "num_heads": 16,
+        "intermediate_size": 2048,
+        "rl_kl_penalty": 0.1
+      }
+    },
+    "ladder": {
+      "title": "LADDER: Self-Improving LLMs Through Recursive Problem Decomposition",
+      "authors": ["Toby Simonds", "Akira Yoshiyama"],
+      "date": "Mar 2025",
+      "url": "https://arxiv.org/html/2503.00735v3",
+      "key_techniques": [
+        "Recursive problem decomposition",
+        "Self-improvement through simpler problems",
+        "Solution verification",
+        "Problem simplification",
+        "TTRL (Test-Time Reinforcement Learning)"
+      ],
+      "benchmarks": ["Mathematical integration", "MIT Integration Bee"],
+      "results": {
+        "llama_3b": "1% to 82% on undergraduate problems",
+        "qwen_7b": "50% to 73% on MIT Integration Bee",
+        "qwen_7b_ttrl": "90% on MIT Integration Bee (surpassing o1)"
+      },
+      "technical_details": {
+        "max_decomposition_steps": 5,
+        "problem_simplification": true,
+        "solution_verification": true,
+        "recursive_learning": true,
+        "num_variants_per_problem": 500,
+        "use_ttrl": true,
+        "ttrl_steps": 100,
+        "variant_tree_structure": true,
+        "use_numerical_verification": true,
+        "verification_method": "numerical_integration"
+      }
+    },
+    "enigmata": {
+      "title": "Enigmata: Scaling Logical Reasoning in Large Language Models with Synthetic Verifiable Puzzles",
+      "authors": ["Chen", "He", "Yuan", "Chen", "Cai", "Dai", "Yu", "Yu", "Li", "Chen", "Zhou", "Wang"],
+      "date": "May 2025",
+      "url": "https://arxiv.org/abs/2505.XXXXX",
+      "key_techniques": [
+        "Synthetic puzzle generation",
+        "Puzzle verification",
+        "RL training with puzzles",
+        "Generator + Verifier architecture"
+      ],
+      "benchmarks": ["Puzzle benchmarks", "Mathematical reasoning"],
+      "model": "Qwen2.5-32B-Enigmata",
+      "technical_details": {
+        "puzzle_generator": true,
+        "puzzle_verifier": true,
+        "rl_training": true,
+        "puzzle_complexity": "variable",
+        "base_model": "Qwen2.5-32B",
+        "verification_threshold": 0.7,
+        "use_complexity_control": true
+      }
+    },
+    "spoc": {
+      "title": "Boosting LLM Reasoning via Spontaneous Self-Correction",
+      "authors": ["Zhao", "Xu", "Wang", "Chen", "Jin", "Tan", "Yu", "Zhao", "He", "Chandar", "Zhu"],
+      "date": "Jun 2025",
+      "url": "https://arxiv.org/abs/2506.XXXXX",
+      "key_techniques": [
+        "Spontaneous self-correction",
+        "On-the-fly verification",
+        "Iterative refinement",
+        "Solution verification"
+      ],
+      "benchmarks": ["MATH500", "AMC23", "AIME"],
+      "technical_details": {
+        "max_correction_iterations": 3,
+        "self_verification": true,
+        "iterative_refinement": true,
+        "correction_threshold": 0.7,
+        "correction_strength": 0.5,
+        "use_error_signal": true
+      }
+    },
+    "k2think": {
+      "title": "K2-Think: A Parameter-Efficient Reasoning System",
+      "authors": ["Unknown"],
+      "date": "2025",
+      "url": "https://k2think-about.pages.dev",
+      "key_techniques": [
+        "Parameter-efficient adapters",
+        "Multiple rollouts",
+        "Rollout aggregation",
+        "Confidence weighting"
+      ],
+      "benchmarks": ["AIME-2024"],
+      "base_model": "Qwen2.5-32B",
+      "technical_details": {
+        "num_rollouts": 5,
+        "parameter_efficient": true,
+        "adapter_dim": 64,
+        "rollout_aggregation": true,
+        "confidence_weighting": true,
+        "aggregation_method": "weighted",
+        "use_diversity_regularization": false
+      }
+    },
+    "advanced_math_benchmark": {
+      "title": "Benchmarking LLMs on Advanced Mathematical Reasoning",
+      "authors": ["Berkeley EECS"],
+      "date": "2025",
+      "url": "https://www2.eecs.berkeley.edu",
+      "key_techniques": [
+        "PhD-level questions",
+        "Formal proof evaluation",
+        "Step-by-step scoring",
+        "Rigor assessment"
+      ],
+      "benchmarks": ["77 PhD-level questions"],
+      "metrics": ["Correctness", "Completeness", "Rigor"],
+      "technical_details": {
+        "num_questions": 77,
+        "difficulty_levels": ["undergraduate", "graduate", "phd"],
+        "evaluation_metrics": ["correctness", "completeness", "rigor"],
+        "formal_proof_evaluation": true,
+        "step_by_step_scoring": true,
+        "use_rigor_assessment": true
+      }
+    }
+  }
+}
+
+

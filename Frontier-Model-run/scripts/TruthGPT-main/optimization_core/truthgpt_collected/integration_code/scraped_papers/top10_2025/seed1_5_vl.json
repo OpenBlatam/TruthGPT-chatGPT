@@ -1,0 +1,35 @@
+{
+  "paper_id": "seed1_5_vl",
+  "arxiv_id": "2505.07062",
+  "title": "Seed1.5-VL Technical Report",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2505.07062",
+  "contributions": [
+    "SOTA en 38/60 benchmarks",
+    "77.9% en MMMU con modo thinking",
+    "Excelso en documentos y tareas agenticas"
+  ],
+  "key_techniques": [
+    "Modelo multimodal compacto",
+    "Comprensión y razonamiento general",
+    "Modo thinking integrado",
+    "Procesamiento de documentos"
+  ],
+  "benchmarks": [
+    "MMMU: 77.9% (con modo thinking)",
+    "38/60 benchmarks: SOTA",
+    "Tareas agenticas: excelente rendimiento"
+  ],
+  "improvements": "SOTA en 38/60 benchmarks",
+  "category": "multimodal",
+  "technical_details": {
+    "model_type": "multimodal",
+    "compact": true,
+    "thinking_mode": true,
+    "document_processing": true,
+    "agentic_tasks": true
+  }
+}

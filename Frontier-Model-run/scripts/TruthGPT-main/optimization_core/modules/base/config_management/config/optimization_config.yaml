@@ -1,0 +1,162 @@
+# TruthGPT Optimization Core Configuration
+# Following deep learning best practices
+
+# General Configuration
+general:
+  project_name: "truthgpt-optimization"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+
+# Model Configuration
+model:
+  name: "truthgpt-base"
+  hidden_size: 768
+  num_attention_heads: 12
+  num_hidden_layers: 12
+  intermediate_size: 3072
+  max_position_embeddings: 2048
+  vocab_size: 50257
+  dropout: 0.1
+  attention_dropout: 0.1
+  hidden_dropout: 0.1
+
+# Training Configuration
+training:
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  batch_size: 32
+  num_epochs: 100
+  warmup_steps: 1000
+  max_grad_norm: 1.0
+  gradient_accumulation_steps: 1
+  use_amp: true
+  use_ddp: false
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+
+# CUDA Configuration
+cuda:
+  enabled: true
+  mixed_precision: true
+  threads_per_block: 256
+  blocks_per_grid: 1024
+  shared_memory: 16384
+  registers: 32
+  speedup: 1000.0
+  use_tensor_cores: true
+  memory_pool_size: 1073741824  # 1GB
+  kernel_launch_overhead: 0.001
+  gpu_utilization_threshold: 0.8
+
+# GPU Configuration
+gpu:
+  memory_fraction: 0.9
+  use_memory_pool: true
+  use_mixed_precision: true
+  use_gradient_checkpointing: true
+  use_flash_attention: true
+  use_tensor_cores: true
+  gpu_utilization_threshold: 0.8
+  memory_cleanup_interval: 100
+  auto_memory_management: true
+
+# Memory Configuration
+memory:
+  memory_pool_size: 1073741824  # 1GB
+  use_memory_pool: true
+  use_gradient_checkpointing: true
+  use_mixed_precision: true
+  memory_cleanup_interval: 100
+  auto_memory_management: true
+  memory_fraction: 0.9
+  use_memory_efficient_attention: true
+  use_flash_attention: true
+  use_quantization: false
+  quantization_bits: 8
+  use_pruning: false
+  pruning_ratio: 0.1
+
+# Optimization Configuration
+optimization:
+  use_lora: true
+  lora_rank: 16
+  lora_alpha: 32.0
+  use_quantization: false
+  quantization_bits: 8
+  use_pruning: false
+  pruning_ratio: 0.1
+  use_distillation: false
+  distillation_alpha: 0.5
+  use_early_stopping: true
+  early_stopping_patience: 10
+  early_stopping_min_delta: 0.001
+
+# Monitoring Configuration
+monitoring:
+  use_wandb: true
+  use_tensorboard: true
+  log_interval: 100
+  eval_interval: 1000
+  save_interval: 5000
+  checkpoint_interval: 10000
+  use_profiling: true
+  profile_memory: true
+  profile_gpu: true
+
+# Device Configuration
+device:
+  device: "cuda"
+  dtype: "float16"
+  memory_efficient_attention: true
+  gradient_checkpointing: true
+  use_flash_attention: true
+
+# Advanced Configuration
+advanced:
+  use_compile: true
+  compile_mode: "default"
+  use_torch_inductor: true
+  use_jit: false
+  use_triton: false
+  use_cutlass: false
+  use_cublas: true
+  use_cudnn: true
+
+# Data Configuration
+data:
+  dataset_path: "./data"
+  cache_dir: "./cache"
+  max_length: 2048
+  padding: true
+  truncation: true
+  return_tensors: "pt"
+  use_fast_tokenizer: true
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./logs/optimization.log"
+  max_size: 10485760  # 10MB
+  backup_count: 5
+
+# Paths Configuration
+paths:
+  model_dir: "./models"
+  checkpoint_dir: "./checkpoints"
+  log_dir: "./logs"
+  cache_dir: "./cache"
+  data_dir: "./data"
+  output_dir: "./outputs"
+
+# Security Configuration
+security:
+  use_encryption: false
+  encryption_key: null
+  use_authentication: false
+  api_key: null
+  use_https: false
+  ssl_cert: null
+  ssl_key: null

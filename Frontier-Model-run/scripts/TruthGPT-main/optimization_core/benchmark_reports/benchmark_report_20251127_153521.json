@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-11-27T15:35:21.920095",
+  "polyglot_results": [
+    {
+      "name": "kv_cache_python",
+      "module": "kv_cache",
+      "backend": "python",
+      "latency_ms": 0.0,
+      "throughput_tokens_per_sec": 0.0,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": false,
+      "error": "KVCache.put() missing 1 required positional argument: 'value'",
+      "metadata": {}
+    },
+    {
+      "name": "compression_python",
+      "module": "compression",
+      "backend": "python",
+      "latency_ms": 0.0,
+      "throughput_tokens_per_sec": 0.0,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": false,
+      "error": "object of type 'CompressionResult' has no len()",
+      "metadata": {}
+    },
+    {
+      "name": "attention_python",
+      "module": "attention",
+      "backend": "python",
+      "latency_ms": 0.0,
+      "throughput_tokens_per_sec": 0.0,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": false,
+      "error": "Attention.forward() missing 2 required positional arguments: 'batch_size' and 'seq_len'",
+      "metadata": {}
+    }
+  ],
+  "closed_source_results": [],
+  "module_status": {
+    "polyglot_core": true,
+    "polyglot_inference": true,
+    "inference_engines": false,
+    "attention": true,
+    "compression": true,
+    "cache": true,
+    "rust": false,
+    "cpp": false,
+    "go": false
+  },
+  "summary": {
+    "total_polyglot_tests": 3,
+    "successful_polyglot_tests": 0,
+    "total_closed_source_tests": 0,
+    "successful_closed_source_tests": 0,
+    "module_performance": {},
+    "comparison": {}
+  }
+}

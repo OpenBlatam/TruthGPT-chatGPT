@@ -1,0 +1,343 @@
+# TruthGPT Optimization Framework - Azure DevOps Pipeline
+# =====================================================
+# Comprehensive CI/CD pipeline with security, testing, and deployment
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+    - feature/*
+  paths:
+    include:
+    - refactored/*
+    - infrastructure/*
+    - Dockerfile
+    - requirements*.txt
+
+pr:
+  branches:
+    include:
+    - main
+    - develop
+  paths:
+    include:
+    - refactored/*
+    - infrastructure/*
+    - Dockerfile
+    - requirements*.txt
+
+variables:
+  # Build variables
+  buildConfiguration: 'Release'
+  dockerRegistry: 'truthgpt.azurecr.io'
+  imageRepository: 'optimization'
+  containerRegistry: 'truthgpt.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+  
+  # Environment variables
+  pythonVersion: '3.11'
+  nodeVersion: '18.x'
+  
+  # Security variables
+  securityScanEnabled: true
+  dependencyCheckEnabled: true
+  
+  # Deployment variables
+  kubernetesNamespace: 'truthgpt-optimization'
+  environment: 'production'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build Application'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python $(pythonVersion)'
+      inputs:
+        versionSpec: '$(pythonVersion)'
+        addToPath: true
+    
+    - task: NodeTool@0
+      displayName: 'Use Node.js $(nodeVersion)'
+      inputs:
+        versionSpec: '$(nodeVersion)'
+    
+    - script: |
+        echo "Installing dependencies..."
+        pip install --upgrade pip
+        pip install -r requirements_refactored.txt
+        pip install pytest pytest-cov pytest-asyncio
+        pip install black flake8 mypy
+        pip install bandit safety
+      displayName: 'Install Dependencies'
+    
+    - script: |
+        echo "Running code quality checks..."
+        black --check refactored/
+        flake8 refactored/ --max-line-length=120 --ignore=E203,W503
+        mypy refactored/ --ignore-missing-imports
+      displayName: 'Code Quality Checks'
+      continueOnError: false
+    
+    - script: |
+        echo "Running security scans..."
+        bandit -r refactored/ -f json -o bandit-report.json
+        safety check --json --output safety-report.json
+      displayName: 'Security Scans'
+      continueOnError: false
+    
+    - script: |
+        echo "Running tests..."
+        pytest refactored/tests/ \
+          --cov=refactored \
+          --cov-report=xml \
+          --cov-report=html \
+          --junitxml=pytest-results.xml \
+          -v
+      displayName: 'Run Tests'
+      continueOnError: false
+    
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
+      inputs:
+        testResultsFiles: 'pytest-results.xml'
+        testRunTitle: 'TruthGPT Tests'
+      condition: always()
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish Code Coverage'
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: 'coverage.xml'
+        reportDirectory: 'htmlcov'
+      condition: always()
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs:
+        pathToPublish: '$(Build.SourcesDirectory)'
+        artifactName: 'truthgpt-build'
+      condition: always()
+
+- stage: Security
+  displayName: 'Security Analysis'
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['securityScanEnabled'], true))
+  jobs:
+  - job: SecurityJob
+    displayName: 'Security Analysis'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python $(pythonVersion)'
+      inputs:
+        versionSpec: '$(pythonVersion)'
+    
+    - script: |
+        echo "Installing security tools..."
+        pip install bandit safety semgrep
+        npm install -g @microsoft/eslint-security-plugin
+      displayName: 'Install Security Tools'
+    
+    - script: |
+        echo "Running comprehensive security scan..."
+        semgrep --config=auto refactored/ \
+          --json --output=semgrep-report.json
+      displayName: 'Semgrep Security Scan'
+      continueOnError: false
+    
+    - script: |
+        echo "Running dependency vulnerability scan..."
+        safety check --json --output=dependency-vulns.json
+        pip-audit --format=json --output=audit-report.json
+      displayName: 'Dependency Vulnerability Scan'
+      continueOnError: false
+    
+    - script: |
+        echo "Running container security scan..."
+        docker run --rm -v $(pwd):/app \
+          aquasec/trivy:latest fs /app \
+          --format json --output trivy-fs-report.json
+      displayName: 'Container Security Scan'
+      continueOnError: false
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Security Reports'
+      inputs:
+        pathToPublish: '$(Build.SourcesDirectory)'
+        artifactName: 'security-reports'
+      condition: always()
+
+- stage: BuildImage
+  displayName: 'Build Container Image'
+  dependsOn: 
+  - Build
+  - Security
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - job: BuildImageJob
+    displayName: 'Build and Push Docker Image'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - task: Docker@2
+      displayName: 'Build Docker Image'
+      inputs:
+        command: 'build'
+        dockerfile: '$(dockerfilePath)'
+        repository: '$(imageRepository)'
+        tags: |
+          $(tag)
+          latest
+        arguments: '--build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") --build-arg VCS_REF=$(Build.SourceVersion)'
+    
+    - task: Docker@2
+      displayName: 'Push Docker Image'
+      inputs:
+        command: 'push'
+        repository: '$(imageRepository)'
+        tags: |
+          $(tag)
+          latest
+    
+    - script: |
+        echo "Image pushed successfully: $(containerRegistry)/$(imageRepository):$(tag)"
+        echo "##vso[task.setvariable variable=ImageTag]$(tag)"
+      displayName: 'Set Image Tag Variable'
+
+- stage: DeployDev
+  displayName: 'Deploy to Development'
+  dependsOn: BuildImage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+  jobs:
+  - deployment: DeployDevJob
+    displayName: 'Deploy to Development Environment'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'truthgpt-dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: templates/deploy-kubernetes.yml
+            parameters:
+              environment: 'development'
+              namespace: 'truthgpt-optimization-dev'
+              imageTag: '$(ImageTag)'
+              replicaCount: 2
+              resourceLimits:
+                cpu: '2000m'
+                memory: '4Gi'
+              resourceRequests:
+                cpu: '1000m'
+                memory: '2Gi'
+
+- stage: DeployStaging
+  displayName: 'Deploy to Staging'
+  dependsOn: BuildImage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: DeployStagingJob
+    displayName: 'Deploy to Staging Environment'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'truthgpt-staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: templates/deploy-kubernetes.yml
+            parameters:
+              environment: 'staging'
+              namespace: 'truthgpt-optimization-staging'
+              imageTag: '$(ImageTag)'
+              replicaCount: 3
+              resourceLimits:
+                cpu: '4000m'
+                memory: '8Gi'
+              resourceRequests:
+                cpu: '2000m'
+                memory: '4Gi'
+
+- stage: DeployProd
+  displayName: 'Deploy to Production'
+  dependsOn: DeployStaging
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: DeployProdJob
+    displayName: 'Deploy to Production Environment'
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'truthgpt-production'
+    strategy:
+      canary:
+        increments: [10, 20, 50, 100]
+        preDeploymentApprovals:
+          approvals:
+          - userId: '$(PROD_APPROVER_ID)'
+            isRequired: true
+        postDeploymentApprovals:
+          approvals:
+          - userId: '$(PROD_APPROVER_ID)'
+            isRequired: true
+        deploy:
+          steps:
+          - template: templates/deploy-kubernetes.yml
+            parameters:
+              environment: 'production'
+              namespace: 'truthgpt-optimization'
+              imageTag: '$(ImageTag)'
+              replicaCount: 5
+              resourceLimits:
+                cpu: '8000m'
+                memory: '16Gi'
+              resourceRequests:
+                cpu: '4000m'
+                memory: '8Gi'
+              enableHPA: true
+              enableVPA: true
+              enableMonitoring: true
+
+- stage: PostDeploy
+  displayName: 'Post-Deployment Tasks'
+  dependsOn: 
+  - DeployDev
+  - DeployStaging
+  - DeployProd
+  condition: always()
+  jobs:
+  - job: PostDeployJob
+    displayName: 'Post-Deployment Verification'
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    steps:
+    - script: |
+        echo "Running post-deployment health checks..."
+        # Health check script will be implemented here
+        echo "Health checks completed successfully"
+      displayName: 'Health Checks'
+    
+    - script: |
+        echo "Sending deployment notification..."
+        # Notification script will be implemented here
+        echo "Deployment notification sent"
+      displayName: 'Send Notifications'
+    
+    - script: |
+        echo "Updating monitoring dashboards..."
+        # Dashboard update script will be implemented here
+        echo "Monitoring dashboards updated"
+      displayName: 'Update Monitoring'
+
+

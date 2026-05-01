@@ -1,0 +1,256 @@
+{
+  "distance_metrics": {
+    "l1": {
+      "status": "FAILED",
+      "error": "Given normalized_shape=[768], expected input with shape [*, 768], but got input of size[2, 16, 256]"
+    },
+    "l2": {
+      "status": "FAILED",
+      "error": "Given normalized_shape=[768], expected input with shape [*, 768], but got input of size[2, 16, 256]"
+    },
+    "lp": {
+      "status": "FAILED",
+      "error": "Given normalized_shape=[768], expected input with shape [*, 768], but got input of size[2, 16, 256]"
+    },
+    "cosine": {
+      "status": "FAILED",
+      "error": "Given normalized_shape=[768], expected input with shape [*, 768], but got input of size[2, 16, 256]"
+    },
+    "chebyshev": {
+      "status": "FAILED",
+      "error": "Given normalized_shape=[768], expected input with shape [*, 768], but got input of size[2, 16, 256]"
+    }
+  },
+  "gradient_flow": {
+    "l1": {
+      "status": "PASSED",
+      "has_gradients": true,
+      "gradient_norm": 239.87457275390625,
+      "has_nan_gradients": false,
+      "has_inf_gradients": false
+    },
+    "l2": {
+      "status": "PASSED",
+      "has_gradients": true,
+      "gradient_norm": 462.01025390625,
+      "has_nan_gradients": false,
+      "has_inf_gradients": false
+    },
+    "lp": {
+      "status": "PASSED",
+      "has_gradients": true,
+      "gradient_norm": 684.8408813476562,
+      "has_nan_gradients": false,
+      "has_inf_gradients": false
+    }
+  },
+  "numerical_stability": {
+    "normal": {
+      "l1": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -3.7995920181274414,
+          4.097546577453613
+        ],
+        "attention_range": [
+          0.0,
+          0.24887922406196594
+        ]
+      },
+      "l2": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -4.100284576416016,
+          3.9530773162841797
+        ],
+        "attention_range": [
+          0.0,
+          0.08607587218284607
+        ]
+      }
+    },
+    "large_values": {
+      "l1": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -436.5255126953125,
+          397.191650390625
+        ],
+        "attention_range": [
+          0.0,
+          0.24816463887691498
+        ]
+      },
+      "l2": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -402.0633850097656,
+          423.1917724609375
+        ],
+        "attention_range": [
+          0.0,
+          0.08551739901304245
+        ]
+      }
+    },
+    "small_values": {
+      "l1": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -0.13063988089561462,
+          0.15425439178943634
+        ],
+        "attention_range": [
+          0.0,
+          0.10438498854637146
+        ]
+      },
+      "l2": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -0.13132798671722412,
+          0.1368928849697113
+        ],
+        "attention_range": [
+          0.0,
+          0.07367891818284988
+        ]
+      }
+    },
+    "mixed_signs": {
+      "l1": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -42.35805892944336,
+          42.984031677246094
+        ],
+        "attention_range": [
+          0.0,
+          0.2468482404947281
+        ]
+      },
+      "l2": {
+        "status": "FAILED",
+        "has_nan_output": false,
+        "has_inf_output": false,
+        "has_nan_attention": false,
+        "has_inf_attention": false,
+        "valid_probabilities": false,
+        "output_range": [
+          -44.08205795288086,
+          43.30976104736328
+        ],
+        "attention_range": [
+          0.0,
+          0.08791577816009521
+        ]
+      }
+    }
+  },
+  "performance_benchmark": {
+    "l1": {
+      "distance_time": 0.06824991703033448,
+      "standard_time": 0.00767669677734375,
+      "speedup": 0.11247921039862586,
+      "distance_memory_mb": 0,
+      "standard_memory_mb": 0,
+      "memory_ratio": 0
+    },
+    "l2": {
+      "distance_time": 0.0483191967010498,
+      "standard_time": 0.00767669677734375,
+      "speedup": 0.15887467717725867,
+      "distance_memory_mb": 0,
+      "standard_memory_mb": 0,
+      "memory_ratio": 0
+    },
+    "lp": {
+      "distance_time": 0.056038618087768555,
+      "standard_time": 0.00767669677734375,
+      "speedup": 0.13698940193921963,
+      "distance_memory_mb": 0,
+      "standard_memory_mb": 0,
+      "memory_ratio": 0
+    }
+  },
+  "truthgpt_integration": {
+    "status": "PASSED",
+    "logits_shape": [
+      2,
+      64,
+      1000
+    ],
+    "num_attention_layers": 6,
+    "num_hidden_states": 7,
+    "has_gradients": true,
+    "model_parameters": 45628422
+  },
+  "summary": {
+    "total_tests": 16,
+    "passed_tests": 3,
+    "failed_tests": 13,
+    "test_categories": {
+      "distance_metrics": {
+        "total": 5,
+        "passed": 0,
+        "failed": 5
+      },
+      "gradient_flow": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "numerical_stability": {
+        "total": 8,
+        "passed": 0,
+        "failed": 8
+      },
+      "performance_benchmark": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0
+      },
+      "truthgpt_integration": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0
+      }
+    },
+    "success_rate": 0.1875
+  }
+}

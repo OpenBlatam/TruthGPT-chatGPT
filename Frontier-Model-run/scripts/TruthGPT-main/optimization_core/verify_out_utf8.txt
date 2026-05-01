@@ -1,0 +1,634 @@
+﻿python : test_compatibility_package 
+(__main__.TestCompatibilityCleanup.test_compatibility_package)
+At line:1 char:1
++ python verify_structure.py > verify_out.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_compatibil...bil 
+   ity_package):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Verify optimizers.compatibility package works. ... ERROR
+test_generic_compatibility_lazy 
+(__main__.TestCompatibilityCleanup.test_generic_compatibility_lazy)
+Verify generic_compatibility lazy attribute works. ... ERROR
+test_adapters_init_exports 
+(__main__.TestConsolidatedAdapters.test_adapters_init_exports)
+Verify that all core adapters are exported from 
+optimization_core.adapters. ... ERROR
+test_create_adapter_factory 
+(__main__.TestConsolidatedAdapters.test_create_adapter_factory)
+Verify create_adapter can be called (even with mocks). ... ERROR
+test_inheritance 
+(__main__.TestConsolidatedAdapters.test_inheritance)
+Verify that at least one adapter inherits from BaseDynamicAdapter. 
+... ERROR
+test_learning_backward_compat 
+(__main__.TestLearningModule.test_learning_backward_compat)
+Verify optimization_core.learning shim works. ... FAIL
+test_learning_exports 
+(__main__.TestLearningModule.test_learning_exports)
+Verify key classes are exported from modules.learning. ... FAIL
+test_learning_structure 
+(__main__.TestLearningModule.test_learning_structure)
+Verify modules.learning subpackage exists and is importable. ... 
+FAIL
+test_library_exports 
+(__main__.TestLibraryRefactor.test_library_exports)
+Verify key classes are exported from libraries. ... ERROR
+test_library_structure 
+(__main__.TestLibraryRefactor.test_library_structure)
+Verify libraries subpackage exists and is importable. ... FAIL
+test_feed_forward_exports 
+(__main__.TestMassiveRefactor.test_feed_forward_exports)
+Verify key classes are exported from feed_forward submodules. ... 
+FAIL
+test_feed_forward_structure 
+(__main__.TestMassiveRefactor.test_feed_forward_structure)
+Verify feed_forward submodules exist and are importable. ... FAIL
+test_optimizers_mcts 
+(__main__.TestMassiveRefactor.test_optimizers_mcts)
+Verify optimizers.mcts submodule. ... ERROR
+test_optimizers_truthgpt 
+(__main__.TestMassiveRefactor.test_optimizers_truthgpt)
+Verify optimizers.truthgpt submodule exports. ... FAIL
+test_backward_compat_cuda 
+(__main__.TestModulesOptimizers.test_backward_compat_cuda)
+CudaKernelOptimizer should be importable from modules (backward 
+compat). ... ok
+test_backward_compat_gpu 
+(__main__.TestModulesOptimizers.test_backward_compat_gpu)
+GPUOptimizer should be importable from modules (backward compat). 
+... ok
+test_backward_compat_memory 
+(__main__.TestModulesOptimizers.test_backward_compat_memory)
+MemoryOptimizer should be importable from modules (backward 
+compat). ... ok
+test_import_modules_optimizers 
+(__main__.TestModulesOptimizers.test_import_modules_optimizers)
+modules.optimizers should import cleanly. ... ERROR
+test_module_optimizer_factory 
+(__main__.TestModulesOptimizers.test_module_optimizer_factory)
+create_module_optimizer factory should be callable. ... ERROR
+test_module_optimizer_registry 
+(__main__.TestModulesOptimizers.test_module_optimizer_registry)
+MODULE_OPTIMIZER_REGISTRY should list cuda, gpu, memory. ... ERROR
+test_acceleration_gpu_module 
+(__main__.TestNewlyRefactoredModules.test_acceleration_gpu_module)
+Verify modules.acceleration.gpu imports and exports. ... ERROR
+test_advanced_optimizers_module (__main__.TestNewlyRefactoredModule
+s.test_advanced_optimizers_module)
+Verify modules.optimizers.advanced imports and exports. ... ERROR
+test_enterprise_module 
+(__main__.TestNewlyRefactoredModules.test_enterprise_module)
+Verify modules.enterprise imports and exports. ... ERROR
+test_truthgpt_module 
+(__main__.TestNewlyRefactoredModules.test_truthgpt_module)
+Verify modules.truthgpt imports and exports. ... ERROR
+test_utils_redirection_shims 
+(__main__.TestNewlyRefactoredModules.test_utils_redirection_shims)
+Verify that legacy utils paths redirect correctly. ... ERROR
+test_import_top_level 
+(__main__.TestOptimizationCoreTopLevel.test_import_top_level)
+Top-level __init__.py should load without error. ... FAIL
+test_backward_compat_enhanced 
+(__main__.TestOptimizersPackage.test_backward_compat_enhanced)
+EnhancedOptimizationCore should be importable from optimizers 
+(shim). ... ok
+test_factory_function 
+(__main__.TestOptimizersPackage.test_factory_function)
+create_truthgpt_optimizer should be callable. ... ok
+test_generic_optimizer 
+(__main__.TestOptimizersPackage.test_generic_optimizer)
+Generic optimizer should be importable. ... ok
+test_import_optimizers 
+(__main__.TestOptimizersPackage.test_import_optimizers)
+Top-level import of optimizers should succeed. ... ok
+test_lazy_core_submodule 
+(__main__.TestOptimizersPackage.test_lazy_core_submodule)
+Lazily accessing optimizers.core should return a module. ... ok
+test_optimization_cores_factory 
+(__main__.TestOptimizersPackage.test_optimization_cores_factory)
+create_optimization_core factory should be importable. ... ok
+test_optimization_cores_list 
+(__main__.TestOptimizersPackage.test_optimization_cores_list)
+list_available_cores should return a non-empty list. ... ok
+test_registries_relocation 
+(__main__.TestPhase5Consolidation.test_registries_relocation)
+Verify registries are importable from the new location. ... ok
+test_technique_shims 
+(__main__.TestPhase5Consolidation.test_technique_shims)
+Verify technique shims in root optimizers directory. ... ok
+test_techniques_relocation 
+(__main__.TestPhase5Consolidation.test_techniques_relocation)
+Verify techniques are importable from the new location. ... ok
+test_computational_optimizations_fix (__main__.TestRefactoringClean
+up.test_computational_optimizations_fix)
+Verify computational_optimizations uses corrected import. ... ok
+test_utils_enhanced_mlp 
+(__main__.TestRefactoringCleanup.test_utils_enhanced_mlp)
+Verify utils.enhanced_mlp exports OptimizedLinear correctly. ... ok
+
+===================================================================
+===
+ERROR: test_compatibility_package 
+(__main__.TestCompatibilityCleanup.test_compatibility_package)
+Verify optimizers.compatibility package works.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 377, in test_compatibility_package
+    from optimization_core.modules.optimizers import compatibility
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_generic_compatibility_lazy 
+(__main__.TestCompatibilityCleanup.test_generic_compatibility_lazy)
+Verify generic_compatibility lazy attribute works.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 384, in test_generic_compatibility_lazy
+    from optimization_core import optimizers
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_adapters_init_exports 
+(__main__.TestConsolidatedAdapters.test_adapters_init_exports)
+Verify that all core adapters are exported from 
+optimization_core.adapters.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 515, in test_adapters_init_exports
+    import optimization_core.adapters as adapters
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_create_adapter_factory 
+(__main__.TestConsolidatedAdapters.test_create_adapter_factory)
+Verify create_adapter can be called (even with mocks).
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 532, in test_create_adapter_factory
+    from optimization_core.adapters import create_adapter
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_inheritance 
+(__main__.TestConsolidatedAdapters.test_inheritance)
+Verify that at least one adapter inherits from BaseDynamicAdapter.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 551, in test_inheritance
+    from optimization_core.adapters import TrainingAdapter, 
+BaseDynamicAdapter
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_library_exports 
+(__main__.TestLibraryRefactor.test_library_exports)
+Verify key classes are exported from libraries.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 359, in test_library_exports
+    from optimization_core.modules.libraries import (
+    ...<2 lines>...
+    )
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_optimizers_mcts 
+(__main__.TestMassiveRefactor.test_optimizers_mcts)
+Verify optimizers.mcts submodule.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 280, in test_optimizers_mcts
+    from optimization_core.modules.optimizers import mcts
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_import_modules_optimizers 
+(__main__.TestModulesOptimizers.test_import_modules_optimizers)
+modules.optimizers should import cleanly.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 202, in test_import_modules_optimizers
+    from optimization_core.modules import optimizers as mod_opt
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_module_optimizer_factory 
+(__main__.TestModulesOptimizers.test_module_optimizer_factory)
+create_module_optimizer factory should be callable.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 208, in test_module_optimizer_factory
+    from optimization_core.modules.optimizers import 
+create_module_optimizer
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_module_optimizer_registry 
+(__main__.TestModulesOptimizers.test_module_optimizer_registry)
+MODULE_OPTIMIZER_REGISTRY should list cuda, gpu, memory.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 214, in test_module_optimizer_registry
+    from optimization_core.modules.optimizers import 
+list_available_module_optimizers
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_acceleration_gpu_module 
+(__main__.TestNewlyRefactoredModules.test_acceleration_gpu_module)
+Verify modules.acceleration.gpu imports and exports.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 475, in test_acceleration_gpu_module
+    from optimization_core.modules.acceleration.gpu.system import 
+GPUAccelerator
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_advanced_optimizers_module (__main__.TestNewlyRefactore
+dModules.test_advanced_optimizers_module)
+Verify modules.optimizers.advanced imports and exports.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 485, in test_advanced_optimizers_module
+    from 
+optimization_core.modules.optimizers.advanced.next_gen_engine 
+import NextGenOptimizationEngine
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_enterprise_module 
+(__main__.TestNewlyRefactoredModules.test_enterprise_module)
+Verify modules.enterprise imports and exports.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 465, in test_enterprise_module
+    from optimization_core.modules.enterprise.auth import 
+EnterpriseAuth
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_truthgpt_module 
+(__main__.TestNewlyRefactoredModules.test_truthgpt_module)
+Verify modules.truthgpt imports and exports.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 493, in test_truthgpt_module
+    from optimization_core.modules.truthgpt.core import 
+TruthGPTConfig
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+ERROR: test_utils_redirection_shims 
+(__main__.TestNewlyRefactoredModules.test_utils_redirection_shims)
+Verify that legacy utils paths redirect correctly.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 501, in test_utils_redirection_shims
+    from optimization_core.utils.gpu import CUDAOptimizations
+ModuleNotFoundError: No module named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_learning_backward_compat 
+(__main__.TestLearningModule.test_learning_backward_compat)
+Verify optimization_core.learning shim works.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 451, in test_learning_backward_compat
+    from optimization_core import learning
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 457, in test_learning_backward_compat
+    self.fail(f"Failed to verify learning backward compat: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to verify learning backward compat: No 
+module named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_learning_exports 
+(__main__.TestLearningModule.test_learning_exports)
+Verify key classes are exported from modules.learning.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 439, in test_learning_exports
+    from optimization_core.modules.learning import (
+        EvolutionaryOptimizer, CausalInferenceEngine, 
+ActiveLearningStrategy
+    )
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 446, in test_learning_exports
+    self.fail(f"Failed to import learning classes: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import learning classes: No module named 
+'optimization_core'
+
+===================================================================
+===
+FAIL: test_learning_structure 
+(__main__.TestLearningModule.test_learning_structure)
+Verify modules.learning subpackage exists and is importable.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 426, in test_learning_structure
+    from optimization_core.modules import learning
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 434, in test_learning_structure
+    self.fail(f"Failed to import learning submodules: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import learning submodules: No module 
+named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_library_structure 
+(__main__.TestLibraryRefactor.test_library_structure)
+Verify libraries subpackage exists and is importable.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 345, in test_library_structure
+    from optimization_core.modules import libraries
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 355, in test_library_structure
+    self.fail(f"Failed to import libraries submodules: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import libraries submodules: No module 
+named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_feed_forward_exports 
+(__main__.TestMassiveRefactor.test_feed_forward_exports)
+Verify key classes are exported from feed_forward submodules.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 267, in test_feed_forward_exports
+    from optimization_core.modules.feed_forward.core import 
+FeedForward
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 274, in test_feed_forward_exports
+    self.fail(f"Failed to import feed_forward classes: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import feed_forward classes: No module 
+named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_feed_forward_structure 
+(__main__.TestMassiveRefactor.test_feed_forward_structure)
+Verify feed_forward submodules exist and are importable.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+[SKIP] CudaKernelOptimizer not found in optimization_core.modules
+[SKIP] GPUOptimizer not found in optimization_core.modules
+[SKIP] MemoryOptimizer not found in optimization_core.modules
+[OK] EnhancedOptimizationCore backward compat
+[OK] create_truthgpt_optimizer is callable
+[OK] create_generic_optimizer is callable
+
+[OK] import optimizers
+[OK] optimizers.core = <module 'optimization_core.modules.optimizers.core' from 'C:\\blatam-academy\\agents\\backend\\onyx\\server\\features\\Frontier-Model-run-polyglot\\scripts\\TruthGPT-main\\optimization_core\\modules\\optimizers\\core\\__init__.py'>
+[OK] create_optimization_core is callable
+[OK] Available cores: ['enhanced', 'ultra_enhanced', 'mega_enhanced', 'supreme', 'transcendent', 'hybrid', 'ultra_fast']
+[OK] optimizers.registries modules verified
+[OK] root optimizer shims verified
+[OK] technique shims verified
+
+[OK] optimizers.techniques relocated modules verified
+[OK] computational_optimizations import fix verified
+
+[OK] utils.enhanced_mlp verified
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 255, in test_feed_forward_structure
+    from optimization_core.modules.feed_forward import core, 
+routing, optimization, systems
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 262, in test_feed_forward_structure
+    self.fail(f"Failed to import feed_forward submodules: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import feed_forward submodules: No 
+module named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_optimizers_truthgpt 
+(__main__.TestMassiveRefactor.test_optimizers_truthgpt)
+Verify optimizers.truthgpt submodule exports.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 289, in test_optimizers_truthgpt
+    from optimization_core.modules.optimizers import truthgpt
+ModuleNotFoundError: No module named 'optimization_core'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 295, in test_optimizers_truthgpt
+    self.fail(f"Failed to import truthgpt optimizer: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import truthgpt optimizer: No module 
+named 'optimization_core'
+
+===================================================================
+===
+FAIL: test_import_top_level 
+(__main__.TestOptimizationCoreTopLevel.test_import_top_level)
+Top-level __init__.py should load without error.
+-------------------------------------------------------------------
+---
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 191, in test_import_top_level
+    import optimization_core  # noqa: F811
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\__in
+it__.py", line 26, in <module>
+    from .optimizers import (
+    ...<2 lines>...
+    )
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\opti
+mizers\__init__.py", line 4, in <module>
+    from ..modules.optimizers import *
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\modu
+les\__init__.py", line 8, in <module>
+    from optimization_core.utils.dependency_manager import 
+resolve_lazy_import
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\util
+s\__init__.py", line 30, in <module>
+    from .config_utils import (
+    ...<5 lines>...
+    )
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\util
+s\config_utils.py", line 12, in <module>
+    from optimization_core.core.config_utils import (
+    ...<10 lines>...
+    )
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\core
+\config_utils.py", line 1, in <module>
+    from ..modules.base.core_system.core.config_utils import *
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\modu
+les\base\__init__.py", line 10, in <module>
+    from .metrics import MetricsCollector, MetricConfig, BaseMetric
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\modu
+les\base\metrics.py", line 4, in <module>
+    from .core_system.core.metrics_base import (
+    ...<2 lines>...
+    )
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\modu
+les\base\core_system\core\metrics_base.py", line 74, in <module>
+    class MetricsCollectorBase(ABC):
+    ...<72 lines>...
+            self._start_time = time.time()
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\modu
+les\base\core_system\core\metrics_base.py", line 93, in 
+MetricsCollectorBase
+    @abstractmethod
+     ^^^^^^^^^^^^^^
+NameError: name 'abstractmethod' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\blatam-academy\agents\backend\onyx\server\features\Front
+ier-Model-run-polyglot\scripts\TruthGPT-main\optimization_core\veri
+fy_structure.py", line 195, in test_import_top_level
+    self.fail(f"Failed to import optimization_core: {e}")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Failed to import optimization_core: name 
+'abstractmethod' is not defined
+
+-------------------------------------------------------------------
+---
+Ran 38 tests in 0.349s
+
+FAILED (failures=8, errors=15)

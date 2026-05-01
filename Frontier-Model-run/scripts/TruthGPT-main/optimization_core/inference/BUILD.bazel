@@ -1,0 +1,40 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  Inference - BUILD                                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+load("@rules_python//python:defs.bzl", "py_library", "py_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+py_library(
+    name = "inference",
+    srcs = glob(["**/*.py"], exclude = ["**/tests/**", "**/examples/**"]),
+    deps = [
+        "//core:core",
+        "//polyglot_core:polyglot_core",
+        "@pip//torch",
+        "@pip//transformers",
+        "@pip//fastapi",
+        "@pip//uvicorn",
+    ],
+)
+
+py_binary(
+    name = "inference_server",
+    srcs = ["server.py"],
+    deps = [
+        ":inference",
+    ],
+)
+
+
+
+
+
+
+
+
+
+
+
+

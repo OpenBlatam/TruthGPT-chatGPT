@@ -1,0 +1,247 @@
+{
+  "model_infos": {
+    "LongRoPE": {
+      "name": "LongRoPE",
+      "max_context": 2048000,
+      "base_context": 2048,
+      "training_required": true,
+      "memory_efficient": true,
+      "speed": "fast",
+      "best_for": [
+        "Contextos muy largos (hasta 2M tokens)",
+        "Aplicaciones que requieren fine-tuning",
+        "Cuando se necesita precisi\u00f3n en posiciones cercanas"
+      ],
+      "limitations": [
+        "Requiere fine-tuning (1000 pasos)",
+        "Escalado no uniforme puede afectar posiciones lejanas"
+      ],
+      "params": {
+        "rope_dim": 64,
+        "scaling_factor": 1.0,
+        "use_non_uniform_scaling": true
+      }
+    },
+    "AdaGroPE": {
+      "name": "AdaGroPE",
+      "max_context": 32768,
+      "base_context": 2048,
+      "training_required": false,
+      "memory_efficient": true,
+      "speed": "fast",
+      "best_for": [
+        "Plug-and-play sin entrenamiento",
+        "Extensi\u00f3n r\u00e1pida de contexto",
+        "Cuando no se puede hacer fine-tuning"
+      ],
+      "limitations": [
+        "Contexto m\u00e1ximo menor (32K vs 2M)",
+        "Granularidad gruesa en posiciones lejanas"
+      ],
+      "params": {
+        "num_groups": 8,
+        "base_context_length": 2048
+      }
+    },
+    "CEPE": {
+      "name": "CEPE",
+      "max_context": 131072,
+      "base_context": 2048,
+      "training_required": false,
+      "memory_efficient": true,
+      "speed": "medium",
+      "best_for": [
+        "Contextos largos sin fine-tuning",
+        "Cuando se necesita compresi\u00f3n eficiente",
+        "Procesamiento paralelo de chunks"
+      ],
+      "limitations": [
+        "Velocidad media (procesa chunks)",
+        "Requiere encoder adicional"
+      ],
+      "params": {
+        "chunk_size": 1024,
+        "encoder_hidden_dim": 256,
+        "compression_ratio": 0.5
+      }
+    },
+    "LongReward": {
+      "name": "LongReward",
+      "max_context": 32768,
+      "base_context": 2048,
+      "training_required": true,
+      "memory_efficient": false,
+      "speed": "slow",
+      "best_for": [
+        "Optimizaci\u00f3n de dependencias largas",
+        "Cuando se necesita gu\u00eda de atenci\u00f3n",
+        "Mejora de calidad en contextos largos"
+      ],
+      "limitations": [
+        "Requiere entrenamiento del reward model",
+        "M\u00e1s lento (reward computation)",
+        "Mayor uso de memoria"
+      ],
+      "params": {
+        "reward_model_dim": 256,
+        "reward_temperature": 1.0,
+        "dependency_window": 512
+      }
+    }
+  },
+  "test_results": [
+    {
+      "model_name": "CEPE",
+      "context_length": 2048,
+      "batch_size": 2,
+      "hidden_dim": 768,
+      "forward_time_ms": 0.041961669921875,
+      "memory_mb": 24.0,
+      "output_shape": [
+        2,
+        2048,
+        768
+      ],
+      "metadata": {
+        "context_length": 2048,
+        "extended": false,
+        "num_chunks": 0,
+        "compression_ratio": 0.25,
+        "max_context": 16384
+      },
+      "success": true,
+      "error": ""
+    },
+    {
+      "model_name": "CEPE",
+      "context_length": 4096,
+      "batch_size": 2,
+      "hidden_dim": 768,
+      "forward_time_ms": 1167.773962020874,
+      "memory_mb": 48.0,
+      "output_shape": [
+        2,
+        4096,
+        768
+      ],
+      "metadata": {
+        "context_length": 4096,
+        "extended": true,
+        "num_chunks": 1,
+        "compression_ratio": 0.25,
+        "max_context": 16384
+      },
+      "success": true,
+      "error": ""
+    },
+    {
+      "model_name": "CEPE",
+      "context_length": 8192,
+      "batch_size": 2,
+      "hidden_dim": 768,
+      "forward_time_ms": 1234.799861907959,
+      "memory_mb": 96.0,
+      "output_shape": [
+        2,
+        8192,
+        768
+      ],
+      "metadata": {
+        "context_length": 8192,
+        "extended": true,
+        "num_chunks": 2,
+        "compression_ratio": 0.25,
+        "max_context": 16384
+      },
+      "success": true,
+      "error": ""
+    },
+    {
+      "model_name": "CEPE",
+      "context_length": 16384,
+      "batch_size": 2,
+      "hidden_dim": 768,
+      "forward_time_ms": 2274.1901874542236,
+      "memory_mb": 192.0,
+      "output_shape": [
+        2,
+        16384,
+        768
+      ],
+      "metadata": {
+        "context_length": 16384,
+        "extended": true,
+        "num_chunks": 4,
+        "compression_ratio": 0.25,
+        "max_context": 16384
+      },
+      "success": true,
+      "error": ""
+    }
+  ],
+  "recommendations": {
+    "by_use_case": {
+      "very_long_context_2M": {
+        "best": "LongRoPE",
+        "reason": "\u00danico que soporta hasta 2M tokens",
+        "alternatives": [
+          "CEPE (128K)"
+        ]
+      },
+      "no_training": {
+        "best": "AdaGroPE",
+        "reason": "Training-free, plug-and-play",
+        "alternatives": [
+          "CEPE"
+        ]
+      },
+      "memory_constrained": {
+        "best": "AdaGroPE",
+        "reason": "M\u00e1s eficiente en memoria",
+        "alternatives": [
+          "CEPE",
+          "LongRoPE"
+        ]
+      },
+      "quality_optimization": {
+        "best": "LongReward",
+        "reason": "Optimiza dependencias largas",
+        "alternatives": [
+          "LongRoPE + LongReward"
+        ]
+      },
+      "fast_inference": {
+        "best": "AdaGroPE",
+        "reason": "M\u00e1s r\u00e1pido, sin overhead",
+        "alternatives": [
+          "LongRoPE"
+        ]
+      }
+    },
+    "combinations": {
+      "AdaGroPE + LongReward": {
+        "description": "Extensi\u00f3n sin training + optimizaci\u00f3n de calidad",
+        "use_case": "Cuando necesitas contexto largo con alta calidad",
+        "tradeoff": "M\u00e1s lento pero mejor calidad"
+      },
+      "LongRoPE + CEPE": {
+        "description": "Escalado RoPE + compresi\u00f3n paralela",
+        "use_case": "Contextos extremadamente largos con eficiencia",
+        "tradeoff": "Complejidad pero m\u00e1xima extensi\u00f3n"
+      },
+      "CEPE + LongReward": {
+        "description": "Compresi\u00f3n + optimizaci\u00f3n",
+        "use_case": "Contextos largos con mejor manejo de dependencias",
+        "tradeoff": "Balance entre eficiencia y calidad"
+      }
+    },
+    "performance_summary": {
+      "CEPE": {
+        "avg_time_ms": 1169.2014932632446,
+        "avg_memory_mb": 90.0,
+        "max_context_tested": 16384,
+        "num_tests": 4
+      }
+    }
+  }
+}

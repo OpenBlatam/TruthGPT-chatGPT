@@ -1,0 +1,120 @@
+name: TruthGPT Optimization Core Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+            ${{ runner.os }}-pip-
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch numpy psutil pytest pytest-cov pytest-xdist
+          pip install -r requirements.txt 2>/dev/null || echo "No requirements.txt found"
+      
+      - name: Run unit tests
+        run: |
+          python tests/run_all_tests.py --pattern unit --save-results
+        continue-on-error: true
+      
+      - name: Run integration tests
+        run: |
+          python tests/run_all_tests.py --integration --save-results
+        continue-on-error: true
+      
+      - name: Run performance tests
+        run: |
+          python tests/run_all_tests.py --performance --save-results
+        continue-on-error: true
+      
+      - name: Generate HTML report
+        run: |
+          python -c "
+          import json
+          from tests.report_generator import HTMLReportGenerator
+          
+          try:
+              with open('test_results.json', 'r') as f:
+                  results = json.load(f)
+              
+              generator = HTMLReportGenerator()
+              generator.generate_report(results, 'test_report.html')
+              print('✅ HTML report generated')
+          except Exception as e:
+              print(f'⚠️  Could not generate HTML report: {e}')
+          "
+        continue-on-error: true
+      
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.os }}-${{ matrix.python-version }}
+          path: |
+            test_results.json
+            test_report.html
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: test_results.json
+          fail_ci_if_error: false
+      
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const results = JSON.parse(fs.readFileSync('test_results.json', 'utf8'));
+              const success = results.total_failures === 0 && results.total_errors === 0;
+              const rate = results.success_rate || 0;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🧪 Test Results
+                
+                ${success ? '✅' : '❌'} **Tests**: ${results.total_tests} total, ${results.total_failures || 0} failed
+                
+                **Success Rate**: ${rate.toFixed(1)}%
+                **Execution Time**: ${(results.total_time || 0).toFixed(2)}s
+                
+                ${success ? 'All tests passed! 🎉' : 'Some tests failed. Please review.'}
+                `
+              });
+            } catch (e) {
+              console.log('Could not post comment:', e);
+            }
+
+

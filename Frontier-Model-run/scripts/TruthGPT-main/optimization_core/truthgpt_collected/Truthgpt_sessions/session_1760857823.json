@@ -1,0 +1,89 @@
+{
+  "session_id": "session_1760857823",
+  "timestamp": 1760857841.786561,
+  "config": {
+    "model_name": "TruthGPT Advanced Research",
+    "max_tokens": 2048,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "use_elastic_reasoning": true,
+    "use_mct_self_refine": true,
+    "use_memory_optimization": true,
+    "use_redundancy_suppression": true,
+    "use_autonomous_agents": true,
+    "auto_save": false,
+    "save_directory": "./truthgpt_sessions",
+    "enable_streaming": true,
+    "show_techniques": true,
+    "show_metrics": true
+  },
+  "conversation_history": [
+    {
+      "timestamp": 1760857825.7460532,
+      "user_prompt": "Crea una función para ordenar una lista en Python",
+      "response": {
+        "content": "# Código generado para: Crea una función para ordenar una lista en Python\n# Lenguaje: python\n# Complejidad: intermediate\n\ndef example_function():\n    \"\"\"Función de ejemplo generada por TruthGPT\"\"\"\n    return 'Hello, TruthGPT!'",
+        "type": "code",
+        "language": "python",
+        "complexity": "intermediate",
+        "techniques_used": [
+          "Basic Generation"
+        ],
+        "metrics": {
+          "lines_of_code": 5,
+          "quality_score": 0.8
+        },
+        "verification": {
+          "verified": true,
+          "score": 0.8,
+          "issues": []
+        }
+      },
+      "prompt_type": "code_generation",
+      "processing_time": 5.125999450683594e-05
+    },
+    {
+      "timestamp": 1760857832.348105,
+      "user_prompt": "Implementa un algoritmo de búsqueda binaria",
+      "response": {
+        "content": "# Código generado para: Implementa un algoritmo de búsqueda binaria\n# Lenguaje: go\n# Complejidad: intermediate\n\ndef example_function():\n    \"\"\"Función de ejemplo generada por TruthGPT\"\"\"\n    return 'Hello, TruthGPT!'",
+        "type": "code",
+        "language": "go",
+        "complexity": "intermediate",
+        "techniques_used": [
+          "Basic Generation"
+        ],
+        "metrics": {
+          "lines_of_code": 5,
+          "quality_score": 0.8
+        },
+        "verification": {
+          "verified": true,
+          "score": 0.8,
+          "issues": []
+        }
+      },
+      "prompt_type": "code_generation",
+      "processing_time": 5.1975250244140625e-05
+    },
+    {
+      "timestamp": 1760857839.514343,
+      "user_prompt": "Explica cómo funciona el patrón de diseño Singleton",
+      "response": {
+        "content": "\n📚 EXPLICACIÓN: Patrón de Diseño\n\n🔍 **Definición:**\nUna solución reutilizable a un problema común en el diseño de software.\n\n💡 **Características principales:**\n- Reutilización\n- Flexibilidad\n- Mantenibilidad\n- Escalabilidad\n\n🔧 **Ejemplo práctico:**\n```python\nclass Singleton:\n    _instance = None\n    \n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n```\n\n⚡ **Casos de uso:**\n- Arquitectura de software\n- Reutilización de código\n- Mantenimiento\n- Escalabilidad\n\n🎯 **Mejores prácticas:**\n- No sobreusar patrones\n- Elegir el patrón apropiado\n- Mantener simplicidad\n- Documentar decisiones\n",
+        "type": "explanation",
+        "concept": "Patrón de Diseño",
+        "techniques_used": [
+          "Concept Analysis",
+          "Knowledge Extraction"
+        ],
+        "metrics": {
+          "concept_complexity": 0.8,
+          "explanation_length": 672
+        }
+      },
+      "prompt_type": "explanation",
+      "processing_time": 6.794929504394531e-05
+    }
+  ]
+}

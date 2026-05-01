@@ -1,0 +1,34 @@
+{
+  "paper_id": "meta_cot_system2",
+  "arxiv_id": "2501.04682",
+  "title": "Towards System 2 Reasoning in LLMs: Learning How to Think With Meta Chain-of-Thought (Meta-CoT)",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://huggingface.co/papers/2501.04682",
+  "contributions": [
+    "Modelos RL superan instruction-tuned en problemas complejos",
+    "+5-10% en razonamiento",
+    "Enfatiza RL en 2025"
+  ],
+  "key_techniques": [
+    "Framework para razonamiento iterativo y verificado",
+    "MDPs (Markov Decision Processes)",
+    "Meta-RL",
+    "System 2 reasoning"
+  ],
+  "benchmarks": [
+    "Razonamiento complejo: +5-10%",
+    "Problemas complejos: mejoras significativas"
+  ],
+  "improvements": "+5-10% en razonamiento",
+  "category": "reinforcement_learning",
+  "technical_details": {
+    "framework": "Meta-CoT",
+    "system2_reasoning": true,
+    "mdp_based": true,
+    "meta_rl": true,
+    "iterative_verification": true
+  }
+}

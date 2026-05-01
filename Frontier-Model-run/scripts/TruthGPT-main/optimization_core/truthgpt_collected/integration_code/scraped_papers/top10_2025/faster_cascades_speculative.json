@@ -1,0 +1,36 @@
+{
+  "paper_id": "faster_cascades_speculative",
+  "arxiv_id": "vo9t20wsmd",
+  "title": "Faster Cascades via Speculative Decoding",
+  "authors": [
+    "Harikrishna Narasimhan",
+    "et al."
+  ],
+  "year": 2025,
+  "url": "https://openreview.net/forum?id=vo9t20wsmd",
+  "contributions": [
+    "Acelera respuestas",
+    "Reduce costos computacionales",
+    "Mantiene calidad",
+    "+15-20% en velocidad en benchmarks de inferencia"
+  ],
+  "key_techniques": [
+    "Combina cascades y decoding especulativo",
+    "Optimización de inferencia",
+    "Reducción de latencia",
+    "Eficiencia computacional"
+  ],
+  "benchmarks": [
+    "Velocidad de inferencia: +15-20%",
+    "Reducción de costos: significativa"
+  ],
+  "improvements": "+15-20% en velocidad de inferencia",
+  "category": "inference",
+  "technical_details": {
+    "method": "Cascades + Speculative Decoding",
+    "inference_optimization": true,
+    "latency_reduction": true,
+    "cost_reduction": true,
+    "quality_preservation": true
+  }
+}

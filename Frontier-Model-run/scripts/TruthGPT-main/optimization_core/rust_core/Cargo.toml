@@ -1,0 +1,185 @@
+[package]
+name = "truthgpt-rust"
+version = "1.0.0"
+edition = "2021"
+authors = ["TruthGPT Team <team@truthgpt.ai>"]
+description = "High-performance Rust backend for TruthGPT optimization core - KV cache, compression, attention, tokenization"
+license = "MIT"
+readme = "README.md"
+keywords = ["llm", "ml", "optimization", "cache", "attention"]
+categories = ["science", "algorithms", "caching"]
+
+[lib]
+name = "truthgpt_rust"
+crate-type = ["cdylib", "rlib"]
+
+# ════════════════════════════════════════════════════════════════════════════════
+# FEATURES
+# ════════════════════════════════════════════════════════════════════════════════
+
+[features]
+default = ["python"]
+python = ["pyo3/extension-module", "numpy"]
+candle = ["dep:candle-core", "dep:candle-nn", "dep:candle-transformers"]
+cuda = ["candle-core/cuda"]
+metal = ["candle-core/metal"]
+simd-json = ["dep:simd-json"]
+full = ["python", "candle", "cuda", "metal", "simd-json"]
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🔥 CORE ML FRAMEWORKS
+# ════════════════════════════════════════════════════════════════════════════════
+
+[dependencies]
+# Candle - Minimalist ML framework from HuggingFace
+candle-core = { version = "0.3", optional = true }
+candle-nn = { version = "0.3", optional = true }
+candle-transformers = { version = "0.3", optional = true }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# ⚡ TOKENIZATION & MODEL SERIALIZATION
+# ════════════════════════════════════════════════════════════════════════════════
+
+# HuggingFace tokenizers - fastest tokenization
+tokenizers = { version = "0.15", default-features = false, features = ["onig"] }
+# SafeTensors - fast model loading
+safetensors = "0.4"
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 📊 ARRAYS & NUMERIC TYPES
+# ════════════════════════════════════════════════════════════════════════════════
+
+# N-dimensional arrays with parallel support
+ndarray = { version = "0.15", features = ["rayon", "serde"] }
+# Half-precision floating point
+half = { version = "2.3", features = ["std", "num-traits", "serde"] }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# ⚙️ PARALLELIZATION & CONCURRENCY
+# ════════════════════════════════════════════════════════════════════════════════
+
+rayon = "1.8"                    # Data parallelism
+crossbeam = "0.8"               # Concurrent data structures
+crossbeam-channel = "0.5"       # MPMC channels
+parking_lot = "0.12"            # Faster mutexes/rwlocks
+num_cpus = "1.16"               # CPU detection
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🗜️ COMPRESSION
+# ════════════════════════════════════════════════════════════════════════════════
+
+lz4_flex = "0.11"               # Fastest LZ4 implementation
+zstd = "0.13"                   # Zstandard compression
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🐍 PYTHON BINDINGS
+# ════════════════════════════════════════════════════════════════════════════════
+
+pyo3 = { version = "0.20", features = ["extension-module"], optional = true }
+numpy = { version = "0.20", optional = true }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🔄 ASYNC RUNTIME
+# ════════════════════════════════════════════════════════════════════════════════
+
+tokio = { version = "1.35", features = ["full", "rt-multi-thread", "sync"] }
+futures = "0.3"
+async-trait = "0.1"
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🛠️ UTILITIES
+# ════════════════════════════════════════════════════════════════════════════════
+
+anyhow = "1.0"                  # Error handling
+thiserror = "1.0"               # Error derive macros
+tracing = "0.1"                 # Structured logging
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 📦 SERIALIZATION
+# ════════════════════════════════════════════════════════════════════════════════
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+bincode = "1.3"
+# SIMD-accelerated JSON parsing (optional)
+simd-json = { version = "0.13", optional = true, features = ["serde"] }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 📦 CACHE & COLLECTIONS
+# ════════════════════════════════════════════════════════════════════════════════
+
+hashbrown = { version = "0.14", features = ["serde"] }
+lru = "0.12"
+dashmap = "5.5"
+indexmap = { version = "2.2", features = ["serde"] }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# 🔢 RANDOM & MATH
+# ════════════════════════════════════════════════════════════════════════════════
+
+rand = "0.9"
+rand_distr = "0.5"
+rand_chacha = "0.3"
+
+# ════════════════════════════════════════════════════════════════════════════════
+# TIME
+# ════════════════════════════════════════════════════════════════════════════════
+
+chrono = { version = "0.4", features = ["serde"] }
+
+# ════════════════════════════════════════════════════════════════════════════════
+# DEV DEPENDENCIES
+# ════════════════════════════════════════════════════════════════════════════════
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+proptest = "1.4"
+tempfile = "3.10"
+tokio-test = "0.4"
+
+# ════════════════════════════════════════════════════════════════════════════════
+# BENCHMARKS
+# ════════════════════════════════════════════════════════════════════════════════
+
+[[bench]]
+name = "kv_cache_bench"
+harness = false
+
+[[bench]]
+name = "compression_bench"
+harness = false
+
+[[bench]]
+name = "attention_bench"
+harness = false
+
+[[bench]]
+name = "tokenizer_bench"
+harness = false
+
+[[bench]]
+name = "quantization_bench"
+harness = false
+
+# ════════════════════════════════════════════════════════════════════════════════
+# PROFILES
+# ════════════════════════════════════════════════════════════════════════════════
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+opt-level = 3
+strip = true
+
+[profile.bench]
+lto = "thin"
+codegen-units = 4
+opt-level = 3
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 2

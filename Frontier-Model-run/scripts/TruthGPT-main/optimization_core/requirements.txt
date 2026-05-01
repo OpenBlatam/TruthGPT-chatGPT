@@ -1,0 +1,112 @@
+# 🎯 TRUTHGPT - OPTIMAL REQUIREMENTS
+# Versión: 2024.1.0 - Ultra Optimizado
+# Máxima velocidad y mínimo overhead
+
+# ===========================================
+# CORE FRAMEWORK
+# ===========================================
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# ===========================================
+# LLM DEVELOPMENT
+# ===========================================
+transformers>=4.35.0
+accelerate>=0.25.0
+bitsandbytes>=0.41.0
+peft>=0.6.0
+
+# ===========================================
+# GPU OPTIMIZATION
+# ===========================================
+flash-attn>=2.4.0
+xformers>=0.0.23
+triton>=3.0.0
+cupy>=12.3.0
+numba>=0.59.0
+
+# ===========================================
+# DISTRIBUTED TRAINING
+# ===========================================
+deepspeed>=0.12.0
+fairscale>=0.4.13
+
+# ===========================================
+# SCIENTIFIC COMPUTING
+# ===========================================
+numpy>=1.26.0
+pandas>=2.1.0
+scipy>=1.11.0
+
+# ===========================================
+# INTERACTIVE UI
+# ===========================================
+gradio>=4.7.0
+streamlit>=1.28.0
+
+# ===========================================
+# MONITORING & TRACKING
+# ===========================================
+wandb>=0.16.0
+tensorboard>=2.15.0
+gputil>=1.4.0
+psutil>=5.9.6
+
+# ===========================================
+# UTILITIES
+# ===========================================
+tqdm>=4.66.0
+rich>=13.7.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# ===========================================
+# TESTING & QUALITY
+# ===========================================
+pytest>=7.4.3
+black>=23.12.0
+ruff>=0.1.6
+
+# ===========================================
+# SOTA 2025 AGENTIC STACK
+# ===========================================
+pydantic>=2.6.0
+fastapi>=0.109.0
+uvicorn>=0.27.0
+httpx>=0.26.0
+chromadb>=0.4.22
+tenacity>=8.2.3
+vllm>=0.3.0
+aiohttp>=3.9.0
+
+# ===========================================
+# MESSAGING ADAPTERS
+# ===========================================
+python-telegram-bot>=20.8
+discord.py>=2.3.2
+slack_sdk>=3.26.0
+twilio>=8.12.0
+msal>=1.26.0
+# ===========================================
+# SOTA++ ADVANCED CAPABILITIES (Phase 11)
+# ===========================================
+# Search & Web Automation
+tavily-python>=0.3.1
+duckduckgo-search>=4.4.0
+beautifulsoup4>=4.12.0
+playwright>=1.41.0
+
+# Advanced RAG & Document Parsing
+unstructured>=0.12.0
+pypdf>=4.0.0
+sentence-transformers>=2.3.0
+langgraph>=0.0.10
+
+# Multi-Modal & Media
+openai-whisper>=20231117
+opencv-python>=4.9.0
+
+# Research & Scientific Tools
+arxiv>=2.1.0
+wikipedia>=1.4.0

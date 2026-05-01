@@ -1,0 +1,156 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: truthgpt-service-account
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: rbac
+  annotations:
+    azure.workload.identity/client-id: "${AZURE_CLIENT_ID}"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: truthgpt-role
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: rbac
+rules:
+# Allow reading configmaps and secrets
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+# Allow reading pods for metrics
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+# Allow reading services
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch"]
+# Allow reading endpoints
+- apiGroups: [""]
+  resources: ["endpoints"]
+  verbs: ["get", "list", "watch"]
+# Allow reading persistent volume claims
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch"]
+# Allow reading events for debugging
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: truthgpt-role-binding
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: truthgpt-role
+subjects:
+- kind: ServiceAccount
+  name: truthgpt-service-account
+  namespace: truthgpt-optimization
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: truthgpt-cluster-role
+  labels:
+    app: truthgpt-optimization
+    component: rbac
+rules:
+# Allow reading nodes for metrics
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list", "watch"]
+# Allow reading namespaces
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch"]
+# Allow reading persistent volumes
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "list", "watch"]
+# Allow reading storage classes
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["get", "list", "watch"]
+# Allow reading custom resource definitions
+- apiGroups: ["apiextensions.k8s.io"]
+  resources: ["customresourcedefinitions"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: truthgpt-cluster-role-binding
+  labels:
+    app: truthgpt-optimization
+    component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: truthgpt-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: truthgpt-service-account
+  namespace: truthgpt-optimization
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: truthgpt-monitoring-role
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: monitoring
+rules:
+# Allow reading pods for metrics scraping
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+# Allow reading services for service discovery
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch"]
+# Allow reading endpoints for service discovery
+- apiGroups: [""]
+  resources: ["endpoints"]
+  verbs: ["get", "list", "watch"]
+# Allow reading nodes for node metrics
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list", "watch"]
+# Allow reading persistent volume claims
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: truthgpt-monitoring-role-binding
+  namespace: truthgpt-optimization
+  labels:
+    app: truthgpt-optimization
+    component: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: truthgpt-monitoring-role
+subjects:
+- kind: ServiceAccount
+  name: truthgpt-service-account
+  namespace: truthgpt-optimization
+
+

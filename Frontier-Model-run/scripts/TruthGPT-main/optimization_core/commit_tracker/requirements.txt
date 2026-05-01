@@ -1,0 +1,77 @@
+# Core Dependencies
+torch>=2.0.0
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+
+# Data Visualization
+plotly>=5.0.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Web Interface
+gradio>=3.0.0
+streamlit>=1.20.0
+
+# Experiment Tracking
+wandb>=0.15.0
+tensorboard>=2.10.0
+tensorboardX>=2.5.0
+
+# Performance Monitoring
+psutil>=5.9.0
+GPUtil>=1.4.0
+nvidia-ml-py3>=7.352.0
+
+# Data Processing
+pyyaml>=6.0
+json5>=0.9.0
+h5py>=3.7.0
+
+# Database
+sqlite3
+sqlalchemy>=1.4.0
+alembic>=1.8.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.8.0
+
+# Development
+black>=22.0.0
+flake8>=5.0.0
+mypy>=0.950
+pre-commit>=2.20.0
+
+# Documentation
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
+mkdocs>=1.4.0
+
+# Optional: Advanced Features
+transformers>=4.20.0
+diffusers>=0.10.0
+accelerate>=0.20.0
+bitsandbytes>=0.39.0
+peft>=0.4.0
+
+# Optional: Distributed Training
+deepspeed>=0.9.0
+fairscale>=0.4.0
+
+# Optional: Model Optimization
+torch-pruning>=1.2.0
+torch-quantization>=0.1.0
+torch2trt>=0.4.0
+
+# Optional: Monitoring
+prometheus-client>=0.14.0
+grafana-api>=1.0.0
+
+# Optional: Cloud Integration
+boto3>=1.26.0
+azure-storage-blob>=12.14.0
+google-cloud-storage>=2.7.0
+
+

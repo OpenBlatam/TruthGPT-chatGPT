@@ -1,0 +1,39 @@
+{
+  "paper_id": "absolute_zero_azr",
+  "arxiv_id": "2505.03335",
+  "title": "Absolute Zero: Reinforced Self-play Reasoning with Zero Data",
+  "authors": [
+    "Autores no especificados"
+  ],
+  "year": 2025,
+  "url": "https://arxiv.org/abs/2505.03335",
+  "contributions": [
+    "SOTA en codificación y matemáticas",
+    "AZR-Coder-7B: 50.4% promedio (+1.8 puntos vs. previos)",
+    "Ganancias escalables (+13.2% en 14B)"
+  ],
+  "key_techniques": [
+    "RLVR (Reinforcement Learning from Verifier Rewards)",
+    "Self-play sin datos humanos",
+    "Generación y resolución de tareas de razonamiento",
+    "Paradigma de aprendizaje autónomo"
+  ],
+  "benchmarks": [
+    "Codificación: +1.8 puntos",
+    "Matemáticas: mejoras significativas",
+    "Escalabilidad: +13.2% en 14B"
+  ],
+  "improvements": "+1.8 puntos en promedio, +13.2% escalable",
+  "category": "reinforcement_learning",
+  "technical_details": {
+    "method": "RLVR",
+    "self_play": true,
+    "zero_data": true,
+    "verifier_rewards": true,
+    "model_sizes": [
+      "7B",
+      "14B"
+    ],
+    "scalability": true
+  }
+}

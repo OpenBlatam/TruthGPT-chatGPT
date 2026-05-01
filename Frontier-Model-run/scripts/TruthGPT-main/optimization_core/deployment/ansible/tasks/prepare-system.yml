@@ -1,0 +1,231 @@
+---
+# System preparation tasks for TruthGPT deployment
+
+- name: Update system packages
+  package:
+    name: "*"
+    state: latest
+  when: ansible_os_family == "RedHat"
+  
+- name: Update system packages (Debian/Ubuntu)
+  apt:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_os_family == "Debian"
+
+- name: Install required packages
+  package:
+    name:
+      - curl
+      - wget
+      - git
+      - vim
+      - htop
+      - tree
+      - jq
+      - unzip
+      - software-properties-common
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - apt-transport-https
+      - python3-pip
+      - python3-venv
+      - build-essential
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install required packages (RedHat)
+  package:
+    name:
+      - curl
+      - wget
+      - git
+      - vim
+      - htop
+      - tree
+      - jq
+      - unzip
+      - ca-certificates
+      - gnupg
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - python3-pip
+      - python3-venv
+      - gcc
+      - gcc-c++
+      - make
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Create truthgpt user
+  user:
+    name: truthgpt
+    system: yes
+    shell: /bin/bash
+    home: /opt/truthgpt
+    create_home: yes
+    groups: docker
+
+- name: Create truthgpt directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: truthgpt
+    group: truthgpt
+    mode: '0755'
+  loop:
+    - /opt/truthgpt
+    - /opt/truthgpt/logs
+    - /opt/truthgpt/config
+    - /opt/truthgpt/data
+    - /opt/truthgpt/backups
+    - /opt/truthgpt/scripts
+    - /opt/truthgpt/monitoring
+    - /opt/truthgpt/security
+
+- name: Set up log rotation
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/truthgpt
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart rsyslog
+
+- name: Configure system limits
+  template:
+    src: limits.conf.j2
+    dest: /etc/security/limits.d/truthgpt.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Configure sysctl parameters
+  template:
+    src: sysctl.conf.j2
+    dest: /etc/sysctl.d/99-truthgpt.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart systemd-sysctl
+
+- name: Enable and start required services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - rsyslog
+    - cron
+    - ssh
+  ignore_errors: yes
+
+- name: Configure timezone
+  timezone:
+    name: UTC
+
+- name: Configure NTP
+  package:
+    name: ntp
+    state: present
+  when: ansible_os_family == "Debian"
+  
+- name: Configure NTP (RedHat)
+  package:
+    name: chrony
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Start and enable NTP service
+  systemd:
+    name: "{{ 'ntp' if ansible_os_family == 'Debian' else 'chronyd' }}"
+    state: started
+    enabled: yes
+
+- name: Configure firewall rules
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  loop:
+    - "22/tcp"
+    - "80/tcp"
+    - "443/tcp"
+    - "8080/tcp"
+    - "9090/tcp"
+  when: ansible_os_family == "RedHat"
+
+- name: Configure UFW rules (Debian/Ubuntu)
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "22"
+    - "80"
+    - "443"
+    - "8080"
+    - "9090"
+  when: ansible_os_family == "Debian"
+
+- name: Set up cron jobs
+  cron:
+    name: "{{ item.name }}"
+    job: "{{ item.job }}"
+    user: truthgpt
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    month: "{{ item.month }}"
+    weekday: "{{ item.weekday }}"
+  loop:
+    - name: "TruthGPT Health Check"
+      job: "/opt/truthgpt/scripts/health-check.sh"
+      minute: "*/5"
+      hour: "*"
+      day: "*"
+      month: "*"
+      weekday: "*"
+    - name: "TruthGPT Backup"
+      job: "/opt/truthgpt/scripts/backup.sh"
+      minute: "0"
+      hour: "2"
+      day: "*"
+      month: "*"
+      weekday: "*"
+    - name: "TruthGPT Log Rotation"
+      job: "/opt/truthgpt/scripts/log-rotation.sh"
+      minute: "0"
+      hour: "1"
+      day: "*"
+      month: "*"
+      weekday: "*"
+
+- name: Create systemd service files
+  template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - truthgpt-optimizer
+    - truthgpt-worker
+    - truthgpt-monitor
+  notify: restart systemd
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+
+
+
+
+
+
+
+

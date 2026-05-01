@@ -1,0 +1,583 @@
+syntax = "proto3";
+
+package inference;
+
+option go_package = "github.com/truthgpt/optimization_core/go_core/proto";
+option java_package = "com.truthgpt.inference";
+option java_multiple_files = true;
+
+// ════════════════════════════════════════════════════════════════════════════════
+// INFERENCE SERVICE
+// High-performance inference service with unary, batch, and streaming support.
+// ════════════════════════════════════════════════════════════════════════════════
+
+service InferenceService {
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Unary Operations
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  // Predict performs a single inference request.
+  rpc Predict(PredictRequest) returns (PredictResponse);
+  
+  // BatchPredict processes multiple inference requests in a single call.
+  rpc BatchPredict(BatchPredictRequest) returns (BatchPredictResponse);
+  
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Streaming Operations
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  // StreamPredict streams tokens as they are generated.
+  rpc StreamPredict(PredictRequest) returns (stream PredictToken);
+  
+  // StreamBatchPredict streams responses for a batch of requests.
+  rpc StreamBatchPredict(BatchPredictRequest) returns (stream BatchStreamResponse);
+  
+  // BiStreamPredict enables bidirectional streaming for conversational AI.
+  rpc BiStreamPredict(stream PredictRequest) returns (stream PredictToken);
+  
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Management
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  // HealthCheck returns the service health status.
+  rpc HealthCheck(HealthRequest) returns (HealthResponse);
+  
+  // GetModelInfo returns information about the loaded model.
+  rpc GetModelInfo(ModelInfoRequest) returns (ModelInfoResponse);
+  
+  // ListModels returns all available models.
+  rpc ListModels(ListModelsRequest) returns (ListModelsResponse);
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// EMBEDDINGS SERVICE
+// Service for generating text embeddings.
+// ════════════════════════════════════════════════════════════════════════════════
+
+service EmbeddingsService {
+  // CreateEmbedding generates an embedding for a single text.
+  rpc CreateEmbedding(EmbeddingRequest) returns (EmbeddingResponse);
+  
+  // CreateBatchEmbeddings generates embeddings for multiple texts.
+  rpc CreateBatchEmbeddings(BatchEmbeddingRequest) returns (BatchEmbeddingResponse);
+  
+  // ComputeSimilarity computes similarity between two embeddings.
+  rpc ComputeSimilarity(SimilarityRequest) returns (SimilarityResponse);
+  
+  // SearchSimilar finds similar embeddings from a collection.
+  rpc SearchSimilar(SearchSimilarRequest) returns (SearchSimilarResponse);
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// REQUEST/RESPONSE MESSAGES - INFERENCE
+// ════════════════════════════════════════════════════════════════════════════════
+
+message PredictRequest {
+  // Input text to process
+  string input_text = 1;
+  
+  // Generation parameters
+  int32 max_tokens = 2;
+  float temperature = 3;
+  float top_p = 4;
+  int32 top_k = 5;
+  float repetition_penalty = 6;
+  float presence_penalty = 7;
+  float frequency_penalty = 8;
+  
+  // Stop sequences
+  repeated string stop_sequences = 9;
+  
+  // System prompt for chat models
+  string system_prompt = 10;
+  
+  // Previous messages for chat context
+  repeated ChatMessage messages = 11;
+  
+  // Request metadata
+  map<string, string> metadata = 12;
+  
+  // Request ID for tracing
+  string request_id = 13;
+  
+  // Model selection
+  string model_id = 14;
+  
+  // Output format
+  OutputFormat output_format = 15;
+  
+  // Seed for reproducibility
+  optional int64 seed = 16;
+}
+
+message PredictResponse {
+  // Generated output text
+  string output_text = 1;
+  
+  // Token usage statistics
+  TokenUsage usage = 2;
+  
+  // Performance metrics
+  float latency_ms = 3;
+  float tokens_per_second = 4;
+  
+  // Model information
+  string model_id = 5;
+  
+  // Finish reason
+  string finish_reason = 6;
+  
+  // Request ID for correlation
+  string request_id = 7;
+  
+  // Log probabilities (if requested)
+  repeated TokenLogProb log_probs = 8;
+  
+  // Timestamp
+  int64 created_at = 9;
+}
+
+message PredictToken {
+  // Generated token
+  string token = 1;
+  
+  // Token index in sequence
+  int32 index = 2;
+  
+  // Token probability
+  float probability = 3;
+  
+  // Top alternative tokens
+  repeated TokenAlternative alternatives = 4;
+  
+  // Is this the final token?
+  bool is_finished = 5;
+  
+  // Finish reason (if finished)
+  string finish_reason = 6;
+  
+  // Cumulative text so far
+  string text_so_far = 7;
+  
+  // Request ID
+  string request_id = 8;
+}
+
+message BatchPredictRequest {
+  repeated PredictRequest requests = 1;
+  
+  // Batch options
+  bool parallel = 2;           // Process in parallel
+  int32 max_concurrency = 3;   // Max parallel requests
+  int64 timeout_ms = 4;        // Timeout per request
+}
+
+message BatchPredictResponse {
+  repeated PredictResponse responses = 1;
+  
+  // Batch statistics
+  float total_latency_ms = 2;
+  int32 successful_count = 3;
+  int32 failed_count = 4;
+  
+  // Errors (if any)
+  repeated BatchError errors = 5;
+}
+
+message BatchStreamResponse {
+  // Request index in batch
+  int32 request_index = 1;
+  
+  // Token for this request
+  PredictToken token = 2;
+  
+  // Full response (when finished)
+  PredictResponse response = 3;
+  
+  // Is this the final message for this request?
+  bool is_request_finished = 4;
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// EMBEDDINGS MESSAGES
+// ════════════════════════════════════════════════════════════════════════════════
+
+message EmbeddingRequest {
+  // Text to embed
+  string text = 1;
+  
+  // Model to use
+  string model_id = 2;
+  
+  // Encoding format
+  string encoding_format = 3; // "float", "base64"
+  
+  // Embedding dimensions (for models that support it)
+  int32 dimensions = 4;
+  
+  // Normalize output
+  bool normalize = 5;
+}
+
+message EmbeddingResponse {
+  // Embedding vector
+  repeated float embedding = 1;
+  
+  // Or base64 encoded
+  string embedding_base64 = 2;
+  
+  // Token usage
+  TokenUsage usage = 3;
+  
+  // Model used
+  string model_id = 4;
+  
+  // Dimensions
+  int32 dimensions = 5;
+}
+
+message BatchEmbeddingRequest {
+  repeated string texts = 1;
+  string model_id = 2;
+  string encoding_format = 3;
+  int32 dimensions = 4;
+  bool normalize = 5;
+}
+
+message BatchEmbeddingResponse {
+  repeated EmbeddingResponse embeddings = 1;
+  TokenUsage total_usage = 2;
+  float total_latency_ms = 3;
+}
+
+message SimilarityRequest {
+  repeated float embedding_a = 1;
+  repeated float embedding_b = 2;
+  string metric = 3; // "cosine", "euclidean", "dot_product"
+}
+
+message SimilarityResponse {
+  float similarity = 1;
+  float distance = 2;
+}
+
+message SearchSimilarRequest {
+  repeated float query_embedding = 1;
+  repeated EmbeddingWithId candidates = 2;
+  int32 top_k = 3;
+  float threshold = 4;
+  string metric = 5;
+}
+
+message SearchSimilarResponse {
+  repeated SimilarityResult results = 1;
+}
+
+message EmbeddingWithId {
+  string id = 1;
+  repeated float embedding = 2;
+  map<string, string> metadata = 3;
+}
+
+message SimilarityResult {
+  string id = 1;
+  float similarity = 2;
+  map<string, string> metadata = 3;
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// SUPPORTING MESSAGES
+// ════════════════════════════════════════════════════════════════════════════════
+
+message ChatMessage {
+  string role = 1;      // "system", "user", "assistant"
+  string content = 2;
+  string name = 3;      // Optional name for multi-user chats
+}
+
+message TokenUsage {
+  int32 prompt_tokens = 1;
+  int32 completion_tokens = 2;
+  int32 total_tokens = 3;
+  int32 cached_tokens = 4;
+}
+
+message TokenLogProb {
+  string token = 1;
+  float log_prob = 2;
+  repeated TokenAlternative alternatives = 3;
+}
+
+message TokenAlternative {
+  string token = 1;
+  float log_prob = 2;
+}
+
+message BatchError {
+  int32 index = 1;
+  string error_code = 2;
+  string error_message = 3;
+}
+
+enum OutputFormat {
+  OUTPUT_FORMAT_UNSPECIFIED = 0;
+  OUTPUT_FORMAT_TEXT = 1;
+  OUTPUT_FORMAT_JSON = 2;
+  OUTPUT_FORMAT_MARKDOWN = 3;
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// HEALTH & MODEL INFO
+// ════════════════════════════════════════════════════════════════════════════════
+
+message HealthRequest {
+  bool include_details = 1;
+}
+
+message HealthResponse {
+  string status = 1;  // "healthy", "degraded", "unhealthy"
+  string version = 2;
+  int64 uptime_seconds = 3;
+  map<string, string> details = 4;
+  
+  // Component health
+  repeated ComponentHealth components = 5;
+  
+  // Resource usage
+  ResourceUsage resources = 6;
+}
+
+message ComponentHealth {
+  string name = 1;
+  string status = 2;
+  string message = 3;
+  int64 last_check_ms = 4;
+}
+
+message ResourceUsage {
+  float cpu_percent = 1;
+  int64 memory_bytes = 2;
+  int64 disk_bytes = 3;
+  int32 goroutines = 4;
+  int64 open_connections = 5;
+}
+
+message ModelInfoRequest {
+  string model_id = 1;
+}
+
+message ModelInfoResponse {
+  string model_id = 1;
+  string model_name = 2;
+  string model_version = 3;
+  string model_type = 4;  // "completion", "chat", "embedding"
+  int32 context_length = 5;
+  int32 embedding_dimensions = 6;
+  repeated string capabilities = 7;
+  map<string, string> metadata = 8;
+}
+
+message ListModelsRequest {}
+
+message ListModelsResponse {
+  repeated ModelInfoResponse models = 1;
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// CACHE SERVICE
+// High-performance key-value cache service.
+// ════════════════════════════════════════════════════════════════════════════════
+
+service CacheService {
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Basic Operations
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  rpc Get(CacheGetRequest) returns (CacheGetResponse);
+  rpc Put(CachePutRequest) returns (CachePutResponse);
+  rpc Delete(CacheDeleteRequest) returns (CacheDeleteResponse);
+  rpc Exists(CacheExistsRequest) returns (CacheExistsResponse);
+  
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Batch Operations
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  rpc BatchGet(CacheBatchGetRequest) returns (CacheBatchGetResponse);
+  rpc BatchPut(CacheBatchPutRequest) returns (CacheBatchPutResponse);
+  rpc BatchDelete(CacheBatchDeleteRequest) returns (CacheBatchDeleteResponse);
+  
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Management
+  // ──────────────────────────────────────────────────────────────────────────────
+  
+  rpc Stats(CacheStatsRequest) returns (CacheStatsResponse);
+  rpc Clear(CacheClearRequest) returns (CacheClearResponse);
+  rpc Scan(CacheScanRequest) returns (stream CacheScanResponse);
+}
+
+message CacheGetRequest {
+  bytes key = 1;
+}
+
+message CacheGetResponse {
+  bytes value = 1;
+  bool found = 2;
+  CacheEntryMetadata metadata = 3;
+}
+
+message CachePutRequest {
+  bytes key = 1;
+  bytes value = 2;
+  int64 ttl_seconds = 3;
+  CacheEntryMetadata metadata = 4;
+}
+
+message CachePutResponse {
+  bool success = 1;
+  bool replaced = 2;
+}
+
+message CacheDeleteRequest {
+  bytes key = 1;
+}
+
+message CacheDeleteResponse {
+  bool deleted = 1;
+}
+
+message CacheExistsRequest {
+  bytes key = 1;
+}
+
+message CacheExistsResponse {
+  bool exists = 1;
+}
+
+message CacheBatchGetRequest {
+  repeated bytes keys = 1;
+}
+
+message CacheBatchGetResponse {
+  repeated CacheEntry entries = 1;
+}
+
+message CacheEntry {
+  bytes key = 1;
+  bytes value = 2;
+  bool found = 3;
+}
+
+message CacheBatchPutRequest {
+  repeated CachePutRequest entries = 1;
+}
+
+message CacheBatchPutResponse {
+  bool success = 1;
+  int32 stored_count = 2;
+  repeated int32 failed_indices = 3;
+}
+
+message CacheBatchDeleteRequest {
+  repeated bytes keys = 1;
+}
+
+message CacheBatchDeleteResponse {
+  int32 deleted_count = 1;
+}
+
+message CacheStatsRequest {}
+
+message CacheStatsResponse {
+  uint64 hits = 1;
+  uint64 misses = 2;
+  uint64 puts = 3;
+  uint64 deletes = 4;
+  uint64 bytes_written = 5;
+  uint64 bytes_read = 6;
+  double hit_rate = 7;
+  uint64 entries = 8;
+  uint64 size_bytes = 9;
+  
+  // Per-tier stats
+  TierStats l1_stats = 10;
+  TierStats l2_stats = 11;
+  TierStats l3_stats = 12;
+}
+
+message TierStats {
+  uint64 hits = 1;
+  uint64 misses = 2;
+  uint64 size_bytes = 3;
+  double hit_rate = 4;
+}
+
+message CacheClearRequest {
+  string pattern = 1;  // Optional pattern to match keys
+}
+
+message CacheClearResponse {
+  bool success = 1;
+  uint64 cleared_count = 2;
+}
+
+message CacheScanRequest {
+  bytes prefix = 1;
+  int32 limit = 2;
+  bytes cursor = 3;
+}
+
+message CacheScanResponse {
+  bytes key = 1;
+  bytes value = 2;
+  bytes cursor = 3;
+  bool has_more = 4;
+}
+
+message CacheEntryMetadata {
+  int64 created_at = 1;
+  int64 expires_at = 2;
+  int64 last_accessed = 3;
+  uint32 access_count = 4;
+  bool compressed = 5;
+  int32 original_size = 6;
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// KV CACHE SPECIFIC (for Transformer attention caching)
+// ════════════════════════════════════════════════════════════════════════════════
+
+message KVCacheKey {
+  int32 layer_idx = 1;
+  int32 head_idx = 2;
+  int32 position = 3;
+  string session_id = 4;  // For multi-tenant support
+}
+
+message KVCacheGetRequest {
+  KVCacheKey key = 1;
+}
+
+message KVCacheGetResponse {
+  bytes key_state = 1;
+  bytes value_state = 2;
+  bool found = 3;
+}
+
+message KVCachePutRequest {
+  KVCacheKey key = 1;
+  bytes key_state = 2;
+  bytes value_state = 3;
+  int64 ttl_seconds = 4;
+}
+
+message KVCachePutResponse {
+  bool success = 1;
+}
+
+message KVCacheBatchGetRequest {
+  repeated KVCacheKey keys = 1;
+}
+
+message KVCacheBatchGetResponse {
+  repeated KVCacheGetResponse responses = 1;
+}

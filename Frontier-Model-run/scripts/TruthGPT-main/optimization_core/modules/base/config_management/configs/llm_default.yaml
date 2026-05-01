@@ -1,0 +1,89 @@
+seed: 42
+run_name: llm_baseline
+output_dir: runs/llm_baseline
+
+model:
+  name_or_path: gpt2
+  gradient_checkpointing: true
+  lora:
+    enabled: false
+    r: 16
+    alpha: 32
+    dropout: 0.05
+  attention:
+    backend: sdpa  # sdpa|flash|triton
+  kv_cache:
+    type: paged  # none|paged
+    block_size: 128
+  memory:
+    policy: adaptive  # adaptive|static
+
+training:
+  epochs: 3
+  train_batch_size: 8
+  eval_batch_size: 8
+  grad_accum_steps: 2
+  max_grad_norm: 1.0
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.06
+  scheduler: cosine
+  mixed_precision: bf16
+  early_stopping_patience: 2
+  log_interval: 50
+  eval_interval: 500
+  allow_tf32: true
+  torch_compile: false
+  compile_mode: default
+  fused_adamw: true
+  detect_anomaly: false
+  use_profiler: false
+  save_safetensors: true
+  callbacks:
+    - print
+    # - wandb
+    # - tensorboard
+
+logging:
+  project: truthgpt
+  run_name: llm_baseline
+  dir: runs
+
+eval:
+  metrics: [ppl]
+  select_best_by: ppl  # ppl|loss
+
+checkpoint:
+  interval_steps: 1000
+  keep_last: 3
+
+ema:
+  enabled: true
+  decay: 0.999
+
+resume:
+  enabled: false  # Auto-resume from latest checkpoint
+  checkpoint_dir: null  # If null, uses output_dir
+
+optimizer:
+  type: adamw  # adamw|lion|adafactor
+  fused: true
+
+data:
+  source: hf  # hf|jsonl|webdataset
+  dataset: wikitext
+  subset: wikitext-2-raw-v1
+  path: null
+  text_field: text
+  streaming: false
+  collate: lm  # lm|cv|audio (lm enabled)
+  max_seq_len: 512
+  bucket_by_length: false
+  bucket_bins: [64, 128, 256, 512]
+  num_workers: 4
+  prefetch_factor: 2
+  persistent_workers: true
+
+hardware:
+  device: auto
+  ddp: false

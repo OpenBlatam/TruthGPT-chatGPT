@@ -1,0 +1,25 @@
+# BUILD file for LZ4 library
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "lz4",
+    srcs = glob(["lib/*.c"]),
+    hdrs = glob(["lib/*.h"]),
+    includes = ["lib"],
+    strip_include_prefix = "lib",
+)
+
+
+
+
+
+
+
+
+
+
+
+

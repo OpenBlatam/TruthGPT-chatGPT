@@ -1,0 +1,5 @@
+[console_scripts]
+frontier = cli:app
+openclaw = cli:app
+truth = cli:app
+truthgpt = cli:app

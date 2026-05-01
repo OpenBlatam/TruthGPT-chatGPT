@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-11-27T14:54:58.754050",
+  "polyglot_results": [
+    {
+      "name": "kv_cache_python",
+      "module": "kv_cache",
+      "backend": "python",
+      "latency_ms": 0.0,
+      "throughput_tokens_per_sec": 0.0,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": false,
+      "error": "No module named 'torch'",
+      "metadata": {}
+    },
+    {
+      "name": "compression_python",
+      "module": "compression",
+      "backend": "python",
+      "latency_ms": 0.0,
+      "throughput_tokens_per_sec": 0.0,
+      "memory_mb": 0.0,
+      "tokens_generated": 0,
+      "success": false,
+      "error": "No module named 'torch'",
+      "metadata": {}
+    }
+  ],
+  "closed_source_results": [],
+  "module_status": {
+    "polyglot_core": true,
+    "polyglot_inference": true,
+    "inference_engines": false,
+    "attention": true,
+    "compression": true,
+    "cache": true,
+    "rust": false,
+    "cpp": false,
+    "go": false
+  },
+  "summary": {
+    "total_polyglot_tests": 2,
+    "successful_polyglot_tests": 0,
+    "total_closed_source_tests": 0,
+    "successful_closed_source_tests": 0,
+    "module_performance": {},
+    "comparison": {}
+  }
+}
