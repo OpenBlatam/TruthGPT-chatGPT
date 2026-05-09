@@ -1,4 +1,4 @@
-TruthGPT
+Agentic OS
 ============
 
 There are several guides for ML and AI developers and users. These guides can
