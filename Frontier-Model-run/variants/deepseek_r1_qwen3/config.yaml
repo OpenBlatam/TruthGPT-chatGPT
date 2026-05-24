@@ -1,0 +1,319 @@
+# DeepSeek-R1-Qwen3 Frontier Model Configuration
+# Advanced reasoning model combining DeepSeek-R1 and Qwen3 architectures
+
+model_config:
+  # Base Qwen3 architecture parameters
+  vocab_size: 151936
+  hidden_size: 4096
+  intermediate_size: 12288
+  num_hidden_layers: 36
+  num_attention_heads: 32
+  num_key_value_heads: 8
+  head_dim: 128
+  hidden_act: "silu"
+  max_position_embeddings: 131072
+  initializer_range: 0.02
+  rms_norm_eps: 1.0e-6
+  use_cache: true
+  tie_word_embeddings: false
+  
+  # RoPE configuration with YARN scaling
+  rope_theta: 1000000.0
+  rope_scaling:
+    rope_type: "yarn"
+    factor: 4.0
+    original_max_position_embeddings: 32768
+    attn_factor: 0.8782488562869419
+  
+  # Attention configuration
+  attention_bias: false
+  attention_dropout: 0.0
+  max_window_layers: 36
+  use_sliding_window: false
+  sliding_window: null
+  
+  # DeepSeek-R1 reasoning enhancements
+  reasoning_depth: 5
+  thinking_tokens: 23000
+  chain_of_thought_layers: [6, 12, 18, 24, 30, 35]  # Strategic placement for reasoning
+  reasoning_temperature: 0.6
+  reasoning_top_p: 0.95
+  use_thinking_head: true
+  thinking_head_size: 1024
+  
+  # Advanced reasoning features
+  use_step_by_step: true
+  use_verification: true
+  use_reflection: true
+  max_reasoning_steps: 10
+  reasoning_confidence_threshold: 0.8
+
+# Training configuration
+training_config:
+  # Basic training parameters
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32
+  learning_rate: 1.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  
+  # Optimization settings
+  optim: "adamw_torch"
+  adam_beta1: 0.9
+  adam_beta2: 0.95
+  adam_epsilon: 1.0e-8
+  max_grad_norm: 1.0
+  
+  # Mixed precision and memory optimization
+  fp16: false
+  bf16: true
+  dataloader_pin_memory: true
+  gradient_checkpointing: true
+  
+  # Reasoning-specific training
+  reasoning_training:
+    enable_reasoning_loss: true
+    reasoning_loss_weight: 0.3
+    verification_loss_weight: 0.2
+    confidence_loss_weight: 0.1
+    step_consistency_weight: 0.15
+    
+    # Chain-of-thought training
+    cot_training: true
+    cot_data_ratio: 0.4
+    max_cot_length: 2048
+    cot_temperature: 0.7
+    
+    # Reasoning curriculum
+    curriculum_learning: true
+    start_reasoning_epoch: 1
+    reasoning_difficulty_schedule: "linear"  # linear, exponential, step
+    
+  # Distributed training
+  distributed:
+    use_deepspeed: true
+    deepspeed_config: "ds_config_zero2.json"
+    local_rank: -1
+    
+  # Logging and monitoring
+  logging_steps: 10
+  eval_steps: 500
+  save_steps: 1000
+  save_total_limit: 3
+  evaluation_strategy: "steps"
+  save_strategy: "steps"
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_reasoning_accuracy"
+  greater_is_better: true
+  
+  # Wandb integration
+  report_to: "wandb"
+  run_name: "deepseek_r1_qwen3_reasoning"
+
+# Data configuration
+data_config:
+  # Dataset paths
+  train_data_path: "data/reasoning_train.jsonl"
+  eval_data_path: "data/reasoning_eval.jsonl"
+  test_data_path: "data/reasoning_test.jsonl"
+  
+  # Data processing
+  max_seq_length: 4096
+  max_reasoning_length: 2048
+  preprocessing_num_workers: 8
+  dataloader_num_workers: 4
+  
+  # Reasoning data configuration
+  reasoning_datasets:
+    - name: "math_reasoning"
+      path: "data/math_problems.jsonl"
+      weight: 0.3
+      format: "step_by_step"
+    - name: "logical_reasoning"
+      path: "data/logic_problems.jsonl"
+      weight: 0.25
+    - name: "code_reasoning"
+      path: "data/code_problems.jsonl"
+      weight: 0.25
+    - name: "general_reasoning"
+      path: "data/general_problems.jsonl"
+      weight: 0.2
+  
+  # Data augmentation
+  augmentation:
+    enable_paraphrasing: true
+    enable_difficulty_scaling: true
+    enable_step_shuffling: false
+    reasoning_chain_dropout: 0.1
+
+# Model variants configuration
+model_variants:
+  small:
+    hidden_size: 2048
+    intermediate_size: 6144
+    num_hidden_layers: 24
+    num_attention_heads: 16
+    num_key_value_heads: 4
+    thinking_head_size: 512
+    chain_of_thought_layers: [4, 8, 12, 16, 20, 23]
+    description: "Small variant for development and testing (2B parameters)"
+    
+  medium:
+    hidden_size: 4096
+    intermediate_size: 12288
+    num_hidden_layers: 36
+    num_attention_heads: 32
+    num_key_value_heads: 8
+    thinking_head_size: 1024
+    chain_of_thought_layers: [6, 12, 18, 24, 30, 35]
+    description: "Medium variant matching original DeepSeek-R1-Qwen3-8B"
+    
+  large:
+    hidden_size: 5120
+    intermediate_size: 15360
+    num_hidden_layers: 48
+    num_attention_heads: 40
+    num_key_value_heads: 10
+    thinking_head_size: 1536
+    chain_of_thought_layers: [8, 16, 24, 32, 40, 47]
+    description: "Large variant for enhanced reasoning (13B parameters)"
+
+# Evaluation configuration
+evaluation_config:
+  # Reasoning benchmarks
+  benchmarks:
+    - name: "AIME"
+      path: "benchmarks/aime_2024.jsonl"
+      metric: "pass_at_1"
+      max_tokens: 2048
+      temperature: 0.6
+      
+    - name: "GPQA"
+      path: "benchmarks/gpqa_diamond.jsonl"
+      metric: "accuracy"
+      max_tokens: 1024
+      temperature: 0.3
+      
+    - name: "MMLU"
+      path: "benchmarks/mmlu_pro.jsonl"
+      metric: "accuracy"
+      max_tokens: 512
+      temperature: 0.1
+      
+    - name: "LiveCodeBench"
+      path: "benchmarks/livecodebench.jsonl"
+      metric: "pass_at_1"
+      max_tokens: 2048
+      temperature: 0.6
+      
+    - name: "HumanEval"
+      path: "benchmarks/humaneval.jsonl"
+      metric: "pass_at_1"
+      max_tokens: 1024
+      temperature: 0.2
+  
+  # Reasoning evaluation
+  reasoning_eval:
+    enable_step_analysis: true
+    enable_verification_check: true
+    enable_confidence_calibration: true
+    max_reasoning_steps: 15
+    reasoning_timeout: 30  # seconds
+    
+  # Generation parameters
+  generation:
+    max_new_tokens: 2048
+    temperature: 0.6
+    top_p: 0.95
+    top_k: 50
+    repetition_penalty: 1.1
+    do_sample: true
+    num_return_sequences: 1
+
+# Hardware and performance configuration
+hardware_config:
+  # GPU settings
+  gpu_memory_fraction: 0.95
+  enable_tf32: true
+  enable_flash_attention: true
+  enable_xformers: false
+  
+  # CPU settings
+  num_cpu_threads: 8
+  cpu_memory_limit: "64GB"
+  
+  # Memory optimization
+  gradient_checkpointing: true
+  cpu_offload: false
+  pin_memory: true
+  prefetch_factor: 2
+  
+  # Quantization (optional)
+  quantization:
+    enable: false
+    method: "bitsandbytes"  # bitsandbytes, gptq, awq
+    bits: 8
+    group_size: 128
+
+# Inference configuration
+inference_config:
+  # Server settings
+  host: "0.0.0.0"
+  port: 8000
+  max_concurrent_requests: 10
+  request_timeout: 60
+  
+  # Generation defaults
+  default_max_tokens: 1024
+  default_temperature: 0.7
+  default_top_p: 0.9
+  default_reasoning_mode: true
+  
+  # Reasoning inference
+  reasoning_inference:
+    enable_thinking_display: true
+    show_verification_steps: true
+    show_confidence_scores: true
+    enable_step_by_step_output: true
+    reasoning_cache_size: 1000
+
+# Monitoring and debugging
+monitoring_config:
+  # Metrics tracking
+  track_reasoning_metrics: true
+  track_attention_patterns: true
+  track_expert_usage: false  # Not applicable for this model
+  track_memory_usage: true
+  
+  # Debugging
+  debug_mode: false
+  save_attention_maps: false
+  save_reasoning_traces: true
+  log_level: "INFO"
+  
+  # Alerts
+  enable_alerts: true
+  alert_thresholds:
+    loss_spike: 2.0
+    memory_usage: 0.9
+    reasoning_confidence: 0.5
+
+# Experimental features
+experimental:
+  # Advanced reasoning techniques
+  enable_tree_of_thoughts: false
+  enable_self_consistency: false
+  enable_chain_of_verification: false
+  
+  # Model architecture experiments
+  enable_mixture_of_depths: false
+  enable_adaptive_computation: false
+  enable_sparse_attention: false
+  
+  # Training experiments
+  enable_curriculum_learning: true
+  enable_meta_learning: false
+  enable_few_shot_reasoning: true
