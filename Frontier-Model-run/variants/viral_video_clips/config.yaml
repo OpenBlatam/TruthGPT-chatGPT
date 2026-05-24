@@ -1,0 +1,394 @@
+# Viral Video Clips Model Configuration
+
+model:
+  model_size: "medium"
+  hidden_size: 1024
+  num_hidden_layers: 12
+  num_attention_heads: 16
+  intermediate_size: 4096
+  
+  # Video processing settings
+  video_resolution: [1080, 1920]  # Width x Height (vertical for mobile)
+  target_fps: 30
+  max_video_duration: 3600  # 1 hour maximum
+  clip_duration_range: [15, 60]  # 15-60 seconds for viral content
+  num_clips_to_generate: 15
+  
+  # Audio processing
+  audio_sample_rate: 16000
+  audio_chunk_duration: 30.0
+  speech_detection_threshold: 0.5
+  music_detection_threshold: 0.3
+  
+  # Visual analysis
+  scene_change_threshold: 0.3
+  face_detection_confidence: 0.5
+  object_detection_confidence: 0.6
+  motion_detection_sensitivity: 0.4
+  
+  # Caption generation
+  caption_max_length: 100
+  caption_words_per_second: 3.0
+  caption_font_size: 48
+  caption_animation_duration: 0.5
+  
+  # Viral optimization
+  engagement_prediction_threshold: 0.7
+  trend_analysis_window_days: 7
+  viral_pattern_confidence: 0.8
+  platform_optimization: ["tiktok", "instagram", "youtube_shorts"]
+  
+  # Effects and transitions
+  transition_duration: 0.3
+  zoom_intensity_range: [1.1, 1.5]
+  effect_probability: 0.6
+  logo_opacity: 0.8
+  watermark_position: "bottom_right"
+  
+  # Performance optimization
+  use_gpu_acceleration: true
+  max_concurrent_processes: 4
+  cache_extracted_features: true
+  temp_dir: "/tmp/viral_clips"
+
+# Model variants for different hardware configurations
+model_variants:
+  small:
+    description: "Lightweight model for development and testing"
+    hidden_size: 512
+    num_hidden_layers: 6
+    num_attention_heads: 8
+    intermediate_size: 2048
+    num_clips_to_generate: 8
+    video_resolution: [720, 1280]
+    memory_requirement: "4GB GPU"
+    inference_speed: "~5000 frames/s"
+    
+  medium:
+    description: "Balanced model for production deployment"
+    hidden_size: 1024
+    num_hidden_layers: 12
+    num_attention_heads: 16
+    intermediate_size: 4096
+    num_clips_to_generate: 15
+    video_resolution: [1080, 1920]
+    memory_requirement: "8GB GPU"
+    inference_speed: "~2500 frames/s"
+    
+  large:
+    description: "High-performance model for maximum quality"
+    hidden_size: 1536
+    num_hidden_layers: 18
+    num_attention_heads: 24
+    intermediate_size: 6144
+    num_clips_to_generate: 20
+    video_resolution: [1080, 1920]
+    memory_requirement: "16GB GPU"
+    inference_speed: "~1200 frames/s"
+
+# Training configuration
+training:
+  num_train_epochs: 15
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 8
+  learning_rate: 3e-5
+  weight_decay: 0.01
+  warmup_steps: 1000
+  max_grad_norm: 1.0
+  
+  # Multi-modal learning rates
+  video_learning_rate: 1e-5
+  audio_learning_rate: 2e-5
+  caption_learning_rate: 5e-5
+  effects_learning_rate: 3e-5
+  
+  # Loss weights
+  video_understanding_weight: 1.0
+  highlight_detection_weight: 0.8
+  caption_generation_weight: 0.6
+  viral_prediction_weight: 0.4
+  engagement_prediction_weight: 0.3
+  
+  # Advanced training features
+  use_curriculum_learning: true
+  use_adversarial_training: true
+  use_contrastive_learning: true
+  use_multi_task_learning: true
+  
+  # Optimization settings
+  optimizer_type: "adamw"
+  scheduler_type: "cosine_with_restarts"
+  use_mixed_precision: true
+  use_gradient_checkpointing: true
+  
+  # Evaluation and logging
+  eval_steps: 500
+  save_steps: 1000
+  logging_steps: 100
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "viral_prediction_accuracy"
+  greater_is_better: true
+  
+  # Monitoring
+  report_to: "wandb"
+  project_name: "viral-video-clips-model"
+  run_name: null
+  
+  # Data augmentation
+  use_video_augmentation: true
+  use_audio_augmentation: true
+  augmentation_probability: 0.3
+
+# Data configuration
+data:
+  train_data_path: "data/viral_videos_train.json"
+  eval_data_path: "data/viral_videos_eval.json"
+  test_data_path: "data/viral_videos_test.json"
+  
+  # Video data settings
+  max_video_length: 1800  # 30 minutes
+  min_video_length: 60    # 1 minute
+  supported_formats: ["mp4", "avi", "mov", "mkv", "webm"]
+  
+  # Audio data settings
+  audio_formats: ["wav", "mp3", "aac", "flac"]
+  normalize_audio: true
+  remove_silence: true
+  
+  # Caption data settings
+  max_caption_length: 200
+  min_caption_length: 10
+  caption_languages: ["en", "es", "fr", "de", "it", "pt"]
+  
+  # Viral metrics
+  engagement_metrics: ["views", "likes", "shares", "comments", "saves"]
+  viral_threshold: 100000  # Minimum views to consider viral
+  trending_window_hours: 24
+  
+  # Platform-specific data
+  platform_data:
+    tiktok:
+      max_duration: 60
+      optimal_duration: [15, 30]
+      aspect_ratio: "9:16"
+      trending_hashtags: ["#fyp", "#viral", "#trending", "#foryou"]
+      
+    instagram:
+      max_duration: 90
+      optimal_duration: [15, 60]
+      aspect_ratio: "9:16"
+      trending_hashtags: ["#reels", "#viral", "#explore", "#instagram"]
+      
+    youtube_shorts:
+      max_duration: 60
+      optimal_duration: [15, 45]
+      aspect_ratio: "9:16"
+      trending_hashtags: ["#shorts", "#viral", "#youtube"]
+
+# Video processing pipeline
+processing:
+  # YouTube extraction
+  youtube_quality: "best[height<=1080]"
+  download_subtitles: true
+  download_thumbnails: true
+  extract_metadata: true
+  
+  # Video preprocessing
+  resize_method: "lanczos"
+  frame_extraction_method: "uniform"
+  max_frames_per_video: 1000
+  keyframe_extraction: true
+  
+  # Audio preprocessing
+  audio_normalization: true
+  noise_reduction: true
+  speech_enhancement: true
+  music_separation: false
+  
+  # Scene detection
+  scene_detection_method: "content_aware"
+  scene_threshold: 0.3
+  min_scene_duration: 2.0
+  max_scene_duration: 30.0
+  
+  # Highlight detection
+  highlight_methods: ["audio_peaks", "visual_motion", "face_detection", "speech_activity"]
+  highlight_window_size: 5.0
+  highlight_overlap_threshold: 0.5
+  
+  # Caption generation
+  caption_styles: ["viral", "informative", "emotional", "humorous", "dramatic"]
+  caption_animations: ["fade_in_out", "zoom_in", "slide_up", "typewriter", "bounce"]
+  caption_positions: ["bottom_center", "center", "top_center", "bottom_left", "bottom_right"]
+  
+  # Visual effects
+  available_effects:
+    - name: "zoom_in"
+      parameters: ["intensity", "duration", "easing"]
+    - name: "zoom_out"
+      parameters: ["intensity", "duration", "easing"]
+    - name: "pan_left"
+      parameters: ["distance", "duration", "easing"]
+    - name: "pan_right"
+      parameters: ["distance", "duration", "easing"]
+    - name: "fade_transition"
+      parameters: ["duration", "color"]
+    - name: "slide_transition"
+      parameters: ["direction", "duration"]
+    - name: "color_grade"
+      parameters: ["saturation", "brightness", "contrast"]
+    - name: "speed_ramp"
+      parameters: ["start_speed", "end_speed", "duration"]
+  
+  # Transitions
+  transition_types: ["cut", "fade", "slide", "zoom", "wipe", "dissolve"]
+  transition_timing: "beat_sync"  # or "scene_change" or "manual"
+  
+  # Logo and branding
+  logo_formats: ["png", "svg"]
+  logo_positions: ["top_left", "top_right", "bottom_left", "bottom_right", "center"]
+  logo_animations: ["fade_in", "slide_in", "zoom_in", "static"]
+  watermark_opacity_range: [0.3, 0.8]
+
+# Viral optimization
+viral_optimization:
+  # Engagement prediction
+  engagement_factors:
+    - "video_quality"
+    - "audio_quality"
+    - "content_novelty"
+    - "emotional_impact"
+    - "trending_topics"
+    - "optimal_length"
+    - "hook_strength"
+    - "call_to_action"
+  
+  # Trend analysis
+  trending_sources: ["youtube", "tiktok", "instagram", "twitter"]
+  trend_update_frequency: "hourly"
+  trend_weight_decay: 0.9  # How quickly trends lose relevance
+  
+  # A/B testing
+  enable_ab_testing: true
+  test_variations: ["title", "thumbnail", "effects", "duration"]
+  min_test_duration_hours: 24
+  statistical_significance_threshold: 0.05
+  
+  # Platform optimization
+  platform_weights:
+    tiktok: 0.4
+    instagram: 0.35
+    youtube_shorts: 0.25
+  
+  # Content optimization
+  hook_optimization: true
+  hook_duration_seconds: 3
+  call_to_action_optimization: true
+  thumbnail_optimization: true
+  title_optimization: true
+
+# Quality control
+quality_control:
+  # Video quality metrics
+  min_resolution: [720, 1280]
+  max_resolution: [1080, 1920]
+  min_fps: 24
+  max_fps: 60
+  min_bitrate: 1000  # kbps
+  max_bitrate: 8000  # kbps
+  
+  # Audio quality metrics
+  min_audio_quality: 128  # kbps
+  max_audio_quality: 320  # kbps
+  audio_sample_rates: [44100, 48000]
+  
+  # Content quality filters
+  blur_detection: true
+  noise_detection: true
+  inappropriate_content_filter: true
+  copyright_detection: true
+  
+  # Engagement quality
+  min_viral_score: 0.3
+  min_engagement_prediction: 0.5
+  max_clip_similarity: 0.8  # Prevent too similar clips
+
+# Export settings
+export:
+  # Output formats
+  video_formats: ["mp4", "mov", "webm"]
+  audio_formats: ["aac", "mp3"]
+  subtitle_formats: ["srt", "vtt", "ass"]
+  
+  # Compression settings
+  video_codec: "h264"
+  audio_codec: "aac"
+  crf_quality: 23  # Lower = higher quality
+  preset: "medium"  # Encoding speed vs compression
+  
+  # Platform-specific exports
+  auto_generate_platform_versions: true
+  include_metadata: true
+  include_thumbnails: true
+  include_subtitles: true
+  
+  # Batch export
+  enable_batch_export: true
+  max_concurrent_exports: 4
+  export_queue_size: 100
+
+# Monitoring and analytics
+monitoring:
+  # Performance metrics
+  track_processing_time: true
+  track_memory_usage: true
+  track_gpu_utilization: true
+  track_error_rates: true
+  
+  # Quality metrics
+  track_viral_accuracy: true
+  track_engagement_prediction_accuracy: true
+  track_user_satisfaction: true
+  
+  # Business metrics
+  track_clip_performance: true
+  track_platform_success_rates: true
+  track_trend_prediction_accuracy: true
+  
+  # Alerting
+  enable_alerts: true
+  alert_thresholds:
+    error_rate: 0.05
+    processing_time: 300  # seconds
+    memory_usage: 0.9
+    gpu_utilization: 0.95
+  
+  # Logging
+  log_level: "INFO"
+  log_retention_days: 30
+  enable_detailed_logging: false
+
+# Security and privacy
+security:
+  # Content filtering
+  enable_content_moderation: true
+  inappropriate_content_threshold: 0.8
+  violence_detection: true
+  adult_content_detection: true
+  
+  # Privacy protection
+  face_blurring_option: true
+  voice_anonymization_option: true
+  metadata_stripping: true
+  
+  # Copyright protection
+  copyright_detection: true
+  audio_fingerprinting: true
+  visual_fingerprinting: true
+  
+  # Data protection
+  encrypt_temp_files: true
+  secure_deletion: true
+  audit_logging: true
