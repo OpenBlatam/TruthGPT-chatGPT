@@ -1,0 +1,545 @@
+# Brand Kit Ads Model Configuration
+# Complete configuration for website brand analysis and ad generation
+
+model:
+  # Model variant selection
+  model_size: "medium"  # small, medium, large
+  
+  # Base language model configuration
+  vocab_size: 50257
+  hidden_size: 2048
+  num_hidden_layers: 24
+  num_attention_heads: 16
+  intermediate_size: 8192
+  hidden_act: "gelu"
+  hidden_dropout_prob: 0.1
+  attention_probs_dropout_prob: 0.1
+  max_position_embeddings: 4096
+  layer_norm_eps: 1e-5
+  
+  # Vision transformer configuration
+  vision_hidden_size: 768
+  vision_num_layers: 12
+  vision_num_heads: 12
+  vision_patch_size: 16
+  vision_image_size: 224
+  
+  # Brand analysis configuration
+  brand_embedding_size: 512
+  color_embedding_size: 128
+  typography_embedding_size: 256
+  design_pattern_size: 384
+  
+  # Multi-modal fusion configuration
+  fusion_hidden_size: 1024
+  fusion_num_layers: 6
+  
+  # Brand kit extraction configuration
+  max_colors_extract: 20
+  color_clustering_threshold: 0.15
+  typography_analysis_depth: 5
+  
+  # Ad generation configuration
+  max_ad_length: 512
+  num_ad_variants: 3
+  brand_consistency_weight: 0.3
+  creativity_weight: 0.4
+  target_relevance_weight: 0.3
+  
+  # Training configuration
+  use_brand_consistency_loss: true
+  use_visual_alignment_loss: true
+  use_content_quality_loss: true
+  brand_loss_weight: 0.2
+  visual_loss_weight: 0.15
+  quality_loss_weight: 0.1
+
+# Model size variants
+model_variants:
+  small:
+    hidden_size: 1024
+    num_hidden_layers: 12
+    num_attention_heads: 8
+    intermediate_size: 4096
+    vision_hidden_size: 512
+    vision_num_layers: 8
+    brand_embedding_size: 256
+    fusion_hidden_size: 512
+    fusion_num_layers: 4
+    description: "Lightweight model for development and testing (~2B parameters)"
+    memory_requirement: "8GB GPU"
+    inference_speed: "~3000 tokens/second"
+    
+  medium:
+    hidden_size: 2048
+    num_hidden_layers: 24
+    num_attention_heads: 16
+    intermediate_size: 8192
+    vision_hidden_size: 768
+    vision_num_layers: 12
+    brand_embedding_size: 512
+    fusion_hidden_size: 1024
+    fusion_num_layers: 6
+    description: "Balanced model for production deployment (~6B parameters)"
+    memory_requirement: "24GB GPU"
+    inference_speed: "~1500 tokens/second"
+    
+  large:
+    hidden_size: 3072
+    num_hidden_layers: 32
+    num_attention_heads: 24
+    intermediate_size: 12288
+    vision_hidden_size: 1024
+    vision_num_layers: 16
+    brand_embedding_size: 768
+    fusion_hidden_size: 1536
+    fusion_num_layers: 8
+    description: "High-performance model for maximum quality (~12B parameters)"
+    memory_requirement: "48GB GPU"
+    inference_speed: "~800 tokens/second"
+
+# Training configuration
+training:
+  # Basic training parameters
+  output_dir: "./output/brand_kit_ads"
+  num_train_epochs: 10
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 8
+  gradient_accumulation_steps: 4
+  learning_rate: 5e-5
+  weight_decay: 0.01
+  warmup_steps: 1000
+  max_grad_norm: 1.0
+  
+  # Multi-modal learning rates
+  vision_learning_rate: 1e-5
+  language_learning_rate: 5e-5
+  brand_learning_rate: 2e-5
+  
+  # Loss weights
+  language_loss_weight: 1.0
+  brand_consistency_weight: 0.3
+  visual_alignment_weight: 0.2
+  content_quality_weight: 0.15
+  adversarial_weight: 0.1
+  
+  # Data configuration
+  max_sequence_length: 512
+  image_size: 224
+  max_websites_per_epoch: 10000
+  brand_augmentation_prob: 0.3
+  
+  # Evaluation and logging
+  eval_steps: 500
+  save_steps: 1000
+  logging_steps: 100
+  eval_accumulation_steps: 10
+  
+  # Advanced training features
+  use_adversarial_training: true
+  use_curriculum_learning: true
+  use_brand_consistency_loss: true
+  use_visual_alignment_loss: true
+  use_content_quality_loss: true
+  
+  # Optimization
+  optimizer_type: "adamw"
+  scheduler_type: "cosine"
+  use_deepspeed: false
+  fp16: true
+  bf16: false
+  
+  # Monitoring
+  report_to: "wandb"
+  project_name: "brand-kit-ads-model"
+  
+  # Checkpointing
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_brand_alignment"
+  greater_is_better: true
+
+# Data configuration
+data:
+  # Dataset paths
+  train_data_path: "./data/train_websites.json"
+  eval_data_path: "./data/eval_websites.json"
+  test_data_path: "./data/test_websites.json"
+  
+  # Data processing
+  include_synthetic_data: true
+  synthetic_data_ratio: 0.3
+  max_image_size: 1024
+  min_image_size: 224
+  
+  # Brand categories
+  brand_categories:
+    - technology
+    - fashion
+    - food_beverage
+    - finance
+    - healthcare
+    - education
+    - entertainment
+    - automotive
+    - real_estate
+    - travel
+    - sports
+    - beauty
+    - home_garden
+    - business_services
+    - non_profit
+  
+  # Content types
+  content_types:
+    - social_media
+    - email_marketing
+    - banner_ads
+    - video_scripts
+    - blog_posts
+    - newsletters
+    - landing_pages
+    - display_ads
+    - search_ads
+    - native_ads
+  
+  # Target audiences
+  target_audiences:
+    - general
+    - young_adults
+    - professionals
+    - families
+    - seniors
+    - students
+    - entrepreneurs
+    - creatives
+    - tech_enthusiasts
+    - health_conscious
+    - budget_conscious
+    - luxury_seekers
+
+# Brand analysis configuration
+brand_analysis:
+  # Color analysis
+  color_extraction:
+    max_colors: 20
+    clustering_method: "kmeans"
+    color_space: "rgb"
+    similarity_threshold: 0.15
+    dominant_color_threshold: 0.05
+  
+  # Typography analysis
+  typography:
+    font_detection_methods:
+      - css_parsing
+      - image_analysis
+      - web_fonts_api
+    font_categories:
+      - serif
+      - sans_serif
+      - monospace
+      - cursive
+      - fantasy
+      - display
+    weight_categories:
+      - thin: 100
+      - light: 300
+      - regular: 400
+      - medium: 500
+      - semibold: 600
+      - bold: 700
+      - extrabold: 800
+      - black: 900
+  
+  # Design pattern analysis
+  design_patterns:
+    layout_types:
+      - grid
+      - flexbox
+      - float
+      - absolute
+      - fixed
+      - sticky
+    visual_styles:
+      - modern
+      - classic
+      - minimalist
+      - bold
+      - elegant
+      - playful
+      - professional
+      - artistic
+      - industrial
+      - organic
+    spacing_patterns:
+      - tight
+      - normal
+      - loose
+      - extra_loose
+  
+  # Brand personality dimensions
+  brand_personality:
+    dimensions:
+      - professional: "Business-like, formal, trustworthy"
+      - modern: "Contemporary, cutting-edge, innovative"
+      - playful: "Fun, energetic, youthful"
+      - luxury: "Premium, exclusive, sophisticated"
+      - trustworthy: "Reliable, honest, dependable"
+      - innovative: "Creative, forward-thinking, pioneering"
+      - friendly: "Approachable, warm, welcoming"
+      - bold: "Confident, strong, impactful"
+      - elegant: "Refined, graceful, sophisticated"
+      - authentic: "Genuine, real, transparent"
+
+# Ad generation configuration
+ad_generation:
+  # Content generation parameters
+  generation:
+    max_length: 512
+    min_length: 50
+    temperature: 0.8
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.1
+    length_penalty: 1.0
+    num_beams: 4
+    early_stopping: true
+  
+  # Content structure templates
+  templates:
+    social_media:
+      structure:
+        - hook: "Attention-grabbing opening"
+        - value_proposition: "Main benefit or offer"
+        - social_proof: "Testimonials or statistics"
+        - call_to_action: "Clear next step"
+      max_length: 280
+      tone: "engaging"
+    
+    email_marketing:
+      structure:
+        - subject_line: "Compelling subject"
+        - greeting: "Personal greeting"
+        - body: "Main content with value"
+        - call_to_action: "Clear action button"
+        - signature: "Brand signature"
+      max_length: 500
+      tone: "professional"
+    
+    banner_ads:
+      structure:
+        - headline: "Bold main message"
+        - subheadline: "Supporting detail"
+        - visual_description: "Image guidance"
+        - call_to_action: "Action button"
+      max_length: 100
+      tone: "impactful"
+    
+    video_scripts:
+      structure:
+        - hook: "First 3 seconds"
+        - problem: "Pain point identification"
+        - solution: "Product/service introduction"
+        - benefits: "Key advantages"
+        - call_to_action: "Next step"
+      max_length: 800
+      tone: "conversational"
+  
+  # Quality metrics
+  quality_metrics:
+    brand_alignment:
+      weight: 0.3
+      factors:
+        - color_consistency
+        - tone_matching
+        - personality_alignment
+        - visual_style_coherence
+    
+    content_quality:
+      weight: 0.4
+      factors:
+        - readability
+        - engagement_potential
+        - clarity
+        - persuasiveness
+    
+    target_relevance:
+      weight: 0.3
+      factors:
+        - audience_appropriateness
+        - channel_optimization
+        - context_awareness
+        - cultural_sensitivity
+
+# Evaluation configuration
+evaluation:
+  # Metrics to track
+  metrics:
+    brand_extraction:
+      - color_accuracy
+      - typography_detection
+      - personality_alignment
+      - design_pattern_recognition
+    
+    ad_generation:
+      - content_quality
+      - brand_consistency
+      - creativity_score
+      - engagement_prediction
+      - conversion_potential
+    
+    overall:
+      - user_satisfaction
+      - business_impact
+      - efficiency_gain
+      - cost_effectiveness
+  
+  # Benchmark datasets
+  benchmarks:
+    - name: "Fortune 500 Websites"
+      description: "Brand analysis of top corporate websites"
+      size: 500
+      categories: ["technology", "finance", "healthcare", "retail"]
+    
+    - name: "E-commerce Brands"
+      description: "Online retail brand analysis"
+      size: 1000
+      categories: ["fashion", "electronics", "home", "beauty"]
+    
+    - name: "Startup Websites"
+      description: "Emerging brand analysis"
+      size: 2000
+      categories: ["technology", "fintech", "healthtech", "edtech"]
+  
+  # Human evaluation
+  human_evaluation:
+    criteria:
+      - brand_accuracy: "How well does the analysis capture the brand?"
+      - content_relevance: "How relevant is the generated content?"
+      - creativity: "How creative and engaging is the content?"
+      - professionalism: "How professional is the output?"
+    
+    scale: "1-10"
+    evaluators_per_sample: 3
+    inter_rater_reliability_threshold: 0.7
+
+# Deployment configuration
+deployment:
+  # Model serving
+  serving:
+    framework: "transformers"
+    optimization: "onnx"
+    quantization: "int8"
+    batch_size: 8
+    max_concurrent_requests: 100
+  
+  # API configuration
+  api:
+    rate_limiting:
+      requests_per_minute: 60
+      requests_per_hour: 1000
+    
+    endpoints:
+      - "/analyze-brand": "Extract brand kit from URL"
+      - "/generate-ad": "Generate ad content"
+      - "/batch-analyze": "Batch brand analysis"
+      - "/health": "Health check"
+    
+    authentication: "api_key"
+    cors_enabled: true
+  
+  # Monitoring
+  monitoring:
+    metrics:
+      - request_latency
+      - throughput
+      - error_rate
+      - model_accuracy
+      - user_satisfaction
+    
+    alerts:
+      - high_latency: "> 5 seconds"
+      - high_error_rate: "> 5%"
+      - low_accuracy: "< 80%"
+    
+    logging_level: "INFO"
+    log_retention_days: 30
+
+# Hardware requirements
+hardware:
+  minimum:
+    gpu_memory: "8GB"
+    system_memory: "16GB"
+    storage: "50GB"
+    compute_capability: "7.0"
+  
+  recommended:
+    gpu_memory: "24GB"
+    system_memory: "32GB"
+    storage: "100GB"
+    compute_capability: "8.0"
+  
+  optimal:
+    gpu_memory: "48GB"
+    system_memory: "64GB"
+    storage: "200GB"
+    compute_capability: "8.6"
+
+# Dependencies
+dependencies:
+  core:
+    - torch: ">=2.0.0"
+    - transformers: ">=4.30.0"
+    - accelerate: ">=0.20.0"
+    - datasets: ">=2.12.0"
+  
+  vision:
+    - pillow: ">=9.0.0"
+    - opencv-python: ">=4.7.0"
+    - torchvision: ">=0.15.0"
+  
+  web_analysis:
+    - requests: ">=2.28.0"
+    - beautifulsoup4: ">=4.11.0"
+    - selenium: ">=4.8.0"
+    - webdriver-manager: ">=3.8.0"
+  
+  data_processing:
+    - numpy: ">=1.24.0"
+    - pandas: ">=2.0.0"
+    - scikit-learn: ">=1.2.0"
+    - matplotlib: ">=3.7.0"
+    - seaborn: ">=0.12.0"
+  
+  training:
+    - wandb: ">=0.15.0"
+    - deepspeed: ">=0.9.0"
+    - tensorboard: ">=2.12.0"
+  
+  deployment:
+    - fastapi: ">=0.95.0"
+    - uvicorn: ">=0.21.0"
+    - pydantic: ">=1.10.0"
+  
+  optional:
+    - flash-attn: ">=2.0.0"
+    - bitsandbytes: ">=0.39.0"
+    - auto-gptq: ">=0.2.0"
+
+# Experimental features
+experimental:
+  # Advanced features (use with caution)
+  features:
+    flash_attention: false
+    gradient_checkpointing: true
+    model_parallelism: false
+    pipeline_parallelism: false
+    cpu_offloading: false
+  
+  # Research directions
+  research:
+    multimodal_reasoning: false
+    brand_evolution_tracking: false
+    competitive_analysis: false
+    trend_prediction: false
+    real_time_adaptation: false
