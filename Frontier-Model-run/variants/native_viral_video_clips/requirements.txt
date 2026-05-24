@@ -1,0 +1,45 @@
+# Native Viral Video Clips Model
+# Streamlined AI-powered video processing
+
+# Core AI and ML frameworks
+torch>=2.0.0
+transformers>=4.30.0
+numpy>=1.24.0
+
+# Video processing
+opencv-python>=4.7.0
+moviepy>=1.0.3
+imageio>=2.25.0
+imageio-ffmpeg>=0.4.8
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.0
+whisper>=1.0.0
+
+# YouTube download
+yt-dlp>=2023.7.6
+
+# Image processing
+Pillow>=9.5.0
+scikit-image>=0.20.0
+
+# Web interface
+streamlit>=1.22.0
+
+# Data processing
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Configuration
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Utilities
+tqdm>=4.65.0
+pathlib2>=2.3.7
+psutil>=5.9.0
+
+# Development
+pytest>=7.3.0
+black>=23.3.0
