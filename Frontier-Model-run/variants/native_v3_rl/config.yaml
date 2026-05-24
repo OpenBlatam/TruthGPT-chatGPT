@@ -1,0 +1,204 @@
+# Native DeepSeek-V3 with Reinforcement Learning Configuration
+
+# Model architecture (based on DeepSeek-V3 16B)
+model_config:
+  vocab_size: 102400
+  max_position_embeddings: 16384
+  hidden_size: 2048  # dim in DeepSeek-V3
+  intermediate_size: 10944  # inter_dim
+  moe_intermediate_size: 1408  # moe_inter_dim
+  num_hidden_layers: 27  # n_layers
+  num_dense_layers: 1  # n_dense_layers (first layer is dense)
+  num_attention_heads: 16  # n_heads
+  
+  # MoE configuration
+  num_routed_experts: 64  # n_routed_experts
+  num_shared_experts: 2  # n_shared_experts
+  num_activated_experts: 6  # n_activated_experts
+  num_expert_groups: 1  # n_expert_groups
+  num_limited_groups: 1  # n_limited_groups
+  score_func: "softmax"  # "softmax" or "sigmoid"
+  route_scale: 1.0
+  
+  # MLA (Multi-Head Latent Attention) configuration
+  q_lora_rank: 0  # 0 means no LoRA for queries
+  kv_lora_rank: 512  # LoRA rank for key-value compression
+  qk_nope_head_dim: 128  # query-key without positional encoding
+  qk_rope_head_dim: 64   # query-key with rotary encoding
+  v_head_dim: 128
+  
+  # RoPE configuration with YARN scaling
+  rope_theta: 10000.0
+  rope_factor: 40.0
+  beta_fast: 32
+  beta_slow: 1
+  mscale: 0.707  # Attention scaling factor
+  original_seq_len: 4096
+  
+  # RL configuration
+  use_reinforcement_learning: true
+  reward_types: ["accuracy", "fluency", "helpfulness", "safety"]
+  use_multi_objective: true
+  use_ppo: true
+  use_value_heads: true
+  use_curiosity: true
+  use_experience_replay: true
+  
+  # PPO hyperparameters
+  ppo_clip_ratio: 0.2
+  ppo_epochs: 4
+  value_loss_coef: 0.5
+  entropy_coef: 0.01
+  max_grad_norm: 1.0
+  
+  # Curiosity parameters
+  curiosity_coef: 0.1
+  curiosity_feature_dim: 512
+  
+  # Experience replay
+  replay_buffer_size: 10000
+  replay_batch_size: 32
+  
+  # Training parameters
+  hidden_dropout_prob: 0.1
+  attention_dropout_prob: 0.1
+  layer_norm_eps: 1e-6
+  initializer_range: 0.02
+  use_cache: true
+
+# Dataset configuration
+dataset_name: "wikitext"
+dataset_config: "wikitext-103-raw-v1"
+dataset_train_split: "train"
+dataset_test_split: "validation"
+max_length: 2048
+
+# Training parameters
+output_dir: "./native_v3_rl_output"
+num_train_epochs: 3
+per_device_train_batch_size: 1  # Very small due to large model size
+per_device_eval_batch_size: 1
+gradient_accumulation_steps: 32  # Large accumulation to simulate bigger batch
+learning_rate: 1e-5  # Lower learning rate for large model
+weight_decay: 0.01
+warmup_ratio: 0.1
+max_grad_norm: 1.0
+
+# Optimization
+optimizer_type: "adamw"
+lr_scheduler_type: "cosine"
+num_cycles: 1
+use_amp: true
+fp16: false  # Use BF16 for better stability with large models
+bf16: true
+
+# Advanced features
+use_gradient_checkpointing: true
+use_flash_attention: true
+use_compile: false  # May not work with complex MoE + RL
+
+# Evaluation and logging
+eval_strategy: "steps"
+eval_steps: 1000
+logging_steps: 100
+save_steps: 2000
+save_total_limit: 3
+
+# Wandb logging
+use_wandb: true
+wandb_project: "native-v3-rl"
+wandb_run_name: "native-v3-rl-experiment"
+
+# Advanced training techniques
+use_curriculum_learning: true
+use_label_smoothing: true
+label_smoothing_factor: 0.1
+
+# Memory optimization (essential for large model)
+use_cpu_offload: true
+use_activation_checkpointing: true
+use_deepspeed: false  # Can be enabled for multi-GPU training
+
+# RL-specific training parameters
+rl_training:
+  # Reward computation
+  reward_computation_frequency: 100  # Compute rewards every N steps
+  reward_normalization: true
+  reward_clipping: 1.0
+  
+  # PPO training
+  ppo_update_frequency: 500  # Update PPO every N steps
+  ppo_minibatch_size: 4
+  ppo_target_kl: 0.01
+  
+  # Value function training
+  value_update_frequency: 100
+  value_learning_rate: 5e-5
+  
+  # Curiosity training
+  curiosity_update_frequency: 200
+  curiosity_learning_rate: 1e-4
+  
+  # Experience replay
+  replay_start_size: 1000  # Start replay after this many samples
+  replay_update_frequency: 50
+  
+  # Multi-objective balancing
+  reward_weights:
+    accuracy: 0.4
+    fluency: 0.3
+    helpfulness: 0.2
+    safety: 0.1
+  
+  # Exploration
+  exploration_noise: 0.1
+  exploration_decay: 0.995
+
+# Model size configurations (for different variants)
+model_variants:
+  small:  # ~1B parameters
+    hidden_size: 1024
+    num_hidden_layers: 16
+    num_attention_heads: 8
+    intermediate_size: 4096
+    moe_intermediate_size: 512
+    num_routed_experts: 32
+    
+  medium:  # ~7B parameters  
+    hidden_size: 1536
+    num_hidden_layers: 24
+    num_attention_heads: 12
+    intermediate_size: 8192
+    moe_intermediate_size: 1024
+    num_routed_experts: 48
+    
+  large:  # ~16B parameters (default)
+    hidden_size: 2048
+    num_hidden_layers: 27
+    num_attention_heads: 16
+    intermediate_size: 10944
+    moe_intermediate_size: 1408
+    num_routed_experts: 64
+
+# Hardware requirements
+hardware_requirements:
+  min_gpu_memory: "24GB"  # For small variant
+  recommended_gpu_memory: "80GB"  # For large variant
+  min_system_memory: "64GB"
+  recommended_system_memory: "128GB"
+  
+# Performance optimizations
+performance:
+  use_torch_compile: false  # Experimental
+  use_flash_attention_2: true
+  use_xformers: false
+  use_triton: false
+  
+  # Quantization (experimental)
+  use_int8: false
+  use_fp8: false
+  
+  # Parallelism
+  tensor_parallel_size: 1
+  pipeline_parallel_size: 1
+  data_parallel_size: 1
